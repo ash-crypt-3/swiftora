@@ -1,8 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageHero, SectionHeader } from "@/components/PageBits";
-import { OrbitDiagram } from "@/components/OrbitDiagram";
-import { ArrowRight, Target, Eye, Compass, Users } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import foundingHero from "@/assets/founding-story-hero.jpg";
 import stephenImg from "@/assets/team/stephen-osumba.jpg";
@@ -14,16 +13,16 @@ import marcelImg from "@/assets/team/marcel-oketch.jpg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Us — Meet the Swiftora Team | Swiftora Consulting" },
+      { title: "About Us: Integrated Business Strategy & Research Solutions Company | Swiftora Consulting" },
       {
         name: "description",
         content:
-          "Meet the strategic minds behind Swiftora Consulting. Our team of business strategists, analysts, and consultants help East African businesses achieve sustainable growth.",
+          "Learn about Swiftora Consulting's mission to champion business growth in Kenya. Our expert team drives success through smart strategies.",
       },
-      { property: "og:title", content: "About Us — Meet the Swiftora Team | Swiftora Consulting" },
+      { property: "og:title", content: "About Us: Integrated Business Strategy & Research Solutions Company" },
       {
         property: "og:description",
-        content: "Who we are, how we started, and the people behind the strategy.",
+        content: "Learn about Swiftora Consulting's mission to champion business growth in Kenya. Our expert team drives success through smart strategies.",
       },
     ],
   }),
@@ -152,58 +151,125 @@ Lilian holds a degree in Finance and has completed professional training in digi
     title: "Business Technology",
     image: marcelImg,
     shortBio: "Business Technology & Systems Lead",
-    fullBio: `Marcel Oketch leads business technology and systems implementation at Swiftora Consulting. His work focuses on helping businesses leverage technology to improve operational efficiency, enhance customer experience, and scale more effectively. Marcel brings expertise in business systems, CRM implementation, process automation, and technology strategy.
+    fullBio: `Marcel Oketch leads business technology and systems at Swiftora Consulting. His work focuses on designing technology-enabled solutions and monitoring frameworks that drive measurable impact and operational effectiveness for organisations.
 
-Marcel has worked with SMEs and growing businesses to select, implement, and optimize technology solutions that support their strategic objectives. His approach is pragmatic — he understands that technology is a tool, not a solution, and focuses on ensuring that technology investments align with business needs and deliver measurable value.
+Marcel has worked with NGOs, development agencies, government institutions, and private sector organisations to design programmes, develop theories of change, build logical frameworks, and establish monitoring systems. His approach ensures that programmes are not only well-designed but also trackable, adaptable, and accountable.
 
-Before joining Swiftora, Marcel worked in technology consulting and business process optimization, where he helped organizations implement ERP systems, CRM platforms, and workflow automation tools. He has experience across multiple sectors including retail, logistics, professional services, and technology.
+Before joining Swiftora, Marcel held roles in programme management and business technology across the development and public sectors. He has expertise in stakeholder mapping, programme logic, indicator development, data collection systems, and impact evaluation methodologies. His work bridges the gap between strategic intent and on-the-ground implementation.
 
-Marcel holds a degree in Information Technology and Business Systems and has completed certifications in project management, CRM implementation, and business process management. He is passionate about making technology accessible and useful for businesses that need operational leverage, not complexity.`,
+Marcel holds a degree in Development Studies and has completed specialized training in programme design, M&E, and results-based management. He is passionate about designing programmes that work — and building the systems to prove it.`,
     expertise: [
-      "Business Technology Strategy",
-      "CRM & ERP Implementation",
-      "Process Automation",
-      "Business Systems Optimization",
-      "Technology Vendor Selection",
+      "Business Technology & Systems",
+      "Programme Design & Logic Models",
+      "Monitoring & Evaluation (M&E)",
+      "Theory of Change Development",
+      "Results-Based Management",
     ],
     credentials: [
-      "Degree in IT & Business Systems",
-      "Certified Project Manager (PMP)",
-      "5+ years in business technology consulting",
+      "Degree in Development Studies",
+      "Certified in M&E and Results-Based Management",
+      "8+ years in programme design and evaluation",
     ],
   },
 ];
 
+// ─── Corporate Overview ───────────────────────────────────────────────────────
+
+const corporatePillars = [
+  {
+    title: "Our Mission",
+    body: "To deliver customised, practical strategies that drive growth, optimise performance, and create lasting value for our clients.",
+    imgSrc: "https://swiftoraconsulting.co.ke/wp-content/uploads/2025/04/AboutUs_Corporate_Overview_Icons-04A.png",
+  },
+  {
+    title: "Our Vision",
+    body: "To be the trusted partner organisations turn to for unlocking their full potential, crafting pathways to sustainable success.",
+    imgSrc: "https://swiftoraconsulting.co.ke/wp-content/uploads/2025/04/AboutUs_Corporate_Overview_Icons-03A.png",
+  },
+  {
+    title: "Philosophy & Culture",
+    body: "We believe in diligence, reliability, and collaboration cultivating a culture that values diverse perspectives and inspires creativity.",
+    imgSrc: "https://swiftoraconsulting.co.ke/wp-content/uploads/2025/04/AboutUs_Corporate_Overview_Icons-01A.png",
+  },
+  {
+    title: "Our Promise",
+    body: "When the going gets tough, we step in with solutions to keep you ahead for the long haul—and we'll be with you every step of the way.",
+    imgSrc: "https://swiftoraconsulting.co.ke/wp-content/uploads/2025/04/AboutUs_Corporate_Overview_Icons-02A.png",
+  },
+];
+
+function CorporateOverviewSection() {
+  return (
+    <section className="section-pad" style={{ background: "#ffffff" }}>
+      <div className="max-w-[1100px] mx-auto">
+        <SectionHeader eyebrow="" title="CORPORATE OVERVIEW" />
+        <div className="mt-8 max-w-[860px] space-y-5 text-[16px] text-[#374151] leading-[1.85]">
+          <p>
+            Swiftora Consulting Limited is a dynamic company providing integrated business strategy and research solutions. We understand that thriving in today's competitive landscape requires more than just effort; it demands insight, sharp thinking, and precision. That's why we specialise in sales, marketing, strategy, and research, delivering solutions tailored to your unique needs and positioning your organisation for sustained growth and prosperity.
+          </p>
+          <p>
+            With a blend of creativity, multi-sectoral expertise, and extensive experience, we help our clients stay ahead of the curve, make smarter decisions, and achieve tangible results. Whether you are looking to optimise performance, design an impactful marketing campaign, or build a future-proof strategy, we are the partner you can rely on. At pivotal moments, we turn complexity into clarity and challenges into opportunities.
+          </p>
+        </div>
+
+        <div className="mt-6 mb-12">
+          <a
+            href="https://swiftoraconsulting.co.ke/wp-content/uploads/2025/05/Swiftora-Consulting-Limited-Company-Profile-Digital.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-[14px] transition-all"
+            style={{ background: "#D5AF34", color: "#0A0B14" }}
+          >
+            Download profile <ArrowRight size={14} />
+          </a>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {corporatePillars.map((p) => (
+            <div
+              key={p.title}
+              className="rounded-xl p-7 text-center animate-fade-up"
+              style={{ background: "#f7f6f2", border: "1px solid #e5e7eb" }}
+            >
+              <img src={p.imgSrc} alt={p.title} className="w-16 h-16 mx-auto mb-4 object-contain" />
+              <h3 className="font-display text-[16px] font-semibold text-[#0A0B14] mb-3">{p.title}</h3>
+              <p className="text-[13px] text-[#6b7280] leading-[1.8]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Founding Story ───────────────────────────────────────────────────────────
+
 function FoundingStorySection() {
   return (
-    <section className="founding-story-section">
-      {/* Hero banner */}
-      <div
-        className="relative flex items-center overflow-hidden"
-        style={{
-          height: 400,
-          backgroundImage: `url(${foundingHero})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+    <section style={{ background: "#f7f6f2" }}>
+      {/* Full-width hero banner — image fills the frame, title overlaid bottom-left */}
+      <div className="relative w-full overflow-hidden" style={{ height: 440 }}>
+        <img
+          src={foundingHero}
+          alt="Founding story of Swiftora Consulting"
+          className="w-full h-full object-cover"
+          style={{ objectPosition: "center center" }}
+        />
+        {/* Gradient overlay — darker on the left so title text pops */}
         <div
-          aria-hidden="true"
-          className="absolute inset-0 z-[1]"
+          className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(135deg, rgba(45, 41, 115, 0.75) 0%, rgba(10, 11, 20, 0.65) 100%)",
+              "linear-gradient(to right, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.18) 55%, transparent 100%)",
           }}
         />
-        <div className="relative z-[2] w-full max-w-[1280px] mx-auto px-6 md:px-20">
-          <div className="w-12 h-[3px] bg-gold mb-5" />
-          <div className="eyebrow mb-3 text-white/80">Our Founding Story</div>
+        {/* Title pinned to bottom-left, matching the screenshot */}
+        <div className="absolute bottom-0 left-0 p-10 md:p-16">
           <h2
-            className="font-display font-bold text-white uppercase leading-[1.15]"
+            className="font-display font-bold text-white uppercase tracking-widest"
             style={{
-              fontSize: "clamp(32px, 5vw, 52px)",
-              letterSpacing: "0.02em",
-              textShadow: "0 4px 20px rgba(0,0,0,0.3)",
+              fontSize: "clamp(22px, 3vw, 38px)",
+              textShadow: "0 2px 16px rgba(0,0,0,0.55)",
             }}
           >
             Our Founding Story
@@ -211,336 +277,199 @@ function FoundingStorySection() {
         </div>
       </div>
 
-      {/* Story content */}
-      <div className="bg-white px-6 md:px-20 py-20">
-        <div className="max-w-[960px] mx-auto">
-          <div
-            className="relative rounded-lg p-8 md:p-14 animate-fade-up"
-            style={{
-              background: "#F7F6F2",
-              borderLeft: "4px solid #D5AF34",
-            }}
-          >
-            {/* Decorative quote mark */}
-            <span
-              aria-hidden="true"
-              className="font-display absolute pointer-events-none select-none"
-              style={{
-                fontSize: 120,
-                fontWeight: 700,
-                color: "rgba(213,175,52,0.10)",
-                top: -20,
-                left: 20,
-                lineHeight: 1,
-              }}
-            >
-              &ldquo;
-            </span>
-
-            <p
-              className="text-[15px] md:text-[16px] text-[#4D4D4D] leading-[1.9] mb-6 text-justify story-dropcap"
-              style={{ fontFamily: "Poppins, sans-serif" }}
-            >
-              Our journey began in 2013, with the idea of establishing a consultancy first mooted in
-              a student hostel during our college days at Moi University, Eldoret. However, the
-              dream was deferred until 21 October 2015, when the first consultancy was formed,
-              focusing solely on marketing. This continued for nine years, and before the 10th
-              anniversary we decided to change our business model, strategic approach and brand.
-            </p>
-            <p
-              className="text-[15px] md:text-[16px] text-[#4D4D4D] leading-[1.9] mb-6 text-justify"
-              style={{ fontFamily: "Poppins, sans-serif" }}
-            >
-              Throughout our years of experience, we observed countless organizations, particularly
-              SMEs, struggling to align their marketing efforts, sales strategies, and long-term
-              goals. The gap was clear: they needed a partner who could not only navigate these
-              complexities but also transform them into opportunities.
-            </p>
-            <p
-              className="text-[15px] md:text-[16px] text-[#4D4D4D] leading-[1.9] text-justify"
-              style={{ fontFamily: "Poppins, sans-serif" }}
-            >
-              This realization became the foundation of Swiftora Consulting. We wanted to create
-              more than just a consultancy — we wanted to build a trusted partner for businesses
-              ready to take bold steps forward. Our mission is simple but profound: to help you
-              solve your most pressing challenges, and where necessary, be the guiding force behind
-              your business&apos;s success. Let&apos;s continue this journey together. The best is
-              yet to come.
-            </p>
-          </div>
+      {/* Story text below the banner */}
+      <div className="max-w-[1100px] mx-auto px-6 py-14 md:py-16">
+        <div className="space-y-5 text-[16px] text-[#374151] leading-[1.85]">
+          <p>
+            Our journey began in 2013, with the idea of establishing a consultancy first mooted in a student hostel
+            during our college days at Moi University, Eldoret. However, the dream was deferred until 21 October 2015,
+            when the first consultancy was formed, focusing solely on marketing. This continued for nine years, and
+            before the 10th anniversary we decided to change our business model, strategic approach and brand.
+          </p>
+          <p>
+            Throughout our years of experience, we observed countless organizations, particularly SMEs, struggling to
+            align their marketing efforts, sales strategies, and long-term goals. The gap was clear: they needed a
+            partner who could not only navigate these complexities but also transform them into opportunities.
+          </p>
+          <p>
+            Our founders, with backgrounds in strategy, sales, marketing, and research, recognised it was time to
+            create a consultancy that would bring a fresh perspective to the table. Armed with years of industry
+            experience, a passion for innovation, and a drive to support African enterprises, we set out to build
+            something different—a firm that doesn't just offer solutions but truly partners with clients to build
+            lasting success.
+          </p>
+          <p>
+            From humble beginnings, we quickly discovered that the key to growth wasn't just about numbers—it was
+            about creating authentic connections, understanding the intricacies of each business, and offering
+            customized strategies that drive results.
+          </p>
+          <p>
+            Today, we are proud to have evolved into a trusted consultancy with a reputation for helping businesses
+            unlock their potential, solve their most pressing challenges, and achieve their goals. Our journey is
+            ongoing, but our mission remains the same: to be the guiding force behind your business's success. Let's
+            continue this journey together. The best is yet to come.
+          </p>
         </div>
       </div>
     </section>
   );
 }
 
-function TeamCard({
-  member,
-  index,
-  onOpen,
-}: {
-  member: TeamMember;
-  index: number;
-  onOpen: (m: TeamMember) => void;
-}) {
-  return (
-    <article
-      className="team-card group animate-fade-up"
-      style={{
-        animationDelay: `${index * 90}ms`,
-        background: "#FFFFFF",
-        borderRadius: 16,
-        padding: "32px 20px 28px",
-        boxShadow:
-          "0 1px 2px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.08)",
-        textAlign: "center",
-        cursor: "pointer",
-        position: "relative",
-        overflow: "hidden",
-        transition: "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease",
-      }}
-      tabIndex={0}
-      role="button"
-      aria-label={`Read biography of ${member.name}, ${member.title}`}
-      onClick={() => onOpen(member)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onOpen(member);
-        }
-      }}
-    >
-      {/* Top gold accent on hover */}
-      <span
-        aria-hidden="true"
-        className="team-card-top-accent"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: 3,
-          background: "#D5AF34",
-          transform: "scaleX(0)",
-          transformOrigin: "left",
-          transition: "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
-        }}
-      />
-
-      {/* Photo with rotating gold border */}
-      <div className="relative w-[120px] h-[120px] mx-auto mb-5">
-        <div className="team-photo-border" aria-hidden="true" />
-        <img
-          src={member.image}
-          alt={`${member.name}, ${member.title} at Swiftora Consulting`}
-          loading="lazy"
-          width={400}
-          height={400}
-          className="team-photo relative z-[2]"
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: "50%",
-            objectFit: "cover",
-            border: "3px solid #F7F6F2",
-            transition: "border-color 0.3s ease",
-          }}
-        />
-      </div>
-
-      <h3
-        className="font-display font-semibold text-[18px] mb-2 leading-[1.3]"
-        style={{ color: "#2D2973" }}
-      >
-        {member.name}
-      </h3>
-      <p className="text-[13px] mb-5 leading-[1.5]" style={{ color: "#D5AF34" }}>
-        {member.title}
-      </p>
-
-      <span
-        className="inline-flex items-center justify-center text-[12px] font-semibold rounded-[4px] transition-all"
-        style={{
-          color: "#2D2973",
-          background: "transparent",
-          border: "1.5px solid #2D2973",
-          padding: "8px 20px",
-        }}
-      >
-        Read Bio
-      </span>
-    </article>
-  );
-}
+// ─── Team ─────────────────────────────────────────────────────────────────────
 
 function TeamSection() {
   const [active, setActive] = useState<TeamMember | null>(null);
 
   return (
-    <section
-      className="tex-dots section-pad"
-      style={{ background: "#F7F6F2" }}
-      aria-labelledby="team-heading"
-    >
-      <div className="max-w-[1280px] mx-auto">
-        <div className="text-center max-w-[640px] mx-auto animate-fade-up">
-          <div className="w-10 h-[3px] bg-gold mx-auto mb-4" />
-          <div className="eyebrow mb-3">Our Team</div>
-          <h2
-            id="team-heading"
-            className="font-display font-bold leading-[1.2]"
-            style={{ color: "#2D2973", fontSize: "clamp(28px, 3.4vw, 40px)" }}
-          >
-            The People Behind The Strategy
-          </h2>
-          <p
-            className="mt-5 text-[15px] leading-[1.75]"
-            style={{ color: "#606161" }}
-          >
-            Our strength lies in the expertise and experience of our people. Each team member brings
-            deep domain knowledge, practical business acumen, and a commitment to delivering
-            outcomes that matter.
-          </p>
-        </div>
-
-        <div
-          className="team-grid mt-16 grid gap-8"
-          style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          }}
-        >
-          {teamMembers.map((m, i) => (
-            <TeamCard key={m.id} member={m} index={i} onOpen={setActive} />
+    <section className="section-pad" style={{ background: "#ffffff" }}>
+      <div className="max-w-[1200px] mx-auto">
+        {/* 5 cards on one row — each card is a compact portrait with name, title, Read bio */}
+        <div className="grid grid-cols-5 gap-4">
+          {teamMembers.map((m) => (
+            <div
+              key={m.id}
+              className="group bg-white rounded-xl overflow-hidden shadow-card hover-lift cursor-pointer animate-fade-up"
+              onClick={() => setActive(m)}
+            >
+              {/* Square portrait */}
+              <div className="relative w-full overflow-hidden" style={{ paddingTop: "100%" }}>
+                <img
+                  src={m.image}
+                  alt={m.name}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-4">
+                <h3 className="font-display text-[15px] text-[#0A0B14] mb-0.5 leading-snug">{m.name}</h3>
+                <p className="text-[12px] text-gold font-medium mb-3 leading-snug">{m.title}</p>
+                <button className="inline-flex items-center gap-1 text-[12px] font-medium text-[#0A0B14] group-hover:text-gold transition-colors">
+                  Read bio <ArrowRight size={11} />
+                </button>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Bio Modal */}
-      <Dialog open={!!active} onOpenChange={(o) => !o && setActive(null)}>
+      {/* ── Bio Modal ── */}
+      <Dialog open={!!active} onOpenChange={() => setActive(null)}>
         <DialogContent
-          className="p-0 gap-0 overflow-hidden border-0 sm:max-w-[1100px] w-[calc(100vw-32px)] max-h-[90vh] rounded-2xl [&>button]:top-5 [&>button]:right-5 [&>button]:z-10 [&>button]:w-10 [&>button]:h-10 [&>button]:rounded-full [&>button]:bg-[rgba(45,41,115,0.1)] [&>button]:text-[#2D2973] [&>button]:flex [&>button]:items-center [&>button]:justify-center [&>button]:opacity-100 [&>button]:transition-all hover:[&>button]:bg-[#2D2973] hover:[&>button]:text-white"
-          style={{ boxShadow: "0 20px 80px rgba(0,0,0,0.3)" }}
+          className="sm:max-w-[700px] p-0 gap-0 overflow-hidden bio-modal flex flex-col"
+          style={{ maxHeight: "90vh" }}
         >
+          <DialogTitle className="sr-only">{active?.name} - Full Profile</DialogTitle>
+          <DialogDescription className="sr-only">
+            Full biography and credentials for {active?.name}, {active?.shortBio} at Swiftora Consulting
+          </DialogDescription>
+
           {active && (
-            <div className="grid md:grid-cols-[320px_1fr] max-h-[90vh] overflow-hidden">
-              {/* Sidebar */}
-              <aside
-                className="text-center text-white p-10 md:p-12 overflow-y-auto"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #2D2973 0%, #5C5790 100%)",
-                }}
+            <div className="flex flex-col min-h-0 h-full">
+
+              {/* ── Fixed header: photo + name + role ── */}
+              <div
+                className="flex-shrink-0"
+                style={{ borderBottom: "1px solid #e5e7eb" }}
               >
-                <div
-                  className="mx-auto mb-6 overflow-hidden rounded-full"
-                  style={{
-                    width: 160,
-                    height: 160,
-                    border: "4px solid rgba(213,175,52,0.3)",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
-                  }}
-                >
+                <div className="relative w-full overflow-hidden" style={{ paddingTop: "42%" }}>
                   <img
                     src={active.image}
-                    alt={`${active.name}, ${active.title}`}
-                    width={400}
-                    height={400}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    alt={active.name}
+                    className="absolute inset-0 w-full h-full object-cover object-top"
                   />
+                  {/* Gradient so name reads on any photo */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 55%)",
+                    }}
+                  />
+                  <div className="absolute bottom-0 left-0 p-6 md:p-8">
+                    <h2
+                      className="font-display text-[26px] md:text-[30px] font-bold text-white mb-1"
+                      style={{ textShadow: "0 1px 8px rgba(0,0,0,0.5)" }}
+                    >
+                      {active.name}
+                    </h2>
+                    <p className="text-[14px] font-semibold" style={{ color: "#D5AF34" }}>
+                      {active.title}
+                    </p>
+                    <p
+                      className="text-[13px] italic mt-0.5"
+                      style={{ color: "rgba(255,255,255,0.8)" }}
+                    >
+                      {active.shortBio}
+                    </p>
+                  </div>
                 </div>
-                <DialogTitle
-                  className="font-display font-bold text-white mb-2 leading-[1.3]"
-                  style={{ fontSize: 26 }}
-                >
-                  {active.name}
-                </DialogTitle>
-                <div
-                  className="text-[14px] font-medium mb-1"
-                  style={{ color: "#D5AF34" }}
-                >
-                  {active.title}
-                </div>
-                <DialogDescription
-                  className="text-[13px] italic mb-2"
-                  style={{ color: "rgba(255,255,255,0.7)" }}
-                >
-                  {active.shortBio}
-                </DialogDescription>
+              </div>
 
-                <div
-                  className="mt-8 pt-8 text-left"
-                  style={{ borderTop: "1px solid rgba(255,255,255,0.15)" }}
-                >
-                  <h4
-                    className="text-[11px] font-semibold uppercase mb-4"
-                    style={{ color: "#D5AF34", letterSpacing: "0.15em" }}
-                  >
-                    Areas of Expertise
-                  </h4>
-                  <ul className="list-none p-0 m-0 space-y-2">
-                    {active.expertise.map((e) => (
-                      <li
-                        key={e}
-                        className="text-[13px] leading-[1.7] pl-5 relative"
-                        style={{ color: "rgba(255,255,255,0.85)" }}
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="absolute left-0 font-semibold"
-                          style={{ color: "#D5AF34" }}
-                        >
-                          →
-                        </span>
-                        {e}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div
-                  className="mt-8 pt-8 text-left"
-                  style={{ borderTop: "1px solid rgba(255,255,255,0.15)" }}
-                >
-                  <h4
-                    className="text-[11px] font-semibold uppercase mb-4"
-                    style={{ color: "#D5AF34", letterSpacing: "0.15em" }}
-                  >
-                    Credentials
-                  </h4>
-                  <ul className="list-none p-0 m-0 space-y-2">
-                    {active.credentials.map((c) => (
-                      <li
-                        key={c}
-                        className="text-[13px] leading-[1.7] pl-5 relative"
-                        style={{ color: "rgba(255,255,255,0.85)" }}
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="absolute left-0 font-semibold"
-                          style={{ color: "#D5AF34" }}
-                        >
-                          →
-                        </span>
-                        {c}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </aside>
-
-              {/* Main content */}
-              <div className="relative overflow-y-auto p-8 md:p-12 bio-modal-main">
-
-                <div className="bio-text-content">
+              {/* ── Scrollable body ── */}
+              <div
+                className="flex-1 overflow-y-auto p-8 md:p-10"
+                style={{ overflowY: "auto" }}
+              >
+                {/* Full bio paragraphs */}
+                <div className="space-y-4 mb-10">
                   {active.fullBio.split("\n\n").map((para, i) => (
                     <p
                       key={i}
-                      className="text-[15px] leading-[1.9] mb-5"
+                      className="text-[15px] leading-[1.9]"
                       style={{ color: "#4D4D4D", fontFamily: "Poppins, sans-serif" }}
                     >
                       {para}
                     </p>
                   ))}
+                </div>
+
+                {/* Areas of Expertise */}
+                <div className="mb-8">
+                  <h3
+                    className="font-display text-[17px] font-semibold text-[#0A0B14] mb-4"
+                    style={{
+                      borderBottom: "2px solid #D5AF34",
+                      display: "inline-block",
+                      paddingBottom: 4,
+                    }}
+                  >
+                    Areas of Expertise
+                  </h3>
+                  <ul className="mt-4 space-y-2">
+                    {active.expertise.map((exp, i) => (
+                      <li
+                        key={i}
+                        className="flex items-start gap-3 text-[14px] text-[#374151] leading-[1.7]"
+                      >
+                        <span className="w-1.5 h-1.5 mt-2 rounded-full flex-shrink-0" style={{ background: "#D5AF34" }} />
+                        <span>{exp}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Credentials */}
+                <div className="mb-4">
+                  <h3
+                    className="font-display text-[17px] font-semibold text-[#0A0B14] mb-4"
+                    style={{
+                      borderBottom: "2px solid #D5AF34",
+                      display: "inline-block",
+                      paddingBottom: 4,
+                    }}
+                  >
+                    Credentials & Background
+                  </h3>
+                  <ul className="mt-4 space-y-2">
+                    {active.credentials.map((cred, i) => (
+                      <li
+                        key={i}
+                        className="flex items-start gap-3 text-[14px] text-[#374151] leading-[1.7]"
+                      >
+                        <span className="w-1.5 h-1.5 mt-2 rounded-full flex-shrink-0" style={{ background: "#D5AF34" }} />
+                        <span>{cred}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -551,8 +480,36 @@ function TeamSection() {
   );
 }
 
+// ─── Why Choose Us ────────────────────────────────────────────────────────────
+
+function WhyChooseUsSection() {
+  const reasons = [
+    "Strict adherence to high professional performance standards.",
+    "We prioritize timely delivery to meet your needs.",
+    "We go above and beyond when circumstances demand.",
+    "Every engagement is backed by a legally binding contract with clearly defined objectives.",
+    "Our solutions are customized and priced to fit businesses of all sizes and stages.",
+  ];
+
+  return (
+    <section className="section-pad" style={{ background: "#f7f6f2" }}>
+      <div className="max-w-[860px] mx-auto">
+        <SectionHeader eyebrow="" title="WHY CHOOSE US?" />
+        <ul className="mt-8 space-y-3">
+          {reasons.map((r, i) => (
+            <li key={i} className="text-[15px] text-[#374151] leading-[1.75]">
+              • {r}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
 function AboutPage() {
-  // Structured data — Person schema for each team member
   const personSchema = teamMembers.map((m) => ({
     "@context": "https://schema.org",
     "@type": "Person",
@@ -569,104 +526,26 @@ function AboutPage() {
   return (
     <>
       <PageHero
-        eyebrow="About Us"
+        eyebrow="ABOUT US"
         lines={["Your Goals Inspire Us.", "Your Success", "Defines Us."]}
-        supportingMaxWidth={480}
+        supportingMaxWidth={560}
         subtitle={
-          <p>
-            What started as a small group of passionate problem-solvers has grown into a trusted consultancy delivering customised solutions and measurable success for over 10 years.
-          </p>
+          <>
+            <p style={{ color: "#ffffff", textShadow: "0 1px 4px rgba(0,0,0,0.7)", fontWeight: 500 }}>
+              What started as a small group of passionate problem-solvers has grown into a trusted consultancy with a reputation for delivering customized solutions and measurable success for over 10 years.
+            </p>
+            <p className="mt-3" style={{ color: "#ffffff", textShadow: "0 1px 4px rgba(0,0,0,0.7)", fontWeight: 500 }}>
+              From our very first project to today, we've remained committed to one core belief: no challenge is too big, no detail too small, and no goal out of reach. This is Swiftora Way. Get Ahead, For Good.
+            </p>
+          </>
         }
       />
 
-      {/* Story */}
-      <section className="tex-dots section-pad" style={{ background: "#f7f6f2" }}>
-        <div className="max-w-[1200px] mx-auto grid lg:grid-cols-[1.2fr_1fr] gap-16 items-center">
-          <div className="animate-fade-up">
-            <div className="w-10 h-[3px] bg-gold mb-4" />
-            <div className="eyebrow mb-3">Our Story</div>
-            <h2 className="font-display font-bold text-[#0A0B14] leading-[1.25]" style={{ fontSize: "clamp(28px, 3.2vw, 38px)" }}>
-              We exist to make great strategy accessible.
-            </h2>
-            <div className="mt-6 space-y-4 text-[16px] text-[#374151] leading-[1.8]">
-              <p>
-                Too many Kenyan businesses operate without the strategic discipline they need to grow durably. Too many strong ideas fail because they cannot be presented well to investors, lenders, or customers. Swiftora was founded to close those gaps.
-              </p>
-              <p>
-                We bring institutional-grade rigour to engagements of every size — from a single advisory session to a multi-month transformation. Our approach blends sharp diagnosis, evidence-based research, and disciplined execution.
-              </p>
-              <p>
-                The result is consulting that earns the trust of the founders, executives, and institutions we serve — and that delivers the outcomes they hire us for.
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-center pb-16">
-            <OrbitDiagram size={340} />
-          </div>
-        </div>
-      </section>
-
-      {/* Mission / Vision / Values */}
-      <section className="relative tex-noise section-pad clip-diag-top" style={{ background: "#0A0B14", marginTop: "-3vw" }}>
-        <div className="max-w-[1200px] mx-auto">
-          <SectionHeader eyebrow="What Drives Us" title="Mission, Vision, Values" light />
-          <div className="mt-16 grid md:grid-cols-3 gap-6 stagger">
-            {[
-              { icon: Target, title: "Mission", body: "To help businesses and institutions in Africa achieve strategic clarity and sustained growth through consulting that is rigorous, practical, and outcome-driven." },
-              { icon: Eye, title: "Vision", body: "To be the most trusted strategy partner for ambitious organisations across the continent — known for the quality of our thinking and the durability of our results." },
-              { icon: Compass, title: "Values", body: "Rigour over fluff. Evidence over opinion. Outcomes over outputs. Partnership over distance. Integrity, always." },
-            ].map(({ icon: Icon, title, body }) => (
-              <div key={title} className="glass-dark rounded-xl p-8 hover-lift animate-fade-up">
-                <div className="w-12 h-12 rounded-full mb-5 flex items-center justify-center" style={{ background: "rgba(213,175,52,0.12)" }}>
-                  <Icon size={22} className="text-gold" />
-                </div>
-                <h3 className="font-display text-[22px] text-white mb-3">{title}</h3>
-                <p className="text-[14px] text-[#9ca3af] leading-[1.8]">{body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Approach */}
-      <section className="section-pad" style={{ background: "#ffffff" }}>
-        <div className="max-w-[1100px] mx-auto">
-          <SectionHeader eyebrow="How We Work" title="A grounded, structured approach." />
-          <div className="mt-14 grid md:grid-cols-2 gap-8">
-            {[
-              { n: "01", t: "Diagnose deeply", d: "We invest the time to understand the real problem before proposing solutions. Most engagements begin with a structured diagnostic." },
-              { n: "02", t: "Evidence-led design", d: "Recommendations are grounded in primary research, financial modelling, and direct stakeholder insight — not assumptions." },
-              { n: "03", t: "Practical execution", d: "We translate strategy into 90-, 180-, or 360-day plans with clear ownership, milestones, and KPIs." },
-              { n: "04", t: "Stay close", d: "We remain engaged through implementation. The work isn't done at the deck hand-off — it's done when the outcome is real." },
-            ].map((s) => (
-              <div key={s.n} className="bg-white rounded-xl p-8 shadow-card hover-lift card-gold-top">
-                <div className="font-display text-[48px] leading-none mb-3" style={{ color: "rgba(213,175,52,0.25)" }}>{s.n}</div>
-                <h3 className="font-display text-[22px] text-[#0A0B14] mb-3">{s.t}</h3>
-                <p className="text-[14px] text-[#6b7280] leading-[1.8]">{s.d}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Founding Story */}
+      <CorporateOverviewSection />
       <FoundingStorySection />
-
-      {/* Team */}
       <TeamSection />
+      <WhyChooseUsSection />
 
-      {/* CTA */}
-      <section className="tex-noise py-20 px-6 md:px-20 text-center" style={{ background: "#0A0B14" }}>
-        <Users size={28} className="text-gold mx-auto mb-5" />
-        <h2 className="font-display text-white" style={{ fontSize: "clamp(24px, 3vw, 34px)" }}>
-          Ready to work with us?
-        </h2>
-        <Link to="/talk-to-us" className="btn-gold mt-7">
-          Talk to Us <ArrowRight size={14} />
-        </Link>
-      </section>
-
-      {/* Structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import nairobiSkyline from "@/assets/nairobi-skyline-hero.jpg";
 
-export type HeroLines = [string, string, string]; // line1, line2, line3 (gold italic)
+export type HeroLines = [string, string, string];
 
 export type HeroSlide = {
   eyebrow: string;
@@ -27,8 +27,8 @@ type StaticHeroProps = CommonProps & {
   eyebrow: string;
   lines: HeroLines;
   supporting?: ReactNode;
-  supportingMaxWidth?: number; // desktop max-width override (default 340)
-  supportingMaxWidthMobile?: number; // mobile max-width override (default 260)
+  supportingMaxWidth?: number;
+  supportingMaxWidthMobile?: number;
   showDots?: boolean;
   slides?: never;
 };
@@ -43,20 +43,13 @@ type SliderHeroProps = CommonProps & {
 
 export type HeroProps = StaticHeroProps | SliderHeroProps;
 
-/* ------------------------ Decorative Rings (Layer 3) ------------------------ */
+/* ── Decorative rings ── */
 function Rings() {
   return (
     <svg
       aria-hidden="true"
       className="hidden md:block absolute pointer-events-none"
-      style={{
-        right: "-40px",
-        top: "50%",
-        transform: "translateY(-50%)",
-        opacity: 0.065,
-        width: 360,
-        height: 360,
-      }}
+      style={{ right: "-40px", top: "50%", transform: "translateY(-50%)", opacity: 0.065, width: 360, height: 360 }}
       viewBox="-180 -180 360 360"
       fill="none"
     >
@@ -71,78 +64,49 @@ function Rings() {
   );
 }
 
-/* ------------------------ Vignettes (Layers 4 & 5) ------------------------ */
+/* ── Vignettes ── */
 function Vignettes() {
   return (
     <>
-      {/* Layer 4 — Left vignette (text protection). Mobile pushes the strong zone further. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none hero-left-vignette"
-      />
-      {/* Layer 5 — Top + bottom vignette */}
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none hero-left-vignette" />
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(9,8,26,0.40) 0%, transparent 22%, transparent 50%, rgba(9,8,26,0.85) 75%, rgba(9,8,26,0.98) 100%)",
-        }}
+        style={{ background: "linear-gradient(180deg, rgba(9,8,26,0.40) 0%, transparent 22%, transparent 50%, rgba(9,8,26,0.85) 75%, rgba(9,8,26,0.98) 100%)" }}
       />
     </>
   );
 }
 
-/* ------------------------ Location tag (Layer 6) ------------------------ */
-function LocationTag() {
+/* ── Slide eyebrow label (big uppercase badge matching WP site) ── */
+function SlideLabel({ label }: { label: string }) {
   return (
     <div
-      className="absolute z-[4] flex items-center"
       style={{
-        top: 20,
-        gap: 6,
+        fontFamily: "Poppins, sans-serif",
+        fontWeight: 700,
+        fontSize: 11,
+        letterSpacing: "0.30em",
+        textTransform: "uppercase",
+        color: "#c9a84c",
+        background: "rgba(201,168,76,0.10)",
+        border: "1px solid rgba(201,168,76,0.30)",
+        display: "inline-block",
+        padding: "6px 14px",
+        borderRadius: 2,
+        marginBottom: 18,
       }}
     >
-      <span className="hero-location-wrap inline-flex items-center" style={{ gap: 6 }}>
-        <svg width="7" height="9" viewBox="0 0 7 9" fill="none" aria-hidden="true">
-          <path
-            d="M3.5 0.5C1.84 0.5 0.5 1.84 0.5 3.5C0.5 5.75 3.5 8.5 3.5 8.5C3.5 8.5 6.5 5.75 6.5 3.5C6.5 1.84 5.16 0.5 3.5 0.5ZM3.5 4.5C2.95 4.5 2.5 4.05 2.5 3.5C2.5 2.95 2.95 2.5 3.5 2.5C4.05 2.5 4.5 2.95 4.5 3.5C4.5 4.05 4.05 4.5 3.5 4.5Z"
-            fill="#c9a84c"
-            fillOpacity="0.55"
-          />
-        </svg>
-        <span
-          style={{
-            fontFamily: "Poppins, sans-serif",
-            fontWeight: 400,
-            fontSize: 9,
-            color: "rgba(201,168,76,0.50)",
-            letterSpacing: "0.16em",
-            textTransform: "uppercase",
-          }}
-        >
-          Nairobi, Kenya
-        </span>
-      </span>
+      {label}
     </div>
   );
 }
 
-/* ------------------------ Eyebrow (below headline) ------------------------ */
+/* ── Eyebrow for inner (non-home) hero ── */
 function Eyebrow({ label }: { label: string }) {
   return (
-    <div
-      className="flex items-center"
-      style={{ gap: 9, marginBottom: 12 }}
-    >
-      <span
-        className="block flex-shrink-0"
-        style={{
-          width: 22,
-          height: 1,
-          background: "rgba(201,168,76,0.55)",
-        }}
-      />
+    <div className="flex items-center" style={{ gap: 9, marginBottom: 12 }}>
+      <span className="block flex-shrink-0" style={{ width: 22, height: 1, background: "rgba(201,168,76,0.55)" }} />
       <span
         style={{
           fontFamily: "Poppins, sans-serif",
@@ -159,37 +123,21 @@ function Eyebrow({ label }: { label: string }) {
   );
 }
 
-/* ------------------------ Headline (3 lines) ------------------------ */
+/* ── Headline ── */
 function Headline({ lines }: { lines: HeroLines }) {
   return (
     <h1
-      style={{
-        fontFamily: "'Playfair Display', serif",
-        fontWeight: 700,
-        lineHeight: 1.05,
-        letterSpacing: "-0.02em",
-        color: "#ffffff",
-        margin: 0,
-      }}
+      style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, lineHeight: 1.05, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}
       className="hero-headline"
     >
       <span style={{ display: "block" }}>{lines[0]}</span>
       <span style={{ display: "block" }}>{lines[1]}</span>
-      <span
-        style={{
-          display: "block",
-          color: "#c9a84c",
-          fontStyle: "italic",
-          marginBottom: 14,
-        }}
-      >
-        {lines[2]}
-      </span>
+      <span style={{ display: "block", color: "#c9a84c", fontStyle: "italic", marginBottom: 14 }}>{lines[2]}</span>
     </h1>
   );
 }
 
-/* ------------------------ CTA button ------------------------ */
+/* ── CTA button ── */
 function HeroCtaButton({ cta }: { cta: HeroCta }) {
   const inner = (
     <>
@@ -201,37 +149,14 @@ function HeroCtaButton({ cta }: { cta: HeroCta }) {
     </>
   );
   const className = "hero-cta inline-flex items-center";
-  if (cta.to) {
-    return (
-      <Link to={cta.to as any} className={className}>
-        {inner}
-      </Link>
-    );
-  }
-  return (
-    <a href={cta.href || "#"} className={className}>
-      {inner}
-    </a>
-  );
+  if (cta.to) return <Link to={cta.to as any} className={className}>{inner}</Link>;
+  return <a href={cta.href || "#"} className={className}>{inner}</a>;
 }
 
-/* ------------------------ Bottom Row ------------------------ */
-function BottomRow({
-  showDots,
-  total,
-  active,
-  onSelect,
-}: {
-  showDots: boolean;
-  total: number;
-  active: number;
-  onSelect?: (i: number) => void;
-}) {
+/* ── Slide dots + scroll indicator ── */
+function BottomRow({ showDots, total, active, onSelect }: { showDots: boolean; total: number; active: number; onSelect?: (i: number) => void }) {
   return (
-    <div
-      className="flex items-center justify-between"
-      style={{ marginTop: 16, padding: "0 2px" }}
-    >
+    <div className="flex items-center justify-between" style={{ marginTop: 16, padding: "0 2px" }}>
       <div className="flex items-center" style={{ gap: 5 }}>
         {showDots
           ? Array.from({ length: total }).map((_, i) => (
@@ -254,15 +179,7 @@ function BottomRow({
           : null}
       </div>
       <div className="flex items-center" style={{ gap: 4 }}>
-        <span
-          style={{
-            fontFamily: "Poppins, sans-serif",
-            fontWeight: 400,
-            fontSize: 9,
-            color: "rgba(255,255,255,0.18)",
-            letterSpacing: "0.06em",
-          }}
-        >
+        <span style={{ fontFamily: "Poppins, sans-serif", fontWeight: 400, fontSize: 9, color: "rgba(255,255,255,0.18)", letterSpacing: "0.06em" }}>
           Scroll
         </span>
         <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" aria-hidden="true">
@@ -273,7 +190,9 @@ function BottomRow({
   );
 }
 
-/* ============================== Hero ============================== */
+/* ══════════════════════════════════════════
+   Main Hero component
+   ══════════════════════════════════════════ */
 export function Hero(props: HeroProps) {
   const isHome = props.variant === "home";
   const slides: HeroSlide[] = isHome ? props.slides : [];
@@ -290,23 +209,16 @@ export function Hero(props: HeroProps) {
     return () => clearInterval(id);
   }, [isHome, slides.length]);
 
-  // Image stack
   const homeImage = isHome
     ? slides[active]?.image || slides[0]?.image || nairobiSkyline
     : props.image || nairobiSkyline;
 
-  // Static fields
   const eyebrow = isHome ? slides[active]?.eyebrow || "" : props.eyebrow;
   const lines = isHome ? slides[active]?.lines || (["", "", ""] as HeroLines) : props.lines;
   const supporting = "supporting" in props ? props.supporting : null;
   const cta = props.cta;
-  const showDots = isHome
-    ? true
-    : "showDots" in props && props.showDots
-    ? true
-    : false;
+  const showDots = isHome ? true : ("showDots" in props && props.showDots ? true : false);
   const dotsTotal = isHome ? slides.length : 4;
-  const showLocation = props.showLocation !== false;
 
   const supportingMaxWidth =
     !isHome && (props as StaticHeroProps).supportingMaxWidth
@@ -318,12 +230,9 @@ export function Hero(props: HeroProps) {
       onMouseEnter={() => (pausedRef.current = true)}
       onMouseLeave={() => (pausedRef.current = false)}
       className={`hero-shell relative overflow-hidden ${isHome ? "hero-home" : "hero-inner"}`}
-      style={{
-        background:
-          "linear-gradient(155deg, #141040 0%, #221460 30%, #1a0e42 58%, #0b0918 100%)",
-      }}
+      style={{ background: "linear-gradient(155deg, #141040 0%, #221460 30%, #1a0e42 58%, #0b0918 100%)" }}
     >
-      {/* Layer 2 — Photo (with cross-fade for home) */}
+      {/* Background images with cross-fade */}
       {isHome ? (
         slides.map((s, i) => (
           <img
@@ -332,12 +241,7 @@ export function Hero(props: HeroProps) {
             alt=""
             aria-hidden="true"
             className="absolute inset-0 w-full h-full"
-            style={{
-              objectFit: "cover",
-              objectPosition: "65% top",
-              opacity: i === active ? 1 : 0,
-              transition: "opacity 900ms ease-in-out",
-            }}
+            style={{ objectFit: "cover", objectPosition: "65% top", opacity: i === active ? 1 : 0, transition: "opacity 900ms ease-in-out" }}
           />
         ))
       ) : (
@@ -353,20 +257,17 @@ export function Hero(props: HeroProps) {
       <Rings />
       <Vignettes />
 
-      {showLocation && (
-        <div
-          className="hero-location-pos"
-          style={{ position: "absolute", zIndex: 4 }}
-        >
-          <LocationTag />
-        </div>
-      )}
-
-      {/* Layer 7 — Content block (bottom-left) */}
+      {/* Content block — bottom-anchored */}
       <div className="hero-content absolute left-0 right-0 bottom-0 z-[4]">
         <div className="hero-content-inner">
+          {/* Home hero: show big uppercase label above headline */}
+          {isHome && eyebrow && <SlideLabel label={eyebrow} />}
+
           <Headline lines={lines} />
-          <Eyebrow label={eyebrow} />
+
+          {/* Inner hero: show small eyebrow below headline */}
+          {!isHome && <Eyebrow label={eyebrow} />}
+
           {supporting && (
             <div className="hero-supporting" style={{ maxWidth: supportingMaxWidth }}>
               {supporting}
@@ -379,12 +280,7 @@ export function Hero(props: HeroProps) {
             </>
           )}
           {(cta || showDots) && (
-            <BottomRow
-              showDots={showDots}
-              total={dotsTotal}
-              active={active}
-              onSelect={isHome ? setActive : undefined}
-            />
+            <BottomRow showDots={showDots} total={dotsTotal} active={active} onSelect={isHome ? setActive : undefined} />
           )}
         </div>
       </div>
