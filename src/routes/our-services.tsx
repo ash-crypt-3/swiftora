@@ -1,7 +1,17 @@
+// ─────────────────────────────────────────────────────────────
+// FILE: src/routes/our-services.tsx
+// ─────────────────────────────────────────────────────────────
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Hero } from "@/components/Hero";
 import ContactForm from "@/components/ContactForm";
-import hero2 from "@/assets/heroes/hero-2.jpg";
+import { useEffect, useRef } from "react";
+import heroBg from "@/assets/heroes/Our_Services_Header.jpg";
+
+import salesImg from "@/assets/services/sales.png";
+import marketingImg from "@/assets/services/marketing.png";
+import strategyImg from "@/assets/services/strategy.png";
+import communicationImg from "@/assets/services/communication.png";
+import researchImg from "@/assets/services/research.png";
+import consultingImg from "@/assets/services/Services_Flip_Images_00_Main.png";
 
 const WP = "https://swiftoraconsulting.co.ke/wp-content/uploads";
 
@@ -15,19 +25,46 @@ export const Route = createFileRoute("/our-services")({
   component: ServicesPage,
 });
 
+const CLAN = { fontFamily: '"Clan Pro", sans-serif' };
+
 const approachSteps = [
-  { icon: `${WP}/2025/05/Our-Approach-Icons-04-1.png`, step: "Step 1", title: "Diagnostic & Discovery", body: "Understand the client's current situation, challenges, goals, and objectives." },
-  { icon: `${WP}/2025/05/Our-Approach-Icons-03-1.png`, step: "Step 2", title: "Solution Formulation", body: "Develop custom solutions aligned with client objectives and market opportunities." },
-  { icon: `${WP}/2025/05/Our-Approach-Icons-01.png`, step: "Step 3", title: "Implementation Support", body: "Ensure the chosen solution is executed effectively and on schedule." },
-  { icon: `${WP}/2025/05/Our-Approach-Icons-02.png`, step: "Step 4", title: "Client Partnership & Advisory", body: "Build long-term relationships through consistent support and expertise." },
+  { icon: `${WP}/2025/05/Our-Approach-Icons-04-1.png`, step: "STEP 1", title: "Diagnostic & Discovery", body: "Understand the client's current situation, challenges, goals, and objectives." },
+  { icon: `${WP}/2025/05/Our-Approach-Icons-03-1.png`, step: "STEP 2", title: "Solution Formulation", body: "Develop custom solutions aligned with client objectives and market opportunities." },
+  { icon: `${WP}/2025/05/Our-Approach-Icons-01.png`, step: "STEP 3", title: "Implementation Support", body: "Ensure the chosen solution is executed effectively and on schedule." },
+  { icon: `${WP}/2025/05/Our-Approach-Icons-02.png`, step: "STEP 4", title: "Client Partnership & Advisory", body: "Build long-term relationships through consistent support and expertise." },
 ];
 
 const servicesList = [
-  { title: "Sales", body: "Our data-driven insights and custom-made strategies empower your team to maximise conversions, build lasting customer relationships, and exceed revenue targets." },
-  { title: "Marketing", body: "We ensure your business connects authentically with your audience, optimises its market positioning, and achieves measurable success." },
-  { title: "Strategy", body: "We craft actionable roadmaps that align your goals with market opportunities, ensuring sustainable growth and competitive advantage." },
-  { title: "Communication", body: "We empower individuals and organisations to communicate effectively, build stronger connections, and achieve their goals with clarity and confidence." },
-  { title: "Research", body: "We deliver comprehensive research solutions designed to drive informed decision-making and strategic growth, helping businesses uncover opportunities." },
+  {
+    title: "Sales",
+    body: "Our data-driven insights and custom-made strategies empower your team to maximise conversions, build lasting customer relationships, and exceed revenue targets.",
+    image: salesImg,
+    href: "/services/sales",
+  },
+  {
+    title: "Marketing",
+    body: "We ensure your business connects authentically with your audience, optimises its market positioning, and achieves measurable success.",
+    image: marketingImg,
+    href: "/services/marketing",
+  },
+  {
+    title: "Strategy",
+    body: "We craft actionable roadmaps that align your goals with market opportunities, ensuring sustainable growth and competitive advantage.",
+    image: strategyImg,
+    href: "/services/strategy",
+  },
+  {
+    title: "Communication",
+    body: "We empower individuals and organisations to communicate effectively, build stronger connections, and achieve their goals with clarity and confidence.",
+    image: communicationImg,
+    href: "/services/communication",
+  },
+  {
+    title: "Research",
+    body: "We deliver comprehensive research solutions designed to drive informed decision-making and strategic growth, helping businesses uncover opportunities.",
+    image: researchImg,
+    href: "/services/research",
+  },
 ];
 
 const targetClients = [
@@ -36,71 +73,252 @@ const targetClients = [
   { title: "For Individuals", body: "Whether you are planning a career pivot, building your personal brand, or seeking expert insights to maximise your professional potential, we are here for you. We help individuals identify their strengths, overcome barriers and craft a clear path toward their personal and professional goals." },
 ];
 
+/* ── FLIP CARD ── */
+const FLIP_CSS = `
+  .fc { height: 300px; cursor: pointer; perspective: 1000px; }
+  .fc-inner {
+    position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.65s cubic-bezier(0.4,0,0.2,1);
+  }
+  .fc:hover .fc-inner { transform: rotateY(180deg); }
+  .fc-front, .fc-back {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .fc-back { transform: rotateY(180deg); overflow: hidden; }
+  .fc-back-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .fc-overlay {
+    position: absolute; inset: 0;
+    background: rgba(10,11,20,0.42);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .fc-btn {
+    padding: 11px 30px;
+    background: #ffffff; color: #2D2973;
+    border: 2px solid #ffffff;
+    font-family: "Clan Pro", sans-serif;
+    font-size: 14px; font-weight: 800;
+    letter-spacing: 0.06em; cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .fc-btn:hover { background: #2D2973; color: #fff; border-color: #2D2973; }
+`;
+
+function FlipCard({ title, body, image, href }: { title: string; body: string; image: string; href: string }) {
+  return (
+    <div className="fc">
+      <div className="fc-inner">
+        {/* FRONT */}
+        <div
+          className="fc-front"
+          style={{
+            background: "#E8EDF3",
+            padding: "36px 32px",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
+          <h4 style={{ ...CLAN, fontSize: 28, fontWeight: 800, color: "#2D2973", margin: "0 0 16px", letterSpacing: "0.04em" }}>{title}</h4>
+          <p style={{ ...CLAN, fontSize: 15, fontWeight: 600, color: "#111111", lineHeight: 1.9, margin: 0, letterSpacing: "0.01em" }}>{body}</p>
+        </div>
+        {/* BACK */}
+        <div className="fc-back">
+          <img className="fc-back-img" src={image} alt={title} />
+          <div className="fc-overlay">
+            <Link to={href} className="fc-btn">Learn More</Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── HERO ── */
+function HeroSection() {
+  const bgRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const onScroll = () => {
+      if (bgRef.current) bgRef.current.style.transform = `translateY(${window.scrollY * 0.38}px)`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <section style={{ position: "relative", overflow: "hidden", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <div ref={bgRef} style={{ position: "absolute", inset: "-20%", zIndex: 0, willChange: "transform" }}>
+        <img src={heroBg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <div style={{ position: "absolute", inset: 0, background: "rgba(10,11,20,0.62)" }} />
+      </div>
+      <div style={{
+        position: "relative", zIndex: 1, flex: 1,
+        display: "flex", flexDirection: "column", justifyContent: "flex-end",
+        padding: "0 80px 100px", width: "100%", boxSizing: "border-box",
+      }}>
+        <h1 style={{ ...CLAN, fontWeight: 800, fontSize: "clamp(26px, 3vw, 42px)", lineHeight: 1.25, margin: 0, textAlign: "left" }}>
+          <span style={{ color: "#ffffff", display: "block" }}>Good Ideas Brought You Here</span>
+          <span style={{ color: "#D5AF34", display: "block" }}>Great Solutions Keep You Here</span>
+        </h1>
+      </div>
+    </section>
+  );
+}
+
+/* ── APPROACH ── */
+function ApproachSection() {
+  return (
+    <section style={{ background: "#E8EDF3", padding: "80px 0 100px", borderTop: "1px solid #d0d8e4" }}>
+      <div style={{ width: "100%", padding: "0 80px", boxSizing: "border-box" }}>
+        <h2 style={{ ...CLAN, fontSize: "clamp(22px, 2.5vw, 32px)", fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: "0 0 56px" }}>
+          OUR APPROACH
+        </h2>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0, position: "relative" }}>
+          <div style={{
+            position: "absolute",
+            top: 130,
+            left: "12.5%",
+            right: "12.5%",
+            height: 0,
+            borderTop: "3px dashed #2D2973",
+            opacity: 0.30,
+            zIndex: 0,
+          }} />
+
+          {approachSteps.map(({ icon, step, title, body }) => (
+            <div
+              key={step}
+              style={{
+                display: "flex", flexDirection: "column",
+                alignItems: "center", textAlign: "center",
+                padding: "0 20px", position: "relative", zIndex: 1,
+              }}
+            >
+              <div style={{
+                background: "#E8EDF3",
+                borderRadius: "50%",
+                padding: 8,
+                marginBottom: 24,
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                <img
+                  src={icon}
+                  alt={title}
+                  style={{ width: 260, height: 260, objectFit: "contain", display: "block" }}
+                  loading="lazy"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                />
+              </div>
+
+              <p style={{ ...CLAN, fontSize: 14, fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.10em", margin: "0 0 8px" }}>{step}</p>
+              <h4 style={{ ...CLAN, fontSize: 18, fontWeight: 800, fontStyle: "italic", color: "#D5AF34", margin: "0 0 14px", lineHeight: 1.3 }}>{title}</h4>
+              <p style={{ ...CLAN, fontSize: 15, fontWeight: 600, color: "#111111", lineHeight: 1.8, margin: 0, letterSpacing: "0.01em" }}>{body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── PAGE ── */
 function ServicesPage() {
   return (
     <>
-      <Hero variant="inner" eyebrow="Our Services" lines={["Good Ideas", "Brought You", "Here"]} image={hero2} />
+      <style>{FLIP_CSS}</style>
+      <HeroSection />
 
-      <section className="section-pad" style={{ background: "#ffffff" }}>
-        <div className="max-w-[860px] mx-auto text-center">
-          <h2 className="font-bold text-[#2D2973] mb-4" style={{ fontSize: "clamp(22px,2.5vw,28px)" }}>Good Ideas Brought You Here</h2>
-          <h2 className="font-bold text-[#2D2973] mb-8" style={{ fontSize: "clamp(22px,2.5vw,28px)" }}>Great Solutions Keep You Here</h2>
-          <p className="text-[16px] text-[#4D4D4D] leading-[1.9] mb-4">The business landscape is ever-changing—markets fluctuate, technologies advance, and competitors emerge. In this dynamic environment, traditional approaches are no longer enough. That's where Swiftora Consulting Limited steps in.</p>
-          <p className="text-[16px] text-[#4D4D4D] leading-[1.9]">We collaborate with businesses to navigate these complexities, delivering transformative solutions that fuel growth, spark innovation, and create lasting impact. Our expertise spans the core pillars of success: Strategy, Sales, Marketing, Communication, and Research.</p>
+      {/* INTRO */}
+      <section style={{ background: "#E8EDF3", padding: "80px 0" }}>
+        <div style={{ width: "100%", padding: "0 80px", boxSizing: "border-box" }}>
+          {[
+            "The business landscape is ever-changing—markets fluctuate, technologies advance, and competitors emerge. In this dynamic environment, traditional approaches are no longer enough. That's where Swiftora Consulting Limited steps in.",
+            "We collaborate with businesses to navigate these complexities, delivering transformative solutions that fuel growth, spark innovation, and create lasting impact. Our expertise spans the core pillars of success: Strategy, Sales, Marketing, Communication, and Research.",
+            "At Swiftora, we don't just respond to change—we help you stay ahead of it. Let's shape the future of your business together.",
+          ].map((text, i) => (
+            <p key={i} style={{ ...CLAN, fontSize: 17, fontWeight: 600, color: "#111111", lineHeight: 1.95, marginBottom: i < 2 ? 22 : 0, marginTop: 0, textAlign: "justify", letterSpacing: "0.01em" }}>
+              {text}
+            </p>
+          ))}
         </div>
       </section>
 
-      <section className="section-pad tex-dots" style={{ background: "#f7f6f2" }}>
-        <div className="max-w-[1100px] mx-auto">
-          <h2 className="font-bold text-[#2D2973] text-center mb-12" style={{ fontSize: "clamp(18px,2vw,22px)", letterSpacing: "0.08em" }}>OUR APPROACH</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 stagger">
-            {approachSteps.map(({ icon, step, title, body }) => (
-              <div key={step} className="animate-fade-up text-center">
-                <img src={icon} alt={title} style={{ width: 72, height: 72, objectFit: "contain", margin: "0 auto 16px" }} loading="lazy" onError={(e) => { e.currentTarget.style.display = "none"; }} />
-                <h5 className="font-bold text-[#D5AF34] mb-1" style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>{step}</h5>
-                <h5 className="font-bold text-[#2D2973] mb-2" style={{ fontSize: 15 }}>{title}</h5>
-                <p className="text-[13px] text-[#606161] leading-[1.7]">{body}</p>
-              </div>
-            ))}
+      <ApproachSection />
+
+      {/* OUR SERVICES GRID */}
+      <section style={{ background: "#ffffff", padding: "80px 0" }}>
+        <div style={{ width: "100%", padding: "0 80px", boxSizing: "border-box" }}>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", marginBottom: 4 }}>
+            <div style={{ paddingBottom: 10 }}>
+              <h2 style={{ ...CLAN, fontSize: "clamp(20px, 2vw, 28px)", fontWeight: 900, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: 0 }}>
+                OUR SERVICES
+              </h2>
+            </div>
+            <div /><div />
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gridTemplateRows: "300px 300px", gap: 4 }}>
+            <div style={{ overflow: "hidden" }}>
+              <img src={consultingImg} alt="Consulting team" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </div>
+            <FlipCard {...servicesList[0]} />
+            <FlipCard {...servicesList[1]} />
+            <FlipCard {...servicesList[2]} />
+            <FlipCard {...servicesList[3]} />
+            <FlipCard {...servicesList[4]} />
           </div>
         </div>
       </section>
 
-      <section className="section-pad" style={{ background: "#ffffff" }}>
-        <div className="max-w-[1100px] mx-auto">
-          <h2 className="font-bold text-[#2D2973] text-center mb-12" style={{ fontSize: "clamp(18px,2vw,22px)", letterSpacing: "0.08em" }}>Our Services</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
-            {servicesList.map(({ title, body }) => (
-              <div key={title} className="animate-fade-up rounded-lg p-8 shadow-card" style={{ background: "#f7f6f2", border: "1px solid #eeeeee" }}>
-                <h4 className="font-bold text-[#2D2973] mb-3" style={{ fontSize: 18 }}>{title}</h4>
-                <p className="text-[13px] text-[#4D4D4D] leading-[1.8] mb-5">{body}</p>
-                <Link to="/talk-to-us" className="text-[12px] font-semibold text-[#D5AF34] uppercase tracking-[0.15em] hover:underline">Learn More</Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-pad tex-dots" style={{ background: "#f7f6f2" }}>
-        <div className="max-w-[1100px] mx-auto">
-          <h2 className="font-bold text-[#2D2973] text-center mb-12" style={{ fontSize: "clamp(18px,2vw,22px)", letterSpacing: "0.08em" }}>Target Clients</h2>
-          <div className="grid md:grid-cols-3 gap-8 stagger">
+      {/* TARGET CLIENTS */}
+      <section style={{ background: "#ffffff", padding: "80px 0" }}>
+        <div style={{ width: "100%", padding: "0 80px", boxSizing: "border-box" }}>
+          <h2 style={{ ...CLAN, fontSize: "clamp(22px, 2.5vw, 32px)", fontWeight: 800, color: "#D5AF34", textTransform: "uppercase", letterSpacing: "0.01em", margin: "0 0 48px" }}>
+            TARGET CLIENTS
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4 }}>
             {targetClients.map(({ title, body }) => (
-              <div key={title} className="animate-fade-up rounded-lg p-8 bg-white shadow-card" style={{ border: "1px solid #eeeeee" }}>
-                <h4 className="font-bold text-[#2D2973] mb-3" style={{ fontSize: 18 }}>{title}</h4>
-                <p className="text-[14px] text-[#4D4D4D] leading-[1.8]">{body}</p>
+              <div key={title} style={{ background: "#2D2973", padding: "44px 36px", textAlign: "center" }}>
+                <h4 style={{ ...CLAN, fontSize: 28, fontWeight: 800, fontStyle: "italic", color: "#D5AF34", margin: "0 0 22px", lineHeight: 1.3, letterSpacing: "0.04em" }}>{title}</h4>
+                <p style={{ ...CLAN, fontSize: 15, fontWeight: 600, color: "#ffffff", lineHeight: 1.9, margin: 0, letterSpacing: "0.01em" }}>{body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-pad" style={{ background: "#f7f6f2" }}>
-        <div className="max-w-[700px] mx-auto">
-          <h2 className="font-bold text-[#2D2973] text-center mb-3" style={{ fontSize: "clamp(18px,2vw,22px)", letterSpacing: "0.08em" }}>CONTACT FORM</h2>
-          <p className="text-center text-[14px] text-[#606161] mb-10">Ready to get started? Send us a message and we'll be in touch within one business day.</p>
-          <div className="bg-white rounded-xl p-10 shadow-card" style={{ border: "1px solid #eeeeee" }}>
-            <ContactForm />
+      {/* CONTACT FORM */}
+      <section style={{ background: "#E8EDF3", padding: "80px 0" }}>
+        <div style={{ width: "100%", padding: "0 80px", boxSizing: "border-box" }}>
+          <h2 style={{ ...CLAN, fontSize: "clamp(18px, 2vw, 24px)", fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", textAlign: "center", margin: "0 0 12px" }}>
+            CONTACT FORM
+          </h2>
+          <p style={{ ...CLAN, textAlign: "center", fontSize: 14, fontWeight: 700, color: "#606161", marginBottom: 40, marginTop: 0 }}>
+            Ready to get started? Send us a message and we'll be in touch within one business day.
+          </p>
+          <div style={{ background: "#ffffff", padding: "40px", border: "1px solid #eeeeee" }}>
+            <style>{`
+              form button[type="submit"], .contact-form button[type="submit"] {
+                display: block !important; margin-left: auto !important; margin-right: 0 !important;
+                padding: 14px 36px !important; background: transparent !important;
+                color: #2D2973 !important; border: 2px solid #2D2973 !important;
+                font-family: "Clan Pro", sans-serif !important; font-size: 13px !important;
+                font-weight: 800 !important; letter-spacing: 0.14em !important;
+                text-transform: uppercase !important; cursor: pointer !important;
+                border-radius: 0 !important; transition: background 0.2s, color 0.2s !important;
+                width: auto !important; min-width: unset !important;
+              }
+              form button[type="submit"]:hover, .contact-form button[type="submit"]:hover {
+                background: #2D2973 !important; color: #fff !important;
+              }
+            `}</style>
+            <ContactForm submitLabel="SEND YOUR MESSAGE →" submitAlign="right" />
           </div>
         </div>
       </section>

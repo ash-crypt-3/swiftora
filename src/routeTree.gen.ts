@@ -30,6 +30,11 @@ import { Route as ThinkPiecesIndexRouteImport } from './routes/think-pieces.inde
 import { Route as FlagshipSolutionsIndexRouteImport } from './routes/flagship-solutions.index'
 import { Route as AdvisoryServicesIndexRouteImport } from './routes/advisory-services.index'
 import { Route as ThinkPiecesSlugRouteImport } from './routes/think-pieces.$slug'
+import { Route as ServicesStrategyRouteImport } from './routes/services/strategy'
+import { Route as ServicesSalesRouteImport } from './routes/services/sales'
+import { Route as ServicesResearchRouteImport } from './routes/services/research'
+import { Route as ServicesMarketingRouteImport } from './routes/services/marketing'
+import { Route as ServicesCommunicationRouteImport } from './routes/services/communication'
 import { Route as FlagshipSolutionsSmeGrowthBlueprintRouteImport } from './routes/flagship-solutions.sme-growth-blueprint'
 import { Route as FlagshipSolutionsRevenueAccelerationRouteImport } from './routes/flagship-solutions.revenue-acceleration'
 import { Route as FlagshipSolutionsProgrammeDesignRouteImport } from './routes/flagship-solutions.programme-design'
@@ -145,6 +150,31 @@ const ThinkPiecesSlugRoute = ThinkPiecesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ThinkPiecesRoute,
 } as any)
+const ServicesStrategyRoute = ServicesStrategyRouteImport.update({
+  id: '/services/strategy',
+  path: '/services/strategy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesSalesRoute = ServicesSalesRouteImport.update({
+  id: '/services/sales',
+  path: '/services/sales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesResearchRoute = ServicesResearchRouteImport.update({
+  id: '/services/research',
+  path: '/services/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesMarketingRoute = ServicesMarketingRouteImport.update({
+  id: '/services/marketing',
+  path: '/services/marketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesCommunicationRoute = ServicesCommunicationRouteImport.update({
+  id: '/services/communication',
+  path: '/services/communication',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FlagshipSolutionsSmeGrowthBlueprintRoute =
   FlagshipSolutionsSmeGrowthBlueprintRouteImport.update({
     id: '/sme-growth-blueprint',
@@ -220,6 +250,11 @@ export interface FileRoutesByFullPath {
   '/flagship-solutions/programme-design': typeof FlagshipSolutionsProgrammeDesignRoute
   '/flagship-solutions/revenue-acceleration': typeof FlagshipSolutionsRevenueAccelerationRoute
   '/flagship-solutions/sme-growth-blueprint': typeof FlagshipSolutionsSmeGrowthBlueprintRoute
+  '/services/communication': typeof ServicesCommunicationRoute
+  '/services/marketing': typeof ServicesMarketingRoute
+  '/services/research': typeof ServicesResearchRoute
+  '/services/sales': typeof ServicesSalesRoute
+  '/services/strategy': typeof ServicesStrategyRoute
   '/think-pieces/$slug': typeof ThinkPiecesSlugRoute
   '/advisory-services/': typeof AdvisoryServicesIndexRoute
   '/flagship-solutions/': typeof FlagshipSolutionsIndexRoute
@@ -248,6 +283,11 @@ export interface FileRoutesByTo {
   '/flagship-solutions/programme-design': typeof FlagshipSolutionsProgrammeDesignRoute
   '/flagship-solutions/revenue-acceleration': typeof FlagshipSolutionsRevenueAccelerationRoute
   '/flagship-solutions/sme-growth-blueprint': typeof FlagshipSolutionsSmeGrowthBlueprintRoute
+  '/services/communication': typeof ServicesCommunicationRoute
+  '/services/marketing': typeof ServicesMarketingRoute
+  '/services/research': typeof ServicesResearchRoute
+  '/services/sales': typeof ServicesSalesRoute
+  '/services/strategy': typeof ServicesStrategyRoute
   '/think-pieces/$slug': typeof ThinkPiecesSlugRoute
   '/advisory-services': typeof AdvisoryServicesIndexRoute
   '/flagship-solutions': typeof FlagshipSolutionsIndexRoute
@@ -280,6 +320,11 @@ export interface FileRoutesById {
   '/flagship-solutions/programme-design': typeof FlagshipSolutionsProgrammeDesignRoute
   '/flagship-solutions/revenue-acceleration': typeof FlagshipSolutionsRevenueAccelerationRoute
   '/flagship-solutions/sme-growth-blueprint': typeof FlagshipSolutionsSmeGrowthBlueprintRoute
+  '/services/communication': typeof ServicesCommunicationRoute
+  '/services/marketing': typeof ServicesMarketingRoute
+  '/services/research': typeof ServicesResearchRoute
+  '/services/sales': typeof ServicesSalesRoute
+  '/services/strategy': typeof ServicesStrategyRoute
   '/think-pieces/$slug': typeof ThinkPiecesSlugRoute
   '/advisory-services/': typeof AdvisoryServicesIndexRoute
   '/flagship-solutions/': typeof FlagshipSolutionsIndexRoute
@@ -313,6 +358,11 @@ export interface FileRouteTypes {
     | '/flagship-solutions/programme-design'
     | '/flagship-solutions/revenue-acceleration'
     | '/flagship-solutions/sme-growth-blueprint'
+    | '/services/communication'
+    | '/services/marketing'
+    | '/services/research'
+    | '/services/sales'
+    | '/services/strategy'
     | '/think-pieces/$slug'
     | '/advisory-services/'
     | '/flagship-solutions/'
@@ -341,6 +391,11 @@ export interface FileRouteTypes {
     | '/flagship-solutions/programme-design'
     | '/flagship-solutions/revenue-acceleration'
     | '/flagship-solutions/sme-growth-blueprint'
+    | '/services/communication'
+    | '/services/marketing'
+    | '/services/research'
+    | '/services/sales'
+    | '/services/strategy'
     | '/think-pieces/$slug'
     | '/advisory-services'
     | '/flagship-solutions'
@@ -372,6 +427,11 @@ export interface FileRouteTypes {
     | '/flagship-solutions/programme-design'
     | '/flagship-solutions/revenue-acceleration'
     | '/flagship-solutions/sme-growth-blueprint'
+    | '/services/communication'
+    | '/services/marketing'
+    | '/services/research'
+    | '/services/sales'
+    | '/services/strategy'
     | '/think-pieces/$slug'
     | '/advisory-services/'
     | '/flagship-solutions/'
@@ -396,6 +456,11 @@ export interface RootRouteChildren {
   ThinkPiecesRoute: typeof ThinkPiecesRouteWithChildren
   WpTestRoute: typeof WpTestRoute
   ZuriNzilaniFoundationRoute: typeof ZuriNzilaniFoundationRoute
+  ServicesCommunicationRoute: typeof ServicesCommunicationRoute
+  ServicesMarketingRoute: typeof ServicesMarketingRoute
+  ServicesResearchRoute: typeof ServicesResearchRoute
+  ServicesSalesRoute: typeof ServicesSalesRoute
+  ServicesStrategyRoute: typeof ServicesStrategyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -547,6 +612,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThinkPiecesSlugRouteImport
       parentRoute: typeof ThinkPiecesRoute
     }
+    '/services/strategy': {
+      id: '/services/strategy'
+      path: '/services/strategy'
+      fullPath: '/services/strategy'
+      preLoaderRoute: typeof ServicesStrategyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/sales': {
+      id: '/services/sales'
+      path: '/services/sales'
+      fullPath: '/services/sales'
+      preLoaderRoute: typeof ServicesSalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/research': {
+      id: '/services/research'
+      path: '/services/research'
+      fullPath: '/services/research'
+      preLoaderRoute: typeof ServicesResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/marketing': {
+      id: '/services/marketing'
+      path: '/services/marketing'
+      fullPath: '/services/marketing'
+      preLoaderRoute: typeof ServicesMarketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/communication': {
+      id: '/services/communication'
+      path: '/services/communication'
+      fullPath: '/services/communication'
+      preLoaderRoute: typeof ServicesCommunicationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/flagship-solutions/sme-growth-blueprint': {
       id: '/flagship-solutions/sme-growth-blueprint'
       path: '/sme-growth-blueprint'
@@ -682,6 +782,11 @@ const rootRouteChildren: RootRouteChildren = {
   ThinkPiecesRoute: ThinkPiecesRouteWithChildren,
   WpTestRoute: WpTestRoute,
   ZuriNzilaniFoundationRoute: ZuriNzilaniFoundationRoute,
+  ServicesCommunicationRoute: ServicesCommunicationRoute,
+  ServicesMarketingRoute: ServicesMarketingRoute,
+  ServicesResearchRoute: ServicesResearchRoute,
+  ServicesSalesRoute: ServicesSalesRoute,
+  ServicesStrategyRoute: ServicesStrategyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

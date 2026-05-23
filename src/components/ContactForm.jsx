@@ -2,11 +2,6 @@ import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { submitContactForm } from "@/services/wordpress";
 
-/**
- * CF7-backed contact form. Field names map to the Contact Form 7 form
- * (default CF7 names: your-name, your-email, your-subject, your-message).
- * Override `fieldMap` if your form uses different names.
- */
 export default function ContactForm({
   formId = undefined,
   fieldMap = {
@@ -18,6 +13,8 @@ export default function ContactForm({
     hear: "your-hear",
   },
   className = "",
+  submitLabel = undefined,   // ← new prop; undefined = use default
+  submitAlign = "full",      // ← "right" | "full"
 }) {
   const [form, setForm] = useState({
     name: "",
@@ -71,6 +68,21 @@ export default function ContactForm({
     );
   }
 
+  /* ── Button label & alignment ── */
+  const btnContent = state.status === "submitting"
+    ? "Sending…"
+    : submitLabel
+      ? submitLabel
+      : <> Send Your Message <ArrowRight size={14} /></>;
+
+  const btnWrapStyle = submitAlign === "right"
+    ? { display: "flex", justifyContent: "flex-end" }
+    : {};
+
+  const btnStyle = submitAlign === "right"
+    ? { padding: "12px 32px", fontSize: 13, width: "auto" }
+    : { padding: "14px 28px", fontSize: 15, width: "100%" };
+
   return (
     <form onSubmit={onSubmit} className={`space-y-5 ${className}`}>
       <div className="grid md:grid-cols-2 gap-5">
@@ -97,14 +109,16 @@ export default function ContactForm({
         </div>
       )}
 
-      <button
-        type="submit"
-        disabled={state.status === "submitting"}
-        className="btn-gold w-full disabled:opacity-60"
-        style={{ padding: "14px 28px", fontSize: 15 }}
-      >
-        {state.status === "submitting" ? "Sending…" : (<>Send Your Message <ArrowRight size={14} /></>)}
-      </button>
+      <div style={btnWrapStyle}>
+        <button
+          type="submit"
+          disabled={state.status === "submitting"}
+          className="btn-gold disabled:opacity-60"
+          style={btnStyle}
+        >
+          {btnContent}
+        </button>
+      </div>
     </form>
   );
 }

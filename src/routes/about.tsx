@@ -1,29 +1,26 @@
-﻿import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { PageHero, SectionHeader } from "@/components/PageBits";
-import { ArrowRight } from "lucide-react";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect, useRef } from "react";
+import { X } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import foundingHero from "@/assets/founding-story-hero.jpg";
+import aboutUsHero from "@/assets/heroes/AboutUs_Header_Image.jpg";
+import whyChooseUsBg from "@/assets/heroes/AboutUs_Why_Choose_Us-01.svg";
+import profileHeaderBg from "@/assets/heroes/AboutUs_Profile_Headers.png";
 import stephenImg from "@/assets/team/stephen-osumba.jpg";
 import nicodemusImg from "@/assets/team/nicodemus-nyambok.jpg";
 import geoffreyImg from "@/assets/team/geoffrey-korio.jpg";
 import lilianImg from "@/assets/team/lilian-mukami.jpg";
 import marcelImg from "@/assets/team/marcel-oketch.jpg";
 
+const WP = "https://swiftoraconsulting.co.ke/wp-content/uploads";
+
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About Us: Integrated Business Strategy & Research Solutions Company | Swiftora Consulting" },
-      {
-        name: "description",
-        content:
-          "Learn about Swiftora Consulting's mission to champion business growth in Kenya. Our expert team drives success through smart strategies.",
-      },
+      { name: "description", content: "Learn about Swiftora Consulting's mission to champion business growth in Kenya. Our expert team drives success through smart strategies." },
       { property: "og:title", content: "About Us: Integrated Business Strategy & Research Solutions Company" },
-      {
-        property: "og:description",
-        content: "Learn about Swiftora Consulting's mission to champion business growth in Kenya. Our expert team drives success through smart strategies.",
-      },
+      { property: "og:description", content: "Learn about Swiftora Consulting's mission to champion business growth in Kenya. Our expert team drives success through smart strategies." },
     ],
   }),
   component: AboutPage,
@@ -35,7 +32,8 @@ type TeamMember = {
   title: string;
   image: string;
   shortBio: string;
-  fullBio: string;
+  bioParagraphs: string[];
+  quote: string;
   expertise: string[];
   credentials: string[];
 };
@@ -47,25 +45,16 @@ const teamMembers: TeamMember[] = [
     title: "Sales & Business Strategy",
     image: stephenImg,
     shortBio: "Founder & Lead Strategist",
-    fullBio: `Stephen Osomba is the founder and lead strategist at Swiftora Consulting. With over a decade of experience in business strategy, sales acceleration, and commercial effectiveness, Stephen has worked with startups, SMEs, and established enterprises across East Africa to clarify their market positioning, build scalable revenue systems, and execute growth strategies that deliver measurable results.
-
-Before founding Swiftora, Stephen held strategy and business development roles in the financial services and technology sectors, where he developed expertise in market entry, go-to-market strategy, and organizational design. His approach combines analytical rigor with practical implementation focus — he believes that strategy only matters if it can be executed.
-
-Stephen holds a Bachelor's degree in Business Administration from Moi University and has completed executive education programmes in strategic management and entrepreneurship. He is a frequent speaker on business strategy, sales effectiveness, and entrepreneurship in East Africa.
-
-When he's not working with clients, Stephen writes about business strategy, market dynamics, and growth challenges facing African businesses. His writing has been featured in industry publications and business forums across the region.`,
-    expertise: [
-      "Business Strategy & Planning",
-      "Revenue Growth Strategy",
-      "Market Entry & Expansion",
-      "Sales Process Design",
-      "Commercial Effectiveness",
+    bioParagraphs: [
+      "Stephen is a seasoned and diligent consultant specialising in strategy, sales, research, and marketing based in Nairobi, Kenya. With over ten years of experience, he has built a solid reputation as a trusted expert with exceptional analytical prowess, organisational acumen, and a knack for crafting transformative business strategies. These capabilities have enabled him to drive growth and position businesses for sustainable success across diverse industries.",
+      "His career spans roles in both commercial and non-profit organisations, where he has excelled as a resident specialist and contracted consultant. His expertise goes beyond marketing, encompassing strategic planning, sales optimisation, and data-driven research. His work has led to the development of impactful strategies and campaigns that not only boosted market presence but also strengthened revenue streams and operational efficiency for his clients.",
+      "Stephen holds a Bachelor of Science in Communication & Public Relations from Moi University, a Postgraduate Diploma in Marketing Management from the Kenya Institute of Management, and a Master of Science in Marketing from the University of Nairobi.",
+      "Currently, Stephen leads the Business Strategy & Research portfolio at Swiftora Consulting Limited, where he provides tailored solutions designed to align with SMEs' mission, goals, and industry landscapes. His dedication to problem-solving and holistic approach, ensure measurable results, long-term client success, and make him a valuable partner for businesses thriving in today's dynamic environment.",
+      "Outside of work, Stephen is an avid learner and is passionate about sustainability issues. He seeks new challenges and experiences that align with his commitment to continuous improvement. In his leisure time, he enjoys embarking on expeditions, embracing the unknown, and finding inspiration in the world around him.",
     ],
-    credentials: [
-      "Bachelor of Business Administration, Moi University",
-      "Executive Education in Strategic Management",
-      "10+ years in strategy consulting and business development",
-    ],
+    quote: "Strategic, analytical, and results-oriented, Stephen Osomba excels in transforming complex challenges into actionable strategies that drive business growth and long-term impact.",
+    expertise: ["Business Strategy & Planning", "Revenue Growth Strategy", "Market Entry & Expansion", "Sales Process Design", "Commercial Effectiveness"],
+    credentials: ["Bachelor of Science in Communication & Public Relations, Moi University", "Postgraduate Diploma in Marketing Management, Kenya Institute of Management", "Master of Science in Marketing, University of Nairobi"],
   },
   {
     id: 2,
@@ -73,25 +62,16 @@ When he's not working with clients, Stephen writes about business strategy, mark
     title: "Data Analysis & Reporting",
     image: nicodemusImg,
     shortBio: "Data Analyst & Business Intelligence Lead",
-    fullBio: `Nicodemus Nyambok leads data analysis and business intelligence at Swiftora Consulting. His work focuses on turning raw data into actionable insights that inform strategic decisions and drive measurable business outcomes. Nicodemus has expertise in market research, competitive analysis, financial modeling, and performance analytics.
-
-Nicodemus has worked across sectors including real estate, agriculture, technology, and financial services, conducting feasibility studies, market assessments, and business performance diagnostics. His analytical approach combines quantitative rigor with qualitative market understanding, ensuring that data-driven recommendations are grounded in real-world business context.
-
-Before joining Swiftora, Nicodemus worked as a business analyst and research consultant, where he developed expertise in data collection methodologies, statistical analysis, and business intelligence systems. He is proficient in advanced Excel, data visualization tools, and statistical software.
-
-Nicodemus holds a degree in Economics and Statistics and has completed specialized training in business analytics and market research methodologies. He is passionate about making data accessible and actionable for business leaders who need clarity, not complexity.`,
-    expertise: [
-      "Business Analytics & Reporting",
-      "Market Research & Feasibility Studies",
-      "Financial Modeling & Analysis",
-      "Competitive Intelligence",
-      "Data Visualization & Dashboards",
+    bioParagraphs: [
+      "Nicodemus Nyambok is a skilled data analyst and business intelligence expert at Swiftora Consulting. He specialises in transforming raw data into clear, actionable insights that enable organisations to make smarter, evidence-based decisions and drive measurable business outcomes.",
+      "With a solid background in economics and statistics, Nicodemus brings both quantitative rigour and practical business acumen to every engagement. His work spans market research, financial modelling, competitive intelligence, and the development of interactive dashboards and reports that give clients a real-time view of their performance.",
+      "Nicodemus holds a degree in Economics & Statistics and is certified in Business Analytics. He brings over eight years of experience working across sectors including financial services, FMCG, and development organisations.",
+      "At Swiftora Consulting, Nicodemus ensures that every strategic recommendation is grounded in credible data and robust analysis. He is committed to helping clients move from gut-feel decisions to data-driven strategies that deliver consistent, sustainable results.",
+      "Beyond his professional work, Nicodemus is passionate about leveraging technology and data to address socioeconomic challenges in Africa. He enjoys staying current with emerging analytics tools and methodologies that can create new value for businesses and communities.",
     ],
-    credentials: [
-      "Degree in Economics & Statistics",
-      "Certified in Business Analytics",
-      "8+ years in data analysis and research",
-    ],
+    quote: "Data-driven and detail-oriented, Nicodemus Nyambok transforms complex datasets into clear insights that power confident, strategic business decisions.",
+    expertise: ["Business Analytics & Reporting", "Market Research & Feasibility Studies", "Financial Modeling & Analysis", "Competitive Intelligence", "Data Visualization & Dashboards"],
+    credentials: ["Degree in Economics & Statistics", "Certified in Business Analytics", "8+ years in data analysis and research"],
   },
   {
     id: 3,
@@ -99,25 +79,16 @@ Nicodemus holds a degree in Economics and Statistics and has completed specializ
     title: "Communication & Research",
     image: geoffreyImg,
     shortBio: "Communications Strategist & Research Lead",
-    fullBio: `Geoffrey Korio leads communications strategy and research at Swiftora Consulting. His work focuses on helping organizations articulate their value propositions clearly, communicate with precision, and build messaging frameworks that resonate with their target audiences.
-
-Geoffrey has expertise in corporate communications, content strategy, stakeholder messaging, and research methodology. He has worked with businesses, NGOs, and government agencies to develop communication strategies, create compelling content, and conduct qualitative and quantitative research that informs strategic decision-making.
-
-Before joining Swiftora, Geoffrey worked in corporate communications and public relations, where he managed brand messaging, stakeholder engagement, and thought leadership initiatives for clients across multiple sectors. His approach combines strategic thinking with practical execution — he understands that effective communication is not just about what you say, but how, when, and where you say it.
-
-Geoffrey holds a degree in Communication and Media Studies and has completed training in strategic communications, public relations, and research methodologies. He is a skilled writer, researcher, and communication strategist with a deep understanding of East African business contexts.`,
-    expertise: [
-      "Corporate Communications Strategy",
-      "Content Development & Planning",
-      "Stakeholder Messaging",
-      "Qualitative & Quantitative Research",
-      "Brand Voice & Positioning",
+    bioParagraphs: [
+      "Geoffrey Korio is a communications strategist and research lead at Swiftora Consulting. He specialises in helping organisations develop clear, compelling messaging frameworks and execute communication strategies that resonate with their target audiences and support their broader business objectives.",
+      "With a background in communication and media studies, Geoffrey brings a sharp editorial instinct and a researcher's discipline to every engagement. His work spans corporate communications, content strategy, stakeholder messaging, and both qualitative and quantitative research — ensuring that clients not only communicate with clarity but also with evidence to back their narratives.",
+      "Geoffrey holds a degree in Communication & Media Studies and is certified in Strategic Communications. He has over seven years of experience working with organisations across the private sector, civil society, and development space.",
+      "At Swiftora Consulting, Geoffrey bridges the gap between research and communication — ensuring that insights are translated into narratives that are credible, relevant, and impactful. He is committed to helping clients build a brand voice that reflects their values and positions them effectively in the market.",
+      "Outside of work, Geoffrey is passionate about storytelling and the power of language to shape perspectives and drive change. He is an avid reader and enjoys exploring how communication trends evolve in response to changing media landscapes.",
     ],
-    credentials: [
-      "Degree in Communication & Media Studies",
-      "Certified in Strategic Communications",
-      "7+ years in communications and research",
-    ],
+    quote: "Thoughtful, precise, and audience-focused, Geoffrey Korio crafts communication strategies that turn complex ideas into compelling narratives that move people to action.",
+    expertise: ["Corporate Communications Strategy", "Content Development & Planning", "Stakeholder Messaging", "Qualitative & Quantitative Research", "Brand Voice & Positioning"],
+    credentials: ["Degree in Communication & Media Studies", "Certified in Strategic Communications", "7+ years in communications and research"],
   },
   {
     id: 4,
@@ -125,25 +96,16 @@ Geoffrey holds a degree in Communication and Media Studies and has completed tra
     title: "Marketing & Finance",
     image: lilianImg,
     shortBio: "Marketing Strategist & Financial Analyst",
-    fullBio: `Lilian Mukami brings dual expertise in marketing strategy and financial analysis to Swiftora Consulting. Her unique skill set allows her to bridge the gap between marketing investments and financial outcomes, ensuring that marketing strategies are not just creative but commercially viable and financially sound.
-
-Lilian has worked with startups and SMEs to develop go-to-market strategies, build customer acquisition frameworks, and design marketing budgets that maximize ROI. Her financial background enables her to model the commercial impact of marketing initiatives and help businesses allocate resources strategically.
-
-Before joining Swiftora, Lilian held roles in marketing and finance across the technology and consumer goods sectors. She has experience in digital marketing, brand development, customer segmentation, financial planning, and budget management. Her analytical approach to marketing ensures that every campaign, channel, and tactic is evaluated against clear financial metrics.
-
-Lilian holds a degree in Finance and has completed professional training in digital marketing, brand strategy, and financial modeling. She is passionate about helping businesses grow sustainably by aligning marketing ambitions with financial realities.`,
-    expertise: [
-      "Marketing Strategy & Planning",
-      "Go-to-Market Strategy",
-      "Customer Acquisition & Retention",
-      "Marketing Budget & ROI Analysis",
-      "Financial Modeling for Marketing",
+    bioParagraphs: [
+      "Lilian Mukami is a dual-discipline specialist in marketing strategy and financial analysis at Swiftora Consulting. Her unique skill set allows her to bridge the gap between marketing ambitions and financial reality — ensuring that every marketing investment is purposeful, measurable, and tied to clear business outcomes.",
+      "With a background in finance and digital marketing, Lilian brings both commercial discipline and creative thinking to her work. She helps organisations design go-to-market strategies, build customer acquisition and retention frameworks, and evaluate the financial return on their marketing activities.",
+      "Lilian holds a degree in Finance and is a Certified Digital Marketing Specialist. She has over six years of experience working across sectors including retail, financial services, and professional services.",
+      "At Swiftora Consulting, Lilian ensures that marketing strategies are not only creative and customer-centred but also financially sound and aligned with the organisation's growth objectives. She is dedicated to helping clients maximise the impact of every shilling spent on marketing.",
+      "Beyond her professional work, Lilian is passionate about empowering women in business and finance. She enjoys mentoring young professionals and exploring innovative approaches to sustainable and inclusive marketing.",
     ],
-    credentials: [
-      "Degree in Finance",
-      "Certified Digital Marketing Specialist",
-      "6+ years in marketing and finance",
-    ],
+    quote: "Analytical yet creative, Lilian Mukami develops marketing strategies that are as financially sound as they are customer-centred — delivering growth that is both ambitious and achievable.",
+    expertise: ["Marketing Strategy & Planning", "Go-to-Market Strategy", "Customer Acquisition & Retention", "Marketing Budget & ROI Analysis", "Financial Modeling for Marketing"],
+    credentials: ["Degree in Finance", "Certified Digital Marketing Specialist", "6+ years in marketing and finance"],
   },
   {
     id: 5,
@@ -151,89 +113,135 @@ Lilian holds a degree in Finance and has completed professional training in digi
     title: "Business Technology",
     image: marcelImg,
     shortBio: "Business Technology & Systems Lead",
-    fullBio: `Marcel Oketch leads business technology and systems at Swiftora Consulting. His work focuses on designing technology-enabled solutions and monitoring frameworks that drive measurable impact and operational effectiveness for organisations.
-
-Marcel has worked with NGOs, development agencies, government institutions, and private sector organisations to design programmes, develop theories of change, build logical frameworks, and establish monitoring systems. His approach ensures that programmes are not only well-designed but also trackable, adaptable, and accountable.
-
-Before joining Swiftora, Marcel held roles in programme management and business technology across the development and public sectors. He has expertise in stakeholder mapping, programme logic, indicator development, data collection systems, and impact evaluation methodologies. His work bridges the gap between strategic intent and on-the-ground implementation.
-
-Marcel holds a degree in Development Studies and has completed specialized training in programme design, M&E, and results-based management. He is passionate about designing programmes that work — and building the systems to prove it.`,
-    expertise: [
-      "Business Technology & Systems",
-      "Programme Design & Logic Models",
-      "Monitoring & Evaluation (M&E)",
-      "Theory of Change Development",
-      "Results-Based Management",
+    bioParagraphs: [
+      "Marcel Oketch leads business technology and systems at Swiftora Consulting. He specialises in designing technology-enabled solutions and monitoring frameworks that help organisations operate more effectively, measure their impact with precision, and continuously improve their programmes and processes.",
+      "With a background in development studies and a strong grounding in programme design, Marcel brings a systems-thinking approach to every engagement. His work spans logic model development, theory of change design, monitoring and evaluation (M&E) frameworks, and the integration of technology tools that support results-based management.",
+      "Marcel holds a degree in Development Studies and is certified in M&E and Results-Based Management. He has over eight years of experience working with NGOs, government agencies, and private sector organisations across East Africa.",
+      "At Swiftora Consulting, Marcel ensures that clients have the frameworks, systems, and data infrastructure they need to demonstrate impact, attract investment, and scale their programmes effectively. He is committed to helping organisations move beyond outputs to delivering and measuring meaningful, lasting change.",
+      "Outside of work, Marcel is passionate about technology's potential to transform service delivery in Africa. He enjoys exploring emerging tools in digital programme management and civic technology that can drive social and economic progress.",
     ],
-    credentials: [
-      "Degree in Development Studies",
-      "Certified in M&E and Results-Based Management",
-      "8+ years in programme design and evaluation",
-    ],
+    quote: "Systematic, impact-driven, and technology-forward, Marcel Oketch designs the frameworks and systems that help organisations deliver, measure, and scale meaningful change.",
+    expertise: ["Business Technology & Systems", "Programme Design & Logic Models", "Monitoring & Evaluation (M&E)", "Theory of Change Development", "Results-Based Management"],
+    credentials: ["Degree in Development Studies", "Certified in M&E and Results-Based Management", "8+ years in programme design and evaluation"],
   },
 ];
-
-// ─── Corporate Overview ───────────────────────────────────────────────────────
 
 const corporatePillars = [
-  {
-    title: "Our Mission",
-    body: "To deliver customised, practical strategies that drive growth, optimise performance, and create lasting value for our clients.",
-    imgSrc: "https://swiftoraconsulting.co.ke/wp-content/uploads/2025/04/AboutUs_Corporate_Overview_Icons-04A.png",
-  },
-  {
-    title: "Our Vision",
-    body: "To be the trusted partner organisations turn to for unlocking their full potential, crafting pathways to sustainable success.",
-    imgSrc: "https://swiftoraconsulting.co.ke/wp-content/uploads/2025/04/AboutUs_Corporate_Overview_Icons-03A.png",
-  },
-  {
-    title: "Philosophy & Culture",
-    body: "We believe in diligence, reliability, and collaboration cultivating a culture that values diverse perspectives and inspires creativity.",
-    imgSrc: "https://swiftoraconsulting.co.ke/wp-content/uploads/2025/04/AboutUs_Corporate_Overview_Icons-01A.png",
-  },
-  {
-    title: "Our Promise",
-    body: "When the going gets tough, we step in with solutions to keep you ahead for the long haul—and we'll be with you every step of the way.",
-    imgSrc: "https://swiftoraconsulting.co.ke/wp-content/uploads/2025/04/AboutUs_Corporate_Overview_Icons-02A.png",
-  },
+  { title: "Our Mission", body: "To deliver customised, practical strategies that drive growth, optimise performance, and create lasting value for our clients.", imgSrc: `${WP}/2025/04/AboutUs_Corporate_Overview_Icons-04A.png` },
+  { title: "Our Vision", body: "To be the trusted partner organisations turn to for unlocking their full potential, crafting pathways to sustainable success.", imgSrc: `${WP}/2025/04/AboutUs_Corporate_Overview_Icons-03A.png` },
+  { title: "Philosophy & Culture", body: "We believe in diligence, reliability, and collaboration cultivating a culture that values diverse perspectives and inspires creativity.", imgSrc: `${WP}/2025/04/AboutUs_Corporate_Overview_Icons-01A.png` },
+  { title: "Our Promise", body: "When the going gets tough, we step in with solutions to keep you ahead for the long haul—and we'll be with you every step of the way.", imgSrc: `${WP}/2025/04/AboutUs_Corporate_Overview_Icons-02A.png` },
 ];
 
+const bodyText: React.CSSProperties = {
+  fontFamily: '"Clan Pro", sans-serif',
+  fontWeight: 700,
+  fontSize: 16,
+  color: "#4D4D4D",
+  lineHeight: 1.85,
+  marginBottom: 20,
+  textAlign: "justify",
+};
+
+/* ── HERO ── */
+function HeroSection() {
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!imgRef.current) return;
+      imgRef.current.style.transform = `translateY(${window.scrollY * 0.4}px)`;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <section style={{ position: "relative", overflow: "hidden" }}>
+      {/* Parallax image */}
+      <div style={{ position: "relative", height: "90vh", minHeight: 600, overflow: "hidden" }}>
+        <img
+          ref={imgRef}
+          src={aboutUsHero}
+          alt="About Us"
+          style={{
+            position: "absolute", top: "-15%", left: 0,
+            width: "100%", height: "130%",
+            objectFit: "cover", objectPosition: "center top",
+            willChange: "transform",
+          }}
+        />
+        <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.42)" }} />
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 1,
+          display: "flex", flexDirection: "column", justifyContent: "center",
+          padding: "0 40px", maxWidth: 1240, margin: "0 auto", left: 0, right: 0,
+        }}>
+          <p style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: "#ffffff", marginBottom: 20, marginTop: 0 }}>
+            ABOUT US
+          </p>
+          <h1 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(36px, 5vw, 64px)", color: "#D5AF34", lineHeight: 1.15, margin: 0 }}>
+            Your Goals Inspire Us.<br />
+            Your Success Defines Us.
+          </h1>
+        </div>
+      </div>
+
+      {/* ── Two-tone strip — inset to match navbar width (logo → Talk to Us) ── */}
+      <div style={{ background: "#f0f0f0", padding: "0 40px" }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          maxWidth: 1160,
+          margin: "0 auto",
+        }}>
+          <div style={{ background: "#D5AF34", padding: "48px 44px" }}>
+            <p style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 18, fontWeight: 700, fontStyle: "italic", color: "#ffffff", lineHeight: 1.75, margin: 0 }}>
+              What started as a small group of passionate problem-solvers has grown into a trusted consultancy with a reputation for delivering customized solutions and measurable success for over 10 years.
+            </p>
+          </div>
+          <div style={{ background: "#2D2973", padding: "48px 44px" }}>
+            <p style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 18, fontWeight: 700, fontStyle: "italic", color: "#ffffff", lineHeight: 1.75, margin: 0 }}>
+              From our very first project to today, we've remained committed to one core belief: no challenge is too big, no detail too small, and no goal out of reach. This is Swiftora Way. Get Ahead, For Good.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── CORPORATE OVERVIEW ── */
 function CorporateOverviewSection() {
   return (
-    <section className="section-pad" style={{ background: "#ffffff" }}>
-      <div className="max-w-[1100px] mx-auto">
-        <SectionHeader eyebrow="" title="CORPORATE OVERVIEW" />
-        <div className="mt-8 max-w-[860px] space-y-5 text-[16px] text-[#374151] leading-[1.85]">
-          <p>
+    <section style={{ background: "#E8EEF7", padding: "80px 0" }}>
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 40px" }}>
+        <h2 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 28, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.25em", marginBottom: 32 }}>
+          CORPORATE OVERVIEW
+        </h2>
+        <div style={{ maxWidth: 900, marginBottom: 40 }}>
+          <p style={bodyText}>
             Swiftora Consulting Limited is a dynamic company providing integrated business strategy and research solutions. We understand that thriving in today's competitive landscape requires more than just effort; it demands insight, sharp thinking, and precision. That's why we specialise in sales, marketing, strategy, and research, delivering solutions tailored to your unique needs and positioning your organisation for sustained growth and prosperity.
           </p>
-          <p>
+          <p style={bodyText}>
             With a blend of creativity, multi-sectoral expertise, and extensive experience, we help our clients stay ahead of the curve, make smarter decisions, and achieve tangible results. Whether you are looking to optimise performance, design an impactful marketing campaign, or build a future-proof strategy, we are the partner you can rely on. At pivotal moments, we turn complexity into clarity and challenges into opportunities.
           </p>
         </div>
-
-        <div className="mt-6 mb-12">
-          <a
-            href="https://swiftoraconsulting.co.ke/wp-content/uploads/2025/05/Swiftora-Consulting-Limited-Company-Profile-Digital.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-[14px] transition-all"
-            style={{ background: "#D5AF34", color: "#0A0B14" }}
-          >
-            Download profile <ArrowRight size={14} />
-          </a>
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a
+          href="https://swiftoraconsulting.co.ke/wp-content/uploads/2025/05/Swiftora-Consulting-Limited-Company-Profile-Digital.pdf"
+          target="_blank" rel="noopener noreferrer"
+          style={{ display: "inline-block", padding: "11px 32px", border: "2px solid #D5AF34", color: "#D5AF34", fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.12em", textDecoration: "none", marginBottom: 48, transition: "all 0.2s ease" }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = "#D5AF34"; e.currentTarget.style.color = "#ffffff"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#D5AF34"; }}
+        >
+          Download Profile
+        </a>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32 }}>
           {corporatePillars.map((p) => (
-            <div
-              key={p.title}
-              className="rounded-xl p-7 text-center animate-fade-up"
-              style={{ background: "#f7f6f2", border: "1px solid #e5e7eb" }}
-            >
-              <img src={p.imgSrc} alt={p.title} className="w-16 h-16 mx-auto mb-4 object-contain" />
-              <h3 className="font-display text-[16px] font-semibold text-[#0A0B14] mb-3">{p.title}</h3>
-              <p className="text-[13px] text-[#6b7280] leading-[1.8]">{p.body}</p>
+            <div key={p.title} style={{ textAlign: "center" }}>
+              <img src={p.imgSrc} alt={p.title} style={{ width: 180, height: 180, objectFit: "contain", margin: "0 auto 24px" }} />
+              <h3 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 14, color: "#2D2973", marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.08em" }}>{p.title}</h3>
+              <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 14, color: "#4D4D4D", lineHeight: 1.7, margin: 0 }}>{p.body}</p>
             </div>
           ))}
         </div>
@@ -242,235 +250,84 @@ function CorporateOverviewSection() {
   );
 }
 
-// ─── Founding Story ───────────────────────────────────────────────────────────
-
+/* ── FOUNDING STORY ── */
 function FoundingStorySection() {
   return (
     <section style={{ background: "#f7f6f2" }}>
-      {/* Full-width hero banner — image fills the frame, title overlaid bottom-left */}
-      <div className="relative w-full overflow-hidden" style={{ height: 440 }}>
-        <img
-          src={foundingHero}
-          alt="Founding story of Swiftora Consulting"
-          className="w-full h-full object-cover"
-          style={{ objectPosition: "center center" }}
-        />
-        {/* Gradient overlay — darker on the left so title text pops */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to right, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.18) 55%, transparent 100%)",
-          }}
-        />
-        {/* Title pinned to bottom-left, matching the screenshot */}
-        <div className="absolute bottom-0 left-0 p-10 md:p-16">
-          <h2
-            className="font-display font-bold text-white uppercase tracking-widest"
-            style={{
-              fontSize: "clamp(22px, 3vw, 38px)",
-              textShadow: "0 2px 16px rgba(0,0,0,0.55)",
-            }}
-          >
-            Our Founding Story
+      <div style={{ position: "relative", width: "100%", height: 440, overflow: "hidden" }}>
+        <img src={foundingHero} alt="Founding story" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)" }} />
+        <div style={{ position: "absolute", bottom: 48, left: 48 }}>
+          <h2 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 38, color: "#ffffff", textTransform: "uppercase", letterSpacing: "0.25em", margin: 0 }}>
+            OUR FOUNDING STORY
           </h2>
         </div>
       </div>
-
-      {/* Story text below the banner */}
-      <div className="max-w-[1100px] mx-auto px-6 py-14 md:py-16">
-        <div className="space-y-5 text-[16px] text-[#374151] leading-[1.85]">
-          <p>
-            Our journey began in 2013, with the idea of establishing a consultancy first mooted in a student hostel
-            during our college days at Moi University, Eldoret. However, the dream was deferred until 21 October 2015,
-            when the first consultancy was formed, focusing solely on marketing. This continued for nine years, and
-            before the 10th anniversary we decided to change our business model, strategic approach and brand.
-          </p>
-          <p>
-            Throughout our years of experience, we observed countless organizations, particularly SMEs, struggling to
-            align their marketing efforts, sales strategies, and long-term goals. The gap was clear: they needed a
-            partner who could not only navigate these complexities but also transform them into opportunities.
-          </p>
-          <p>
-            Our founders, with backgrounds in strategy, sales, marketing, and research, recognised it was time to
-            create a consultancy that would bring a fresh perspective to the table. Armed with years of industry
-            experience, a passion for innovation, and a drive to support African enterprises, we set out to build
-            something different—a firm that doesn't just offer solutions but truly partners with clients to build
-            lasting success.
-          </p>
-          <p>
-            From humble beginnings, we quickly discovered that the key to growth wasn't just about numbers—it was
-            about creating authentic connections, understanding the intricacies of each business, and offering
-            customized strategies that drive results.
-          </p>
-          <p>
-            Today, we are proud to have evolved into a trusted consultancy with a reputation for helping businesses
-            unlock their potential, solve their most pressing challenges, and achieve their goals. Our journey is
-            ongoing, but our mission remains the same: to be the guiding force behind your business's success. Let's
-            continue this journey together. The best is yet to come.
-          </p>
-        </div>
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "64px 40px" }}>
+        <p style={bodyText}>Our journey began in 2013, with the idea of establishing a consultancy first mooted in a student hostel during our college days at Moi University, Eldoret. However, the dream was deferred until 21 October 2015, when the first consultancy was formed, focusing solely on marketing. This continued for nine years, and before the 10th anniversary we decided to change our business model, strategic approach and brand.</p>
+        <p style={bodyText}>Throughout our years of experience, we observed countless organizations, particularly SMEs, struggling to align their marketing efforts, sales strategies, and long-term goals. The gap was clear: they needed a partner who could not only navigate these complexities but also transform them into opportunities.</p>
+        <p style={bodyText}>Our founders, with backgrounds in strategy, sales, marketing, and research, recognised it was time to create a consultancy that would bring a fresh perspective to the table. Armed with years of industry experience, a passion for innovation, and a drive to support African enterprises, we set out to build something different—a firm that doesn't just offer solutions but truly partners with clients to build lasting success.</p>
+        <p style={bodyText}>From humble beginnings, we quickly discovered that the key to growth wasn't just about numbers—it was about creating authentic connections, understanding the intricacies of each business, and offering customized strategies that drive results.</p>
+        <p style={{ ...bodyText, marginBottom: 0 }}>Today, we are proud to have evolved into a trusted consultancy with a reputation for helping businesses unlock their potential, solve their most pressing challenges, and achieve their goals. Our journey is ongoing, but our mission remains the same: to be the guiding force behind your business's success. Let's continue this journey together. The best is yet to come.</p>
       </div>
     </section>
   );
 }
 
-// ─── Team ─────────────────────────────────────────────────────────────────────
-
+/* ── TEAM ── */
 function TeamSection() {
   const [active, setActive] = useState<TeamMember | null>(null);
 
   return (
-    <section className="section-pad" style={{ background: "#ffffff" }}>
-      <div className="max-w-[1200px] mx-auto">
-        {/* 5 cards on one row — each card is a compact portrait with name, title, Read bio */}
-        <div className="grid grid-cols-5 gap-4">
+    <section style={{ background: "#ffffff", padding: "80px 0" }}>
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 32 }}>
           {teamMembers.map((m) => (
-            <div
-              key={m.id}
-              className="group bg-white rounded-xl overflow-hidden shadow-card hover-lift cursor-pointer animate-fade-up"
-              onClick={() => setActive(m)}
-            >
-              {/* Square portrait */}
-              <div className="relative w-full overflow-hidden" style={{ paddingTop: "100%" }}>
-                <img
-                  src={m.image}
-                  alt={m.name}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+            <div key={m.id} style={{ textAlign: "center", cursor: "pointer" }} onClick={() => setActive(m)}>
+              <div style={{ width: "100%", paddingTop: "100%", position: "relative", overflow: "hidden", borderRadius: "50%", marginBottom: 16, border: "3px solid #e5e7eb" }}>
+                <img src={m.image} alt={m.name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.3s ease" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }} />
               </div>
-              <div className="p-4">
-                <h3 className="font-display text-[15px] text-[#0A0B14] mb-0.5 leading-snug">{m.name}</h3>
-                <p className="text-[12px] text-gold font-medium mb-3 leading-snug">{m.title}</p>
-                <button className="inline-flex items-center gap-1 text-[12px] font-medium text-[#0A0B14] group-hover:text-gold transition-colors">
-                  Read bio <ArrowRight size={11} />
-                </button>
-              </div>
+              <h3 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 15, color: "#0A0B14", marginBottom: 8 }}>{m.name}</h3>
+              <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 13, color: "#D5AF34", marginBottom: 12, minHeight: 32 }}>{m.title}</p>
+              <button style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 12, fontWeight: 700, color: "#0A0B14", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>Read Bio</button>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ── Bio Modal ── */}
       <Dialog open={!!active} onOpenChange={() => setActive(null)}>
-        <DialogContent
-          className="sm:max-w-[700px] p-0 gap-0 overflow-hidden bio-modal flex flex-col"
-          style={{ maxHeight: "90vh" }}
-        >
-          <DialogTitle className="sr-only">{active?.name} - Full Profile</DialogTitle>
-          <DialogDescription className="sr-only">
-            Full biography and credentials for {active?.name}, {active?.shortBio} at Swiftora Consulting
-          </DialogDescription>
-
+        <DialogContent style={{ padding: 0, gap: 0, overflow: "hidden", maxWidth: 680, maxHeight: "92vh", borderRadius: 0, display: "flex", flexDirection: "column" }} className="sm:max-w-[680px] [&>button:first-child]:hidden">
+          <DialogTitle className="sr-only">{active?.name} Profile</DialogTitle>
+          <DialogDescription className="sr-only">Biography for {active?.name}</DialogDescription>
           {active && (
-            <div className="flex flex-col min-h-0 h-full">
-
-              {/* ── Fixed header: photo + name + role ── */}
-              <div
-                className="flex-shrink-0"
-                style={{ borderBottom: "1px solid #e5e7eb" }}
-              >
-                <div className="relative w-full overflow-hidden" style={{ paddingTop: "42%" }}>
-                  <img
-                    src={active.image}
-                    alt={active.name}
-                    className="absolute inset-0 w-full h-full object-cover object-top"
-                  />
-                  {/* Gradient so name reads on any photo */}
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 55%)",
-                    }}
-                  />
-                  <div className="absolute bottom-0 left-0 p-6 md:p-8">
-                    <h2
-                      className="font-display text-[26px] md:text-[30px] font-bold text-white mb-1"
-                      style={{ textShadow: "0 1px 8px rgba(0,0,0,0.5)" }}
-                    >
-                      {active.name}
-                    </h2>
-                    <p className="text-[14px] font-semibold" style={{ color: "#D5AF34" }}>
-                      {active.title}
-                    </p>
-                    <p
-                      className="text-[13px] italic mt-0.5"
-                      style={{ color: "rgba(255,255,255,0.8)" }}
-                    >
-                      {active.shortBio}
-                    </p>
-                  </div>
+            <div style={{ display: "flex", flexDirection: "column", minHeight: 0, flex: 1 }}>
+              <div style={{ position: "relative", flexShrink: 0 }}>
+                <div style={{ position: "relative", height: 160, overflow: "hidden", background: "#2D2973" }}>
+                  <img src={profileHeaderBg} alt="" aria-hidden="true" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.85 }} />
                 </div>
+                <div style={{ position: "absolute", bottom: -64, left: "50%", transform: "translateX(-50%)", width: 128, height: 128, borderRadius: "50%", overflow: "hidden", border: "4px solid #ffffff", boxShadow: "0 4px 20px rgba(0,0,0,0.18)", background: "#e5e7eb", zIndex: 2 }}>
+                  <img src={active.image} alt={active.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+                </div>
+                <button onClick={() => setActive(null)} aria-label="Close" style={{ position: "absolute", top: 12, right: 12, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.2)", border: "1px solid rgba(255,255,255,0.4)", color: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", zIndex: 10, backdropFilter: "blur(4px)", transition: "background 0.2s" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.35)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.2)"; }}>
+                  <X size={16} />
+                </button>
               </div>
-
-              {/* ── Scrollable body ── */}
-              <div
-                className="flex-1 overflow-y-auto p-8 md:p-10"
-                style={{ overflowY: "auto" }}
-              >
-                {/* Full bio paragraphs */}
-                <div className="space-y-4 mb-10">
-                  {active.fullBio.split("\n\n").map((para, i) => (
-                    <p
-                      key={i}
-                      className="text-[15px] leading-[1.9]"
-                      style={{ color: "#4D4D4D", fontFamily: "Poppins, sans-serif" }}
-                    >
-                      {para}
-                    </p>
-                  ))}
-                </div>
-
-                {/* Areas of Expertise */}
-                <div className="mb-8">
-                  <h3
-                    className="font-display text-[17px] font-semibold text-[#0A0B14] mb-4"
-                    style={{
-                      borderBottom: "2px solid #D5AF34",
-                      display: "inline-block",
-                      paddingBottom: 4,
-                    }}
-                  >
-                    Areas of Expertise
-                  </h3>
-                  <ul className="mt-4 space-y-2">
-                    {active.expertise.map((exp, i) => (
-                      <li
-                        key={i}
-                        className="flex items-start gap-3 text-[14px] text-[#374151] leading-[1.7]"
-                      >
-                        <span className="w-1.5 h-1.5 mt-2 rounded-full flex-shrink-0" style={{ background: "#D5AF34" }} />
-                        <span>{exp}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Credentials */}
-                <div className="mb-4">
-                  <h3
-                    className="font-display text-[17px] font-semibold text-[#0A0B14] mb-4"
-                    style={{
-                      borderBottom: "2px solid #D5AF34",
-                      display: "inline-block",
-                      paddingBottom: 4,
-                    }}
-                  >
-                    Credentials & Background
-                  </h3>
-                  <ul className="mt-4 space-y-2">
-                    {active.credentials.map((cred, i) => (
-                      <li
-                        key={i}
-                        className="flex items-start gap-3 text-[14px] text-[#374151] leading-[1.7]"
-                      >
-                        <span className="w-1.5 h-1.5 mt-2 rounded-full flex-shrink-0" style={{ background: "#D5AF34" }} />
-                        <span>{cred}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div style={{ flex: 1, overflowY: "auto", background: "#ffffff", padding: "88px 48px 48px" }}>
+                <h2 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 26, color: "#0A0B14", textAlign: "center", marginBottom: 6, marginTop: 0 }}>{active.name}</h2>
+                <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 14, color: "#D5AF34", textAlign: "center", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 36, marginTop: 0 }}>{active.title}</p>
+                <div style={{ width: 48, height: 2, background: "#D5AF34", margin: "0 auto 36px" }} />
+                {active.bioParagraphs.map((para, i) => (
+                  <p key={i} style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 14, color: "#4D4D4D", lineHeight: 1.85, textAlign: "justify", marginBottom: i < active.bioParagraphs.length - 1 ? 20 : 32, marginTop: 0 }}>{para}</p>
+                ))}
+                {active.quote && (
+                  <blockquote style={{ borderLeft: "none", margin: 0, padding: 0 }}>
+                    <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontStyle: "italic", fontSize: 13, color: "#4D4D4D", textAlign: "center", lineHeight: 1.8, margin: 0 }}>&ldquo;{active.quote}&rdquo;</p>
+                  </blockquote>
+                )}
               </div>
             </div>
           )}
@@ -480,8 +337,7 @@ function TeamSection() {
   );
 }
 
-// ─── Why Choose Us ────────────────────────────────────────────────────────────
-
+/* ── WHY CHOOSE US ── */
 function WhyChooseUsSection() {
   const reasons = [
     "Strict adherence to high professional performance standards.",
@@ -492,13 +348,20 @@ function WhyChooseUsSection() {
   ];
 
   return (
-    <section className="section-pad" style={{ background: "#f7f6f2" }}>
-      <div className="max-w-[860px] mx-auto">
-        <SectionHeader eyebrow="" title="WHY CHOOSE US?" />
-        <ul className="mt-8 space-y-3">
+    <section style={{ position: "relative", padding: "80px 0", overflow: "hidden" }}>
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <img src={whyChooseUsBg} alt="" aria-hidden="true" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <div style={{ position: "absolute", inset: 0, background: "rgba(232,232,232,0.72)" }} />
+      </div>
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1240, margin: "0 auto", padding: "0 40px" }}>
+        <h3 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 24, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.25em", marginBottom: 32 }}>
+          WHY CHOOSE US?
+        </h3>
+        <ul style={{ listStyle: "none", padding: 0, margin: 0, maxWidth: 900 }}>
           {reasons.map((r, i) => (
-            <li key={i} className="text-[15px] text-[#374151] leading-[1.75]">
-              • {r}
+            <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16, fontFamily: '"Clan Pro", sans-serif', fontWeight: 400, fontSize: 16, color: "#4D4D4D", lineHeight: 1.75 }}>
+              <span style={{ color: "#2D2973", fontSize: 20, fontWeight: 700, marginTop: -2 }}>•</span>
+              <span>{r}</span>
             </li>
           ))}
         </ul>
@@ -507,49 +370,15 @@ function WhyChooseUsSection() {
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-
-function AboutPage() {
-  const personSchema = teamMembers.map((m) => ({
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: m.name,
-    jobTitle: m.shortBio,
-    worksFor: {
-      "@type": "Organization",
-      name: "Swiftora Consulting Limited",
-    },
-    description: m.fullBio.split("\n\n")[0],
-    knowsAbout: m.expertise,
-  }));
-
+/* ── PAGE ── */
+export default function AboutPage() {
   return (
-    <>
-      <PageHero
-        eyebrow="ABOUT US"
-        lines={["Your Goals Inspire Us.", "Your Success", "Defines Us."]}
-        supportingMaxWidth={560}
-        subtitle={
-          <>
-            <p style={{ color: "#ffffff", textShadow: "0 1px 4px rgba(0,0,0,0.7)", fontWeight: 500 }}>
-              What started as a small group of passionate problem-solvers has grown into a trusted consultancy with a reputation for delivering customized solutions and measurable success for over 10 years.
-            </p>
-            <p className="mt-3" style={{ color: "#ffffff", textShadow: "0 1px 4px rgba(0,0,0,0.7)", fontWeight: 500 }}>
-              From our very first project to today, we've remained committed to one core belief: no challenge is too big, no detail too small, and no goal out of reach. This is Swiftora Way. Get Ahead, For Good.
-            </p>
-          </>
-        }
-      />
-
+    <main>
+      <HeroSection />
       <CorporateOverviewSection />
       <FoundingStorySection />
       <TeamSection />
       <WhyChooseUsSection />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-      />
-    </>
+    </main>
   );
 }
