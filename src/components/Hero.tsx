@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
+
 import nairobiSkyline from "@/assets/nairobi-skyline-hero.jpg";
 
 export type HeroLines = [string, string, string];
@@ -78,7 +79,7 @@ function Vignettes() {
   );
 }
 
-/* ── Slide eyebrow label (big uppercase badge matching WP site) ── */
+/* ── Slide eyebrow label ── */
 function SlideLabel({ label }: { label: string }) {
   return (
     <div
@@ -102,7 +103,7 @@ function SlideLabel({ label }: { label: string }) {
   );
 }
 
-/* ── Eyebrow for inner (non-home) hero ── */
+/* ── Eyebrow for inner hero ── */
 function Eyebrow({ label }: { label: string }) {
   return (
     <div className="flex items-center" style={{ gap: 9, marginBottom: 12 }}>
@@ -153,39 +154,39 @@ function HeroCtaButton({ cta }: { cta: HeroCta }) {
   return <a href={cta.href || "#"} className={className}>{inner}</a>;
 }
 
-/* ── Slide dots + scroll indicator ── */
-function BottomRow({ showDots, total, active, onSelect }: { showDots: boolean; total: number; active: number; onSelect?: (i: number) => void }) {
+/* ── Slide dots only ── */
+function BottomRow({
+  showDots,
+  total,
+  active,
+  onSelect,
+}: {
+  showDots: boolean;
+  total: number;
+  active: number;
+  onSelect?: (i: number) => void;
+}) {
   return (
-    <div className="flex items-center justify-between" style={{ marginTop: 16, padding: "0 2px" }}>
-      <div className="flex items-center" style={{ gap: 5 }}>
-        {showDots
-          ? Array.from({ length: total }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => onSelect?.(i)}
-                aria-label={`Slide ${i + 1}`}
-                style={{
-                  width: i === active ? 22 : 12,
-                  height: 2,
-                  borderRadius: 1,
-                  background: i === active ? "#c9a84c" : "rgba(201,168,76,0.20)",
-                  transition: "all 400ms ease",
-                  border: "none",
-                  padding: 0,
-                  cursor: "pointer",
-                }}
-              />
-            ))
-          : null}
-      </div>
-      <div className="flex items-center" style={{ gap: 4 }}>
-        <span style={{ fontFamily: "Poppins, sans-serif", fontWeight: 400, fontSize: 9, color: "rgba(255,255,255,0.18)", letterSpacing: "0.06em" }}>
-          Scroll
-        </span>
-        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" aria-hidden="true">
-          <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
+    <div className="flex items-center" style={{ marginTop: 20, padding: "0 2px", gap: 5 }}>
+      {showDots
+        ? Array.from({ length: total }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => onSelect?.(i)}
+              aria-label={`Slide ${i + 1}`}
+              style={{
+                width: i === active ? 22 : 12,
+                height: 2,
+                borderRadius: 1,
+                background: i === active ? "#c9a84c" : "rgba(201,168,76,0.20)",
+                transition: "all 400ms ease",
+                border: "none",
+                padding: 0,
+                cursor: "pointer",
+              }}
+            />
+          ))
+        : null}
     </div>
   );
 }
@@ -200,11 +201,14 @@ export function Hero(props: HeroProps) {
   const [active, setActive] = useState(0);
   const pausedRef = useRef(false);
 
+  const goNext = () => setActive((p) => (p + 1) % slides.length);
+  const goPrev = () => setActive((p) => (p - 1 + slides.length) % slides.length);
+
   useEffect(() => {
     if (!isHome) return;
     const id = setInterval(() => {
       if (pausedRef.current) return;
-      setActive((p) => (p + 1) % slides.length);
+      goNext();
     }, 4500);
     return () => clearInterval(id);
   }, [isHome, slides.length]);
@@ -260,12 +264,10 @@ export function Hero(props: HeroProps) {
       {/* Content block — bottom-anchored */}
       <div className="hero-content absolute left-0 right-0 bottom-0 z-[4]">
         <div className="hero-content-inner">
-          {/* Home hero: show big uppercase label above headline */}
           {isHome && eyebrow && <SlideLabel label={eyebrow} />}
 
           <Headline lines={lines} />
 
-          {/* Inner hero: show small eyebrow below headline */}
           {!isHome && <Eyebrow label={eyebrow} />}
 
           {supporting && (
@@ -280,7 +282,12 @@ export function Hero(props: HeroProps) {
             </>
           )}
           {(cta || showDots) && (
-            <BottomRow showDots={showDots} total={dotsTotal} active={active} onSelect={isHome ? setActive : undefined} />
+            <BottomRow
+              showDots={showDots}
+              total={dotsTotal}
+              active={active}
+              onSelect={isHome ? setActive : undefined}
+            />
           )}
         </div>
       </div>

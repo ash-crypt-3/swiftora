@@ -136,12 +136,89 @@ const corporatePillars = [
 const bodyText: React.CSSProperties = {
   fontFamily: '"Clan Pro", sans-serif',
   fontWeight: 700,
-  fontSize: 16,
+  fontSize: "clamp(14px, 2vw, 16px)",
   color: "#4D4D4D",
   lineHeight: 1.85,
   marginBottom: 20,
   textAlign: "justify",
 };
+
+// Global responsive styles
+const responsiveStyles = `
+  @media (max-width: 768px) {
+    .hero-content-padding {
+      padding: 0 20px !important;
+    }
+    .hero-heading {
+      font-size: clamp(28px, 6vw, 42px) !important;
+    }
+    .two-tone-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .two-tone-padding {
+      padding: 32px 24px !important;
+    }
+    .two-tone-text {
+      font-size: 16px !important;
+    }
+    .section-padding {
+      padding: 50px 20px !important;
+    }
+    .corporate-grid {
+      grid-template-columns: 1fr !important;
+      gap: 40px !important;
+    }
+    .corporate-icon {
+      width: 120px !important;
+      height: 120px !important;
+    }
+    .team-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 24px !important;
+    }
+    .founding-hero {
+      height: 300px !important;
+    }
+    .founding-heading {
+      font-size: 24px !important;
+      left: 24px !important;
+      bottom: 24px !important;
+    }
+    .founding-content {
+      padding: 40px 20px !important;
+    }
+    .modal-content {
+      max-width: 95vw !important;
+      margin: 0 10px !important;
+    }
+    .modal-padding {
+      padding: 64px 24px 32px !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-label {
+      font-size: 9px !important;
+      letter-spacing: 0.2em !important;
+    }
+    .team-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .corporate-heading {
+      font-size: 20px !important;
+      letter-spacing: 0.15em !important;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .corporate-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .team-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+  }
+`;
 
 /* ── HERO ── */
 function HeroSection() {
@@ -159,7 +236,7 @@ function HeroSection() {
   return (
     <section style={{ position: "relative", overflow: "hidden" }}>
       {/* Parallax image */}
-      <div style={{ position: "relative", height: "90vh", minHeight: 600, overflow: "hidden" }}>
+      <div style={{ position: "relative", height: "clamp(400px, 60vh, 600px)", overflow: "hidden" }}>
         <img
           ref={imgRef}
           src={aboutUsHero}
@@ -172,36 +249,92 @@ function HeroSection() {
           }}
         />
         <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.42)" }} />
-        <div style={{
-          position: "absolute", inset: 0, zIndex: 1,
-          display: "flex", flexDirection: "column", justifyContent: "center",
-          padding: "0 40px", maxWidth: 1240, margin: "0 auto", left: 0, right: 0,
-        }}>
-          <p style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: "#ffffff", marginBottom: 20, marginTop: 0 }}>
+        <div 
+          className="hero-content-padding"
+          style={{
+            position: "absolute", inset: 0, zIndex: 1,
+            display: "flex", flexDirection: "column", justifyContent: "center",
+            padding: "0 40px", maxWidth: 1240, margin: "0 auto", left: 0, right: 0,
+          }}
+        >
+          <p 
+            className="hero-label"
+            style={{ 
+              fontFamily: '"Clan Pro", sans-serif', 
+              fontSize: 11, 
+              fontWeight: 700, 
+              textTransform: "uppercase", 
+              letterSpacing: "0.3em", 
+              color: "#ffffff", 
+              marginBottom: 20, 
+              marginTop: 0 
+            }}
+          >
             ABOUT US
           </p>
-          <h1 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(36px, 5vw, 64px)", color: "#D5AF34", lineHeight: 1.15, margin: 0 }}>
+          <h1 
+            className="hero-heading"
+            style={{ 
+              fontFamily: '"Clan Pro", sans-serif', 
+              fontWeight: 700, 
+              fontSize: "clamp(32px, 5vw, 64px)", 
+              color: "#D5AF34", 
+              lineHeight: 1.15, 
+              margin: 0 
+            }}
+          >
             Your Goals Inspire Us.<br />
             Your Success Defines Us.
           </h1>
         </div>
       </div>
 
-      {/* ── Two-tone strip — inset to match navbar width (logo → Talk to Us) ── */}
-      <div style={{ background: "#f0f0f0", padding: "0 40px" }}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          maxWidth: 1160,
-          margin: "0 auto",
-        }}>
-          <div style={{ background: "#D5AF34", padding: "48px 44px" }}>
-            <p style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 18, fontWeight: 700, fontStyle: "italic", color: "#ffffff", lineHeight: 1.75, margin: 0 }}>
+      {/* ── Two-tone strip ── */}
+      <div style={{ background: "#E8EEF7", padding: "0 clamp(20px, 5vw, 40px)" }}>
+        <div 
+          className="two-tone-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            maxWidth: 1160,
+            margin: "0 auto",
+          }}
+        >
+          <div 
+            className="two-tone-padding"
+            style={{ background: "#D5AF34", padding: "48px 44px" }}
+          >
+            <p 
+              className="two-tone-text"
+              style={{ 
+                fontFamily: '"Clan Pro", sans-serif', 
+                fontSize: 18, 
+                fontWeight: 700, 
+                fontStyle: "italic", 
+                color: "#ffffff", 
+                lineHeight: 1.75, 
+                margin: 0 
+              }}
+            >
               What started as a small group of passionate problem-solvers has grown into a trusted consultancy with a reputation for delivering customized solutions and measurable success for over 10 years.
             </p>
           </div>
-          <div style={{ background: "#2D2973", padding: "48px 44px" }}>
-            <p style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 18, fontWeight: 700, fontStyle: "italic", color: "#ffffff", lineHeight: 1.75, margin: 0 }}>
+          <div 
+            className="two-tone-padding"
+            style={{ background: "#2D2973", padding: "48px 44px" }}
+          >
+            <p 
+              className="two-tone-text"
+              style={{ 
+                fontFamily: '"Clan Pro", sans-serif', 
+                fontSize: 18, 
+                fontWeight: 700, 
+                fontStyle: "italic", 
+                color: "#ffffff", 
+                lineHeight: 1.75, 
+                margin: 0 
+              }}
+            >
               From our very first project to today, we've remained committed to one core belief: no challenge is too big, no detail too small, and no goal out of reach. This is Swiftora Way. Get Ahead, For Good.
             </p>
           </div>
@@ -214,9 +347,23 @@ function HeroSection() {
 /* ── CORPORATE OVERVIEW ── */
 function CorporateOverviewSection() {
   return (
-    <section style={{ background: "#E8EEF7", padding: "80px 0" }}>
-      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 40px" }}>
-        <h2 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 28, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.25em", marginBottom: 32 }}>
+    <section 
+      className="section-padding"
+      style={{ background: "#E8EEF7", padding: "80px 0" }}
+    >
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 clamp(20px, 5vw, 40px)" }}>
+        <h2 
+          className="corporate-heading"
+          style={{ 
+            fontFamily: '"Clan Pro", sans-serif', 
+            fontWeight: 700, 
+            fontSize: "clamp(20px, 3.5vw, 28px)", 
+            color: "#2D2973", 
+            textTransform: "uppercase", 
+            letterSpacing: "0.25em", 
+            marginBottom: 32 
+          }}
+        >
           CORPORATE OVERVIEW
         </h2>
         <div style={{ maxWidth: 900, marginBottom: 40 }}>
@@ -230,18 +377,58 @@ function CorporateOverviewSection() {
         <a
           href="https://swiftoraconsulting.co.ke/wp-content/uploads/2025/05/Swiftora-Consulting-Limited-Company-Profile-Digital.pdf"
           target="_blank" rel="noopener noreferrer"
-          style={{ display: "inline-block", padding: "11px 32px", border: "2px solid #D5AF34", color: "#D5AF34", fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.12em", textDecoration: "none", marginBottom: 48, transition: "all 0.2s ease" }}
+          style={{ 
+            display: "inline-block", 
+            padding: "11px 32px", 
+            border: "2px solid #D5AF34", 
+            color: "#D5AF34", 
+            fontFamily: '"Clan Pro", sans-serif', 
+            fontWeight: 700, 
+            fontSize: "clamp(11px, 2vw, 13px)", 
+            textTransform: "uppercase", 
+            letterSpacing: "0.12em", 
+            textDecoration: "none", 
+            marginBottom: 48, 
+            transition: "all 0.2s ease" 
+          }}
           onMouseEnter={(e) => { e.currentTarget.style.background = "#D5AF34"; e.currentTarget.style.color = "#ffffff"; }}
           onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#D5AF34"; }}
         >
           Download Profile
         </a>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32 }}>
+        <div 
+          className="corporate-grid"
+          style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32 }}
+        >
           {corporatePillars.map((p) => (
             <div key={p.title} style={{ textAlign: "center" }}>
-              <img src={p.imgSrc} alt={p.title} style={{ width: 180, height: 180, objectFit: "contain", margin: "0 auto 24px" }} />
-              <h3 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 14, color: "#2D2973", marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.08em" }}>{p.title}</h3>
-              <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 14, color: "#4D4D4D", lineHeight: 1.7, margin: 0 }}>{p.body}</p>
+              <img 
+                className="corporate-icon"
+                src={p.imgSrc} 
+                alt={p.title} 
+                style={{ width: 180, height: 180, objectFit: "contain", margin: "0 auto 24px" }} 
+              />
+              <h3 style={{ 
+                fontFamily: '"Clan Pro", sans-serif', 
+                fontWeight: 700, 
+                fontSize: "clamp(12px, 2vw, 14px)", 
+                color: "#2D2973", 
+                marginBottom: 16, 
+                textTransform: "uppercase", 
+                letterSpacing: "0.08em" 
+              }}>
+                {p.title}
+              </h3>
+              <p style={{ 
+                fontFamily: '"Clan Pro", sans-serif', 
+                fontWeight: 700, 
+                fontSize: "clamp(13px, 2vw, 14px)", 
+                color: "#4D4D4D", 
+                lineHeight: 1.7, 
+                margin: 0 
+              }}>
+                {p.body}
+              </p>
             </div>
           ))}
         </div>
@@ -254,16 +441,33 @@ function CorporateOverviewSection() {
 function FoundingStorySection() {
   return (
     <section style={{ background: "#f7f6f2" }}>
-      <div style={{ position: "relative", width: "100%", height: 440, overflow: "hidden" }}>
+      <div 
+        className="founding-hero"
+        style={{ position: "relative", width: "100%", height: 440, overflow: "hidden" }}
+      >
         <img src={foundingHero} alt="Founding story" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)" }} />
-        <div style={{ position: "absolute", bottom: 48, left: 48 }}>
-          <h2 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 38, color: "#ffffff", textTransform: "uppercase", letterSpacing: "0.25em", margin: 0 }}>
+        <div 
+          className="founding-heading"
+          style={{ position: "absolute", bottom: 48, left: 48 }}
+        >
+          <h2 style={{ 
+            fontFamily: '"Clan Pro", sans-serif', 
+            fontWeight: 700, 
+            fontSize: "clamp(24px, 4vw, 38px)", 
+            color: "#ffffff", 
+            textTransform: "uppercase", 
+            letterSpacing: "0.25em", 
+            margin: 0 
+          }}>
             OUR FOUNDING STORY
           </h2>
         </div>
       </div>
-      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "64px 40px" }}>
+      <div 
+        className="founding-content"
+        style={{ maxWidth: 1240, margin: "0 auto", padding: "64px 40px" }}
+      >
         <p style={bodyText}>Our journey began in 2013, with the idea of establishing a consultancy first mooted in a student hostel during our college days at Moi University, Eldoret. However, the dream was deferred until 21 October 2015, when the first consultancy was formed, focusing solely on marketing. This continued for nine years, and before the 10th anniversary we decided to change our business model, strategic approach and brand.</p>
         <p style={bodyText}>Throughout our years of experience, we observed countless organizations, particularly SMEs, struggling to align their marketing efforts, sales strategies, and long-term goals. The gap was clear: they needed a partner who could not only navigate these complexities but also transform them into opportunities.</p>
         <p style={bodyText}>Our founders, with backgrounds in strategy, sales, marketing, and research, recognised it was time to create a consultancy that would bring a fresh perspective to the table. Armed with years of industry experience, a passion for innovation, and a drive to support African enterprises, we set out to build something different—a firm that doesn't just offer solutions but truly partners with clients to build lasting success.</p>
@@ -279,9 +483,15 @@ function TeamSection() {
   const [active, setActive] = useState<TeamMember | null>(null);
 
   return (
-    <section style={{ background: "#ffffff", padding: "80px 0" }}>
-      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 40px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 32 }}>
+    <section 
+      className="section-padding"
+      style={{ background: "#ffffff", padding: "80px 0" }}
+    >
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 clamp(20px, 5vw, 40px)" }}>
+        <div 
+          className="team-grid"
+          style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 32 }}
+        >
           {teamMembers.map((m) => (
             <div key={m.id} style={{ textAlign: "center", cursor: "pointer" }} onClick={() => setActive(m)}>
               <div style={{ width: "100%", paddingTop: "100%", position: "relative", overflow: "hidden", borderRadius: "50%", marginBottom: 16, border: "3px solid #e5e7eb" }}>
@@ -289,16 +499,56 @@ function TeamSection() {
                   onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }} />
               </div>
-              <h3 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 15, color: "#0A0B14", marginBottom: 8 }}>{m.name}</h3>
-              <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 13, color: "#D5AF34", marginBottom: 12, minHeight: 32 }}>{m.title}</p>
-              <button style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 12, fontWeight: 700, color: "#0A0B14", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>Read Bio</button>
+              <h3 style={{ 
+                fontFamily: '"Clan Pro", sans-serif', 
+                fontWeight: 700, 
+                fontSize: "clamp(14px, 2vw, 15px)", 
+                color: "#0A0B14", 
+                marginBottom: 8 
+              }}>
+                {m.name}
+              </h3>
+              <p style={{ 
+                fontFamily: '"Clan Pro", sans-serif', 
+                fontWeight: 700, 
+                fontSize: "clamp(12px, 2vw, 13px)", 
+                color: "#D5AF34", 
+                marginBottom: 12, 
+                minHeight: 32 
+              }}>
+                {m.title}
+              </p>
+              <button style={{ 
+                fontFamily: '"Clan Pro", sans-serif', 
+                fontSize: 12, 
+                fontWeight: 700, 
+                color: "#0A0B14", 
+                background: "none", 
+                border: "none", 
+                cursor: "pointer", 
+                textDecoration: "underline" 
+              }}>
+                Read Bio
+              </button>
             </div>
           ))}
         </div>
       </div>
 
       <Dialog open={!!active} onOpenChange={() => setActive(null)}>
-        <DialogContent style={{ padding: 0, gap: 0, overflow: "hidden", maxWidth: 680, maxHeight: "92vh", borderRadius: 0, display: "flex", flexDirection: "column" }} className="sm:max-w-[680px] [&>button:first-child]:hidden">
+        <DialogContent 
+          className="modal-content sm:max-w-[680px] [&>button:first-child]:hidden"
+          style={{ 
+            padding: 0, 
+            gap: 0, 
+            overflow: "hidden", 
+            maxWidth: 680, 
+            maxHeight: "92vh", 
+            borderRadius: 0, 
+            display: "flex", 
+            flexDirection: "column" 
+          }}
+        >
           <DialogTitle className="sr-only">{active?.name} Profile</DialogTitle>
           <DialogDescription className="sr-only">Biography for {active?.name}</DialogDescription>
           {active && (
@@ -316,16 +566,63 @@ function TeamSection() {
                   <X size={16} />
                 </button>
               </div>
-              <div style={{ flex: 1, overflowY: "auto", background: "#ffffff", padding: "88px 48px 48px" }}>
-                <h2 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 26, color: "#0A0B14", textAlign: "center", marginBottom: 6, marginTop: 0 }}>{active.name}</h2>
-                <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 14, color: "#D5AF34", textAlign: "center", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 36, marginTop: 0 }}>{active.title}</p>
+              <div 
+                className="modal-padding"
+                style={{ flex: 1, overflowY: "auto", background: "#ffffff", padding: "88px 48px 48px" }}
+              >
+                <h2 style={{ 
+                  fontFamily: '"Clan Pro", sans-serif', 
+                  fontWeight: 700, 
+                  fontSize: "clamp(22px, 3vw, 26px)", 
+                  color: "#0A0B14", 
+                  textAlign: "center", 
+                  marginBottom: 6, 
+                  marginTop: 0 
+                }}>
+                  {active.name}
+                </h2>
+                <p style={{ 
+                  fontFamily: '"Clan Pro", sans-serif', 
+                  fontWeight: 700, 
+                  fontSize: "clamp(12px, 2vw, 14px)", 
+                  color: "#D5AF34", 
+                  textAlign: "center", 
+                  textTransform: "uppercase", 
+                  letterSpacing: "0.08em", 
+                  marginBottom: 36, 
+                  marginTop: 0 
+                }}>
+                  {active.title}
+                </p>
                 <div style={{ width: 48, height: 2, background: "#D5AF34", margin: "0 auto 36px" }} />
                 {active.bioParagraphs.map((para, i) => (
-                  <p key={i} style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 14, color: "#4D4D4D", lineHeight: 1.85, textAlign: "justify", marginBottom: i < active.bioParagraphs.length - 1 ? 20 : 32, marginTop: 0 }}>{para}</p>
+                  <p key={i} style={{ 
+                    fontFamily: '"Clan Pro", sans-serif', 
+                    fontWeight: 700, 
+                    fontSize: "clamp(13px, 2vw, 14px)", 
+                    color: "#4D4D4D", 
+                    lineHeight: 1.85, 
+                    textAlign: "justify", 
+                    marginBottom: i < active.bioParagraphs.length - 1 ? 20 : 32, 
+                    marginTop: 0 
+                  }}>
+                    {para}
+                  </p>
                 ))}
                 {active.quote && (
                   <blockquote style={{ borderLeft: "none", margin: 0, padding: 0 }}>
-                    <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontStyle: "italic", fontSize: 13, color: "#4D4D4D", textAlign: "center", lineHeight: 1.8, margin: 0 }}>&ldquo;{active.quote}&rdquo;</p>
+                    <p style={{ 
+                      fontFamily: '"Clan Pro", sans-serif', 
+                      fontWeight: 700, 
+                      fontStyle: "italic", 
+                      fontSize: "clamp(12px, 2vw, 13px)", 
+                      color: "#4D4D4D", 
+                      textAlign: "center", 
+                      lineHeight: 1.8, 
+                      margin: 0 
+                    }}>
+                      &ldquo;{active.quote}&rdquo;
+                    </p>
                   </blockquote>
                 )}
               </div>
@@ -348,18 +645,39 @@ function WhyChooseUsSection() {
   ];
 
   return (
-    <section style={{ position: "relative", padding: "80px 0", overflow: "hidden" }}>
+    <section 
+      className="section-padding"
+      style={{ position: "relative", padding: "80px 0", overflow: "hidden" }}
+    >
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
         <img src={whyChooseUsBg} alt="" aria-hidden="true" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", inset: 0, background: "rgba(232,232,232,0.72)" }} />
       </div>
-      <div style={{ position: "relative", zIndex: 1, maxWidth: 1240, margin: "0 auto", padding: "0 40px" }}>
-        <h3 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 24, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.25em", marginBottom: 32 }}>
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1240, margin: "0 auto", padding: "0 clamp(20px, 5vw, 40px)" }}>
+        <h3 style={{ 
+          fontFamily: '"Clan Pro", sans-serif', 
+          fontWeight: 700, 
+          fontSize: "clamp(18px, 3vw, 24px)", 
+          color: "#2D2973", 
+          textTransform: "uppercase", 
+          letterSpacing: "0.25em", 
+          marginBottom: 32 
+        }}>
           WHY CHOOSE US?
         </h3>
         <ul style={{ listStyle: "none", padding: 0, margin: 0, maxWidth: 900 }}>
           {reasons.map((r, i) => (
-            <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16, fontFamily: '"Clan Pro", sans-serif', fontWeight: 400, fontSize: 16, color: "#4D4D4D", lineHeight: 1.75 }}>
+            <li key={i} style={{ 
+              display: "flex", 
+              alignItems: "flex-start", 
+              gap: 12, 
+              marginBottom: 16, 
+              fontFamily: '"Clan Pro", sans-serif', 
+              fontWeight: 400, 
+              fontSize: "clamp(14px, 2vw, 16px)", 
+              color: "#4D4D4D", 
+              lineHeight: 1.75 
+            }}>
               <span style={{ color: "#2D2973", fontSize: 20, fontWeight: 700, marginTop: -2 }}>•</span>
               <span>{r}</span>
             </li>
@@ -373,12 +691,15 @@ function WhyChooseUsSection() {
 /* ── PAGE ── */
 export default function AboutPage() {
   return (
-    <main>
-      <HeroSection />
-      <CorporateOverviewSection />
-      <FoundingStorySection />
-      <TeamSection />
-      <WhyChooseUsSection />
-    </main>
+    <>
+      <style>{responsiveStyles}</style>
+      <main>
+        <HeroSection />
+        <CorporateOverviewSection />
+        <FoundingStorySection />
+        <TeamSection />
+        <WhyChooseUsSection />
+      </main>
+    </>
   );
 }

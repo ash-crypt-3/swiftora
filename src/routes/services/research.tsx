@@ -1,7 +1,7 @@
 // FILE: src/routes/services/research.tsx
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
-import heroBg from "@/assets/heroes/hero-2.jpg";
+import heroBg from "@/assets/heroes/Research_Solutions_Header.jpg";
 
 export const Route = createFileRoute("/services/research")({
   head: () => ({

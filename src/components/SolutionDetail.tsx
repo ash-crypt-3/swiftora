@@ -8,21 +8,26 @@ import feasibilityImg from "@/assets/flagship/Flagships_FeasibilityandMarketEntr
 import smeImg         from "@/assets/flagship/Flagships_SMEGrowthBlueprint.jpg.jpeg";
 import revenueImg     from "@/assets/flagship/Flagships_RevenueAcceleration.jpg.jpeg";
 import programmeImg   from "@/assets/flagship/Flagships_ProgramDesignandAdvisory.jpg.jpeg";
+import diagnosticsImg from "@/assets/heroes/Advisory_BusinessDiagnostics.jpg.jpeg";
+import clinicImg      from "@/assets/heroes/Advisory_ConsultingClinics.jpg.jpeg";
+import executiveImg   from "@/assets/heroes/Advisory_ExecutiveAdvisory.jpg.jpeg";
 import fallbackHero   from "@/assets/heroes/hero-2.jpg";
 
 const slugHeroMap: Record<string, string> = {
+  // Flagship solutions
   "capital-readiness":        capitalImg,
   "feasibility-market-entry": feasibilityImg,
   "sme-growth-blueprint":     smeImg,
   "revenue-acceleration":     revenueImg,
   "programme-design":         programmeImg,
+  // Advisory services
+  "business-diagnostic":      diagnosticsImg,
+  "consulting-clinic":        clinicImg,
+  "executive-advisory":       executiveImg,
 };
 
 const CLAN: React.CSSProperties = { fontFamily: '"Clan Pro", sans-serif' };
-
-// Matches the navbar's content container — logo left edge to "Talk to Us" right edge
-const NAV_MAX   = 1240;
-const NAV_PAD   = "0 60px";
+const NAV_MAX = 1240;
 
 const heroOverrides: Record<string, { eyebrow: string; lines: string[]; supporting: string }> = {
   "capital-readiness": {
@@ -67,81 +72,63 @@ const heroOverrides: Record<string, { eyebrow: string; lines: string[]; supporti
   },
 };
 
+const RESPONSIVE_CSS = `
+  .sd-hero { min-height: 120vh; }
+  .sd-pad { padding-left: 60px; padding-right: 60px; }
+  .sd-two-tone { display: grid; grid-template-columns: 1fr 1fr; }
+  .sd-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  .sd-form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .sd-others-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+  @media (max-width: 900px) {
+    .sd-hero { min-height: 80vh; }
+    .sd-pad { padding-left: 32px; padding-right: 32px; }
+    .sd-two-tone { grid-template-columns: 1fr; }
+    .sd-cols { grid-template-columns: 1fr; gap: 40px; }
+    .sd-others-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .sd-hero { min-height: 55vh !important; }
+    .sd-pad { padding-left: 20px; padding-right: 20px; }
+    .sd-two-tone { grid-template-columns: 1fr; }
+    .sd-cols { grid-template-columns: 1fr; gap: 32px; }
+    .sd-form-grid-2 { grid-template-columns: 1fr; }
+    .sd-others-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  }
+`;
+
+const SUBMIT_CSS = `
+  form button[type="submit"],
+  .contact-form button[type="submit"] {
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    padding: 14px 40px !important;
+    background: transparent !important;
+    color: #2D2973 !important;
+    border: 2px solid #2D2973 !important;
+    font-family: "Clan Pro", sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    border-radius: 0 !important;
+    transition: background 0.2s, color 0.2s !important;
+    width: auto !important;
+    min-width: unset !important;
+  }
+  form button[type="submit"]:hover,
+  .contact-form button[type="submit"]:hover {
+    background: #2D2973 !important;
+    color: #fff !important;
+  }
+`;
+
 type FormState = "idle" | "submitting" | "success" | "error";
 
-/* ── PARALLAX HERO ── */
-function SolutionHero({ solution }: { solution: SolutionContent }) {
-  const bgRef = useRef<HTMLDivElement>(null);
-  const override   = heroOverrides[solution.slug];
-  const eyebrow    = override?.eyebrow    || solution.name;
-  const lines      = override?.lines      || [solution.name];
-  const supporting = override?.supporting || solution.short;
-  const heroImg    = slugHeroMap[solution.slug] ?? fallbackHero;
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (bgRef.current)
-        bgRef.current.style.transform = `translateY(${window.scrollY * 0.38}px)`;
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return (
-    <section style={{ position: "relative", overflow: "hidden", minHeight: "120vh", display: "flex", flexDirection: "column" }}>
-      {/* Parallax background */}
-      <div ref={bgRef} style={{ position: "absolute", inset: "-20%", zIndex: 0, willChange: "transform" }}>
-        <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        <div style={{ position: "absolute", inset: 0, background: "rgba(10,11,20,0.58)" }} />
-      </div>
-
-      {/* Eyebrow + headline — aligned to navbar content width */}
-      <div style={{
-        position: "relative", zIndex: 1, flex: 1,
-        display: "flex", flexDirection: "column", justifyContent: "center",
-        padding: "110px 0 56px",
-      }}>
-        <div style={{ maxWidth: NAV_MAX, margin: "0 auto", padding: NAV_PAD, width: "100%", boxSizing: "border-box" }}>
-          <p style={{ ...CLAN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.36em", color: "#D5AF34", marginBottom: 20, marginTop: 0 }}>
-            {eyebrow}
-          </p>
-          <h1 style={{ ...CLAN, fontWeight: 700, fontSize: "clamp(36px, 5vw, 64px)", color: "#ffffff", lineHeight: 1.1, margin: 0 }}>
-            {lines.map((line, i) => (
-              <span key={i}>{line}{i < lines.length - 1 && <br />}</span>
-            ))}
-          </h1>
-        </div>
-      </div>
-
-      {/* Two-tone strip — constrained to navbar content width, sits at the bottom of the hero */}
-      <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
-        {/* Centering wrapper — same maxWidth + padding as the navbar */}
-        <div style={{ maxWidth: NAV_MAX, margin: "0 auto", padding: NAV_PAD, boxSizing: "border-box" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-            {/* Gold band */}
-            <div style={{ background: "#D5AF34", padding: "48px 44px" }}>
-              <p style={{ ...CLAN, fontSize: 17, fontWeight: 700, fontStyle: "italic", color: "#ffffff", lineHeight: 1.8, margin: 0 }}>
-                {supporting}
-              </p>
-            </div>
-            {/* Navy band */}
-            <div style={{ background: "#2D2973", padding: "48px 44px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 16 }}>
-              <p style={{ ...CLAN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: "#D5AF34", margin: 0 }}>
-                Get Ahead, For Good
-              </p>
-              <p style={{ ...CLAN, fontSize: 17, fontWeight: 700, color: "#ffffff", lineHeight: 1.75, margin: 0 }}>
-                Scroll down to explore what's included, who this is for, and how to get started with Swiftora Consulting.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── CONTACT FORM ── */
-function ContactForm({ solutionName }: { solutionName: string }) {
+function InlineContactForm({ solutionName, ctaHeadline }: { solutionName: string; ctaHeadline: string }) {
   const [formState, setFormState] = useState<FormState>("idle");
   const [fields, setFields] = useState({ name: "", email: "", phone: "", organisation: "", message: "" });
 
@@ -193,30 +180,29 @@ function ContactForm({ solutionName }: { solutionName: string }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
+      <div className="sd-form-grid-2">
         <div>
-          <label style={labelStyle} htmlFor="sol-name">Full Name <span style={{ color: "#D5AF34" }}>*</span></label>
-          <input id="sol-name" name="name" type="text" value={fields.name} onChange={handleChange} placeholder="Your full name" style={inputStyle} />
+          <label style={labelStyle} htmlFor="sd-name">Full Name <span style={{ color: "#D5AF34" }}>*</span></label>
+          <input id="sd-name" name="name" type="text" value={fields.name} onChange={handleChange} style={inputStyle} />
         </div>
         <div>
-          <label style={labelStyle} htmlFor="sol-email">Email Address <span style={{ color: "#D5AF34" }}>*</span></label>
-          <input id="sol-email" name="email" type="email" value={fields.email} onChange={handleChange} placeholder="you@company.com" style={inputStyle} />
+          <label style={labelStyle} htmlFor="sd-email">Email Address <span style={{ color: "#D5AF34" }}>*</span></label>
+          <input id="sd-email" name="email" type="email" value={fields.email} onChange={handleChange} style={inputStyle} />
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
+      <div className="sd-form-grid-2">
         <div>
-          <label style={labelStyle} htmlFor="sol-phone">Phone Number</label>
-          <input id="sol-phone" name="phone" type="tel" value={fields.phone} onChange={handleChange} placeholder="+254 7XX XXX XXX" style={inputStyle} />
+          <label style={labelStyle} htmlFor="sd-phone">Phone Number</label>
+          <input id="sd-phone" name="phone" type="tel" value={fields.phone} onChange={handleChange} style={inputStyle} />
         </div>
         <div>
-          <label style={labelStyle} htmlFor="sol-org">Organisation</label>
-          <input id="sol-org" name="organisation" type="text" value={fields.organisation} onChange={handleChange} placeholder="Your company or organisation" style={inputStyle} />
+          <label style={labelStyle} htmlFor="sd-org">Organisation</label>
+          <input id="sd-org" name="organisation" type="text" value={fields.organisation} onChange={handleChange} style={inputStyle} />
         </div>
       </div>
       <div style={{ marginBottom: 24 }}>
-        <label style={labelStyle} htmlFor="sol-message">How can we help? <span style={{ color: "#D5AF34" }}>*</span></label>
-        <textarea id="sol-message" name="message" rows={5} value={fields.message} onChange={handleChange}
-          placeholder={`Tell us about your challenge or what you'd like from the ${solutionName}…`}
+        <label style={labelStyle} htmlFor="sd-message">How can we help? <span style={{ color: "#D5AF34" }}>*</span></label>
+        <textarea id="sd-message" name="message" rows={5} value={fields.message} onChange={handleChange}
           style={{ ...inputStyle, resize: "vertical", lineHeight: 1.65 }} />
       </div>
       {formState === "error" && (
@@ -230,7 +216,7 @@ function ContactForm({ solutionName }: { solutionName: string }) {
           disabled={formState === "submitting" || !fields.name || !fields.email || !fields.message}
           style={{
             ...CLAN, display: "inline-flex", alignItems: "center", gap: 8,
-            padding: "9px 26px", fontSize: 11, fontWeight: 700,
+            padding: "11px 30px", fontSize: 13, fontWeight: 700,
             textTransform: "uppercase", letterSpacing: "0.16em",
             color: "#2D2973", background: "transparent",
             border: "2px solid #2D2973", borderRadius: 0,
@@ -256,6 +242,67 @@ function ContactForm({ solutionName }: { solutionName: string }) {
   );
 }
 
+/* ── PARALLAX HERO ── */
+function SolutionHero({ solution }: { solution: SolutionContent }) {
+  const bgRef = useRef<HTMLDivElement>(null);
+  const override   = heroOverrides[solution.slug];
+  const eyebrow    = override?.eyebrow    || solution.name;
+  const lines      = override?.lines      || [solution.name];
+  const supporting = override?.supporting || solution.short;
+  const heroImg    = slugHeroMap[solution.slug] ?? fallbackHero;
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (bgRef.current)
+        bgRef.current.style.transform = `translateY(${window.scrollY * 0.38}px)`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <section className="sd-hero" style={{ position: "relative", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+      <div ref={bgRef} style={{ position: "absolute", inset: "-20%", zIndex: 0, willChange: "transform" }}>
+        <img src={heroImg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <div style={{ position: "absolute", inset: 0, background: "rgba(10,11,20,0.58)" }} />
+      </div>
+
+      <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(80px, 12vw, 110px) 0 56px" }}>
+        <div className="sd-pad" style={{ maxWidth: NAV_MAX, margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
+          <p style={{ ...CLAN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.36em", color: "#D5AF34", marginBottom: 20, marginTop: 0 }}>
+            {eyebrow}
+          </p>
+          <h1 style={{ ...CLAN, fontWeight: 700, fontSize: "clamp(28px, 5vw, 64px)", color: "#ffffff", lineHeight: 1.1, margin: 0 }}>
+            {lines.map((line, i) => (
+              <span key={i}>{line}{i < lines.length - 1 && <br />}</span>
+            ))}
+          </h1>
+        </div>
+      </div>
+
+      <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
+        <div className="sd-pad" style={{ maxWidth: NAV_MAX, margin: "0 auto", boxSizing: "border-box" }}>
+          <div className="sd-two-tone">
+            <div style={{ background: "#D5AF34", padding: "clamp(28px, 4vw, 48px) clamp(20px, 3vw, 44px)" }}>
+              <p style={{ ...CLAN, fontSize: "clamp(14px, 1.5vw, 17px)", fontWeight: 700, fontStyle: "italic", color: "#ffffff", lineHeight: 1.8, margin: 0 }}>
+                {supporting}
+              </p>
+            </div>
+            <div style={{ background: "#2D2973", padding: "clamp(28px, 4vw, 48px) clamp(20px, 3vw, 44px)", display: "flex", flexDirection: "column", justifyContent: "center", gap: 16 }}>
+              <p style={{ ...CLAN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: "#D5AF34", margin: 0 }}>
+                Get Ahead, For Good
+              </p>
+              <p style={{ ...CLAN, fontSize: "clamp(14px, 1.5vw, 17px)", fontWeight: 700, color: "#ffffff", lineHeight: 1.75, margin: 0 }}>
+                Scroll down to explore what's included, who this is for, and how to get started with Swiftora Consulting.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ── SOLUTION DETAIL PAGE ── */
 export function SolutionDetail({
   solution,
@@ -268,65 +315,63 @@ export function SolutionDetail({
 }) {
   return (
     <>
+      <style>{RESPONSIVE_CSS}</style>
+      <style>{SUBMIT_CSS}</style>
+
       <SolutionHero solution={solution} />
 
       {/* What You Get / Who It's For */}
-      <section style={{ background: "#ffffff", padding: "80px 0" }}>
-        <div style={{ maxWidth: NAV_MAX, margin: "0 auto", padding: NAV_PAD, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, boxSizing: "border-box" }}>
-          {[
-            { title: "What You Get", items: solution.whatYouGet },
-            { title: solution.whoLabel, items: solution.whoOrWhen },
-          ].map((col) => (
-            <div key={col.title}>
-              <h3 style={{ ...CLAN, fontSize: 20, fontWeight: 700, color: "#2D2973", paddingLeft: 18, borderLeft: "3px solid #D5AF34", marginBottom: 28, marginTop: 0, lineHeight: 1.25 }}>
-                {col.title}
-              </h3>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 14 }}>
-                {col.items.map((item) => (
-                  <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#2D2973", flexShrink: 0, marginTop: 7 }} />
-                    <span style={{ ...CLAN, fontSize: 15, fontWeight: 700, color: "#4D4D4D", lineHeight: 1.75 }}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+      <section style={{ background: "#ffffff", padding: "clamp(40px, 6vw, 80px) 0" }}>
+        <div className="sd-pad" style={{ maxWidth: NAV_MAX, margin: "0 auto", boxSizing: "border-box" }}>
+          <div className="sd-cols">
+            {[
+              { title: "What You Get", items: solution.whatYouGet },
+              { title: solution.whoLabel, items: solution.whoOrWhen },
+            ].map((col) => (
+              <div key={col.title}>
+                <h3 style={{ ...CLAN, fontSize: 20, fontWeight: 700, color: "#2D2973", paddingLeft: 18, borderLeft: "3px solid #D5AF34", marginBottom: 28, marginTop: 0, lineHeight: 1.25 }}>
+                  {col.title}
+                </h3>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 14 }}>
+                  {col.items.map((item) => (
+                    <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                      <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#2D2973", flexShrink: 0, marginTop: 7 }} />
+                      <span style={{ ...CLAN, fontSize: 15, fontWeight: 700, color: "#4D4D4D", lineHeight: 1.75 }}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Contact Form */}
-      <section style={{ background: "#f7f6f2", padding: "80px 0" }}>
-        <div style={{ maxWidth: NAV_MAX, margin: "0 auto", padding: NAV_PAD, boxSizing: "border-box" }}>
-          <div style={{ background: "#ffffff", border: "1px solid #eeeeee", padding: "56px 80px" }}>
-            <div style={{ width: 40, height: 3, background: "#D5AF34", marginBottom: 20 }} />
-            <p style={{ ...CLAN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: "#D5AF34", marginBottom: 10, marginTop: 0 }}>
-              Get in Touch
-            </p>
-            <h2 style={{ ...CLAN, fontSize: "clamp(22px, 2.5vw, 30px)", fontWeight: 700, color: "#2D2973", lineHeight: 1.25, marginBottom: 10, marginTop: 0 }}>
-              {solution.ctaHeadline}
-            </h2>
-            <p style={{ ...CLAN, fontSize: 14, fontWeight: 700, color: "#6b7280", lineHeight: 1.7, marginBottom: 32, marginTop: 0 }}>
-              Fill in the form below and one of our consultants will respond within one business day. Alternatively,{" "}
-              <Link to="/talk-to-us" style={{ color: "#D5AF34", textDecoration: "none", fontWeight: 700 }}>
-                visit our contact page
-              </Link>{" "}
-              for more options.
-            </p>
-            <ContactForm solutionName={solution.name} />
+      <section style={{ background: "#E8EDF3", padding: "clamp(40px, 6vw, 80px) 0" }}>
+        <div className="sd-pad" style={{ maxWidth: NAV_MAX, margin: "0 auto", boxSizing: "border-box" }}>
+          <h2 style={{ ...CLAN, fontSize: "clamp(20px, 2.8vw, 36px)", fontWeight: 900, color: "#D5AF34", textTransform: "uppercase", letterSpacing: "0.05em", margin: "0 0 12px" }}>
+            CONTACT FORM
+          </h2>
+          <p style={{ ...CLAN, fontSize: 15, fontWeight: 500, color: "#606161", marginBottom: 40, marginTop: 0, lineHeight: 1.7 }}>
+            Ready to get started? Send us a message and we'll be in touch within one business day.
+          </p>
+          <div style={{ background: "#ffffff", padding: "clamp(20px, 4vw, 48px)", border: "1px solid #e4e8ef" }}>
+            <InlineContactForm solutionName={solution.name} ctaHeadline={solution.ctaHeadline} />
           </div>
         </div>
       </section>
 
       {/* Explore others */}
-      <section style={{ background: "#f7f6f2", padding: "72px 0 80px" }}>
-        <div style={{ maxWidth: NAV_MAX, margin: "0 auto", padding: NAV_PAD, boxSizing: "border-box" }}>
-          <h2 style={{ ...CLAN, fontSize: "clamp(24px, 2.8vw, 36px)", fontWeight: 900, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 40, marginTop: 0 }}>
+      <section style={{ background: "#f7f6f2", padding: "clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 80px)" }}>
+        <div className="sd-pad" style={{ maxWidth: NAV_MAX, margin: "0 auto", boxSizing: "border-box" }}>
+          <h2 style={{ ...CLAN, fontSize: "clamp(20px, 2.8vw, 36px)", fontWeight: 900, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 40, marginTop: 0 }}>
             Explore Other{" "}
             {baseHref === "/flagship-solutions" ? "Flagship Solutions" : "Advisory Services"}
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
+          <div className="sd-others-grid">
             {others.map((o) => {
-              const img = slugHeroMap[o.href.split("/").pop() ?? ""] ?? fallbackHero;
+              const slug = o.href.split("/").pop() ?? "";
+              const img = slugHeroMap[slug] ?? fallbackHero;
               return (
                 <Link key={o.href} to={o.href} style={{ textDecoration: "none" }}>
                   <div
@@ -335,10 +380,13 @@ export function SolutionDetail({
                     onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "translateY(0)"; }}
                   >
                     <div style={{ height: 150, overflow: "hidden", flexShrink: 0 }}>
-                      <img src={img} alt={o.name}
+                      <img
+                        src={img}
+                        alt={o.name}
                         style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.4s" }}
                         onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05)"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }} />
+                        onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+                      />
                     </div>
                     <div style={{ padding: "20px 20px 24px" }}>
                       <h4 style={{ ...CLAN, fontSize: 15, fontWeight: 700, color: "#2D2973", lineHeight: 1.4, marginBottom: 14, marginTop: 0 }}>{o.name}</h4>

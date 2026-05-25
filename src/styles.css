@@ -98,14 +98,14 @@
 .card-gold-top::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #D5AF34; transform: scaleX(0); transform-origin: left; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
 .card-gold-top:hover::before { transform: scaleX(1); }
 
-.btn-gold { background: #D5AF34; color: #0A0B14; font-family: "Clan Pro", sans-serif !important; font-weight: 600; font-size: 13px; padding: 12px 28px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; border: none; text-decoration: none; transition: all 0.2s ease; }
+.btn-gold { background: #D5AF34; color: #0A0B14; font-family: "Clan Pro", sans-serif !important; font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; border: none; text-decoration: none; transition: all 0.2s ease; }
 .btn-gold:hover { background: #DCB05D; transform: translateY(-2px); }
-.btn-dark { background: #0A0B14; color: #FFFFFF; font-family: "Clan Pro", sans-serif !important; font-weight: 600; font-size: 13px; padding: 12px 28px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; border: none; text-decoration: none; transition: all 0.2s ease; }
+.btn-dark { background: #0A0B14; color: #FFFFFF; font-family: "Clan Pro", sans-serif !important; font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; border: none; text-decoration: none; transition: all 0.2s ease; }
 .btn-dark:hover { background: #1a1b2e; transform: translateY(-2px); }
 .btn-outline-gold { background: transparent; color: #D5AF34; border: 1.5px solid #D5AF34; font-family: "Clan Pro", sans-serif !important; font-weight: 600; font-size: 13px; padding: 11px 26px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-decoration: none; transition: all 0.2s ease; }
 .btn-outline-gold:hover { background: #D5AF34; color: #0A0B14; transform: translateY(-2px); }
 
-.eyebrow { font-family: "Clan Pro", sans-serif !important; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.25em; color: #D5AF34; }
+.eyebrow { font-family: "Clan Pro", sans-serif !important; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; color: #D5AF34; }
 
 .section-pad { padding: 96px 80px; }
 .section-pad-sm { padding: 64px 80px; }
@@ -124,7 +124,7 @@
 .hero-headline { font-size: 68px; letter-spacing: -0.02em; line-height: 1.05; font-family: "Clan Pro", sans-serif !important; }
 @media (max-width: 1024px) { .hero-headline { font-size: 52px; } }
 @media (max-width: 767px) { .hero-headline { font-size: 38px; } }
-.hero-supporting { font-family: "Clan Pro", sans-serif !important; font-weight: 300; font-size: 14px; color: rgba(255,255,255,0.40); line-height: 1.85; margin-bottom: 26px; }
+.hero-supporting { font-family: "Clan Pro", sans-serif !important; font-weight: 500; font-size: 16px; color: rgba(255,255,255,0.40); line-height: 1.85; margin-bottom: 26px; }
 .hero-slide-label { display: inline-block; font-family: "Clan Pro", sans-serif !important; font-weight: 700; font-size: 11px; letter-spacing: 0.30em; text-transform: uppercase; color: #D5AF34; background: rgba(213,175,52,0.10); border: 1px solid rgba(213,175,52,0.35); padding: 6px 14px; border-radius: 2px; margin-bottom: 18px; }
 .hero-cta { gap: 10px; padding: 13px 28px; background: transparent; border: 1px solid rgba(213,175,52,0.5); color: #D5AF34; font-family: "Clan Pro", sans-serif !important; font-weight: 500; font-size: 13px; letter-spacing: 0.10em; text-transform: uppercase; border-radius: 3px; cursor: pointer; transition: all 300ms ease; }
 .hero-cta:hover { background: #D5AF34; color: #0A0B14; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(213,175,52,0.25); }

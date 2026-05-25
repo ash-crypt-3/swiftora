@@ -1,11 +1,11 @@
 import heroImg from "@/assets/heroes/Featured_Engagements_Header.jpg";
 
-import single01 from "@/assets/engagement/Featured-Engagement-01-Single-Page.jpg";
+import single01 from "@/assets/engagement/Portfolio-01-Ameer.jpg.jpeg";
 import single02 from "@/assets/engagement/Featured-Engagement-02-Single-Page.jpg";
-import single03 from "@/assets/engagement/Featured-Engagement-03-Single-Page.jpg";
-import single04 from "@/assets/engagement/Featured-Engagement-04-Single-Page.jpg";
-import single05 from "@/assets/engagement/Featured-Engagement-05-Single-Page.jpg";
-import single06 from "@/assets/engagement/Featured-Engagement-06-Single-Page.jpg";
+import single03 from "@/assets/engagement/Portfolio-02-Alliance-Hospital.jpg.jpeg";
+import single04 from "@/assets/engagement/Portfolio-03-Rochman-Properties.jpg.jpeg";
+import single05 from "@/assets/engagement/Portfolio-06-Herencia.jpg.jpeg";
+import single06 from "@/assets/engagement/Portfolio-04-PAC.jpg.jpeg";
 import single07 from "@/assets/engagement/Featured-Engagement-07-Single-Page.jpg";
 
 export type EngagementSlug =

@@ -22,7 +22,6 @@ const slugRoute: Record<EngagementSlug, string> = {
 
 const CLAN: React.CSSProperties = { fontFamily: '"Clan Pro", sans-serif' };
 const NAV_MAX = 1240;
-const NAV_PAD = "0 60px";
 
 const cardData: {
   slug: EngagementSlug;
@@ -31,13 +30,13 @@ const cardData: {
   category: string;
   thumb: string;
 }[] = [
-  { slug: "ameer-developers",         name: "AMEER DEVELOPERS",                      headline: "Marketing Gated Communities in Kenya",                                  category: "Real Estate",    thumb: thumb01 },
-  { slug: "zuri-nzilani-foundation",  name: "ZURI NZILANI FOUNDATION",               headline: "Transforming Maternal Health Outcomes Through Strategic Messaging",      category: "Not For Profit", thumb: thumb02 },
-  { slug: "paediatric-allergy-center",name: "PAEDIATRIC ALLERGY CENTER",             headline: "Driving Healthcare Marketing Impact for Paediatric Clinic",             category: "Health",         thumb: thumb03 },
-  { slug: "herencia",                  name: "HERENCIA",                              headline: "Steering Brand Growth Through Integrated Digital Marketing",            category: "Real Estate",    thumb: thumb04 },
-  { slug: "rochman-properties",        name: "ROCHMAN PROPERTIES LIMITED",            headline: "Modern Marketing & Sales Ops in Real Estate",                          category: "Real Estate",    thumb: thumb05 },
-  { slug: "alliance-hospital",         name: "ALLIANCE HOSPITAL",                     headline: "Strengthening Brand Through Strategic Content Marketing",               category: "Health",         thumb: thumb06 },
-  { slug: "fmcg-distribution-study",  name: "FEASIBILITY STUDY & BUSINESS PLANNING", headline: "A Strategic Look at FMCG Distribution Opportunities in Kenya",         category: "Retail",         thumb: thumb07 },
+  { slug: "ameer-developers",          name: "AMEER DEVELOPERS",                      headline: "Marketing Gated Communities in Kenya",                                 category: "Real Estate",    thumb: thumb01 },
+  { slug: "zuri-nzilani-foundation",   name: "ZURI NZILANI FOUNDATION",               headline: "Transforming Maternal Health Outcomes Through Strategic Messaging",     category: "Not For Profit", thumb: thumb02 },
+  { slug: "paediatric-allergy-center", name: "PAEDIATRIC ALLERGY CENTER",             headline: "Driving Healthcare Marketing Impact for Paediatric Clinic",            category: "Health",         thumb: thumb03 },
+  { slug: "herencia",                  name: "HERENCIA",                              headline: "Steering Brand Growth Through Integrated Digital Marketing",           category: "Real Estate",    thumb: thumb04 },
+  { slug: "rochman-properties",        name: "ROCHMAN PROPERTIES LIMITED",            headline: "Modern Marketing & Sales Ops in Real Estate",                         category: "Real Estate",    thumb: thumb05 },
+  { slug: "alliance-hospital",         name: "ALLIANCE HOSPITAL",                     headline: "Strengthening Brand Through Strategic Content Marketing",              category: "Health",         thumb: thumb06 },
+  { slug: "fmcg-distribution-study",  name: "FEASIBILITY STUDY & BUSINESS PLANNING", headline: "A Strategic Look at FMCG Distribution Opportunities in Kenya",        category: "Retail",         thumb: thumb07 },
 ];
 
 export const Route = createFileRoute("/featured-engagements-archives")({
@@ -95,10 +94,10 @@ function ArchivePage() {
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(10,11,20,0.15) 0%, rgba(10,11,20,0.70) 100%)" }} />
         </div>
         <div style={{ position: "relative", zIndex: 1, padding: "0 0 60px" }}>
-          <div style={{ maxWidth: NAV_MAX, margin: "0 auto", padding: NAV_PAD, boxSizing: "border-box" }}>
+          <div className="fe-container">
             <h1 style={{ ...CLAN, fontWeight: 800, lineHeight: 1.15, margin: 0 }}>
-              <span style={{ fontSize: "clamp(28px, 3.2vw, 44px)", color: "#ffffff", display: "block" }}>Featured Engagements</span>
-              <span style={{ fontSize: "clamp(22px, 2.6vw, 36px)", color: "#D5AF34", display: "block", marginTop: 4 }}>Discover Our Impact Through Case Studies</span>
+              <span style={{ fontSize: "clamp(26px, 3.2vw, 44px)", color: "#ffffff", display: "block" }}>Featured Engagements</span>
+              <span style={{ fontSize: "clamp(18px, 2.6vw, 36px)", color: "#D5AF34", display: "block", marginTop: 4 }}>Discover Our Impact Through Case Studies</span>
             </h1>
           </div>
         </div>
@@ -106,8 +105,8 @@ function ArchivePage() {
 
       {/* ── 2. GOLD INTRO BOX — overlaps hero bottom ── */}
       <section style={{ background: "transparent", padding: "0 0 48px", position: "relative", zIndex: 2, marginTop: "-60px" }}>
-        <div style={{ maxWidth: NAV_MAX, margin: "0 auto", padding: NAV_PAD, boxSizing: "border-box" }}>
-          <div style={{ background: "#D5AF34", padding: "60px 44px 48px" }}>
+        <div className="fe-container">
+          <div className="fe-gold-box">
             <p style={{ ...CLAN, fontSize: 17, fontWeight: 600, fontStyle: "italic", color: "#ffffff", lineHeight: 1.85, margin: "0 0 20px" }}>
               At Swiftora Consulting Limited, our success is defined by the measurable results we achieve for our clients.
               We invite you to explore our Archive of Case Studies — a curated collection of our most impactful engagements.
@@ -131,14 +130,68 @@ function ArchivePage() {
 
       {/* ── 3. CARDS GRID ── */}
       <section style={{ background: "#ffffff", padding: "0 0 80px" }}>
-        <div style={{ maxWidth: NAV_MAX, margin: "0 auto", padding: NAV_PAD, boxSizing: "border-box" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, alignItems: "stretch" }}>
+        <div className="fe-container">
+          <div className="fe-grid">
             {cardData.map((card) => (
               <CaseStudyCard key={card.slug} card={card} />
             ))}
           </div>
         </div>
       </section>
+
+      <style>{`
+        .fe-container {
+          max-width: ${NAV_MAX}px;
+          margin: 0 auto;
+          padding: 0 60px;
+          box-sizing: border-box;
+        }
+        .fe-gold-box {
+          background: #D5AF34;
+          padding: 60px 44px 48px;
+        }
+        .fe-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+          align-items: stretch;
+        }
+
+        @media (max-width: 1024px) {
+          .fe-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .fe-container {
+            padding: 0 24px;
+          }
+          .fe-gold-box {
+            padding: 40px 24px 36px;
+          }
+          .fe-gold-box p {
+            font-size: 15px !important;
+          }
+          .fe-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+          }
+          section[style*="padding: 0 0 80px"] {
+            padding-bottom: 48px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .fe-container {
+            padding: 0 16px;
+          }
+          .fe-gold-box {
+            padding: 32px 20px 28px;
+          }
+        }
+      `}</style>
 
     </main>
   );

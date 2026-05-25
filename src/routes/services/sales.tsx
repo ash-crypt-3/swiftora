@@ -3,7 +3,7 @@
 // ─────────────────────────────────────────────────────────────
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
-import heroBg from "@/assets/heroes/hero-2.jpg";
+import heroBg from "@/assets/heroes/Sales_Solutions_Header.jpg";
 // ↑ If you don't have a sales-specific hero, reuse hero-2.jpg temporarily:
 // import heroBg from "@/assets/heroes/hero-2.jpg";
 

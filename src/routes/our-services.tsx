@@ -73,15 +73,17 @@ const targetClients = [
   { title: "For Individuals", body: "Whether you are planning a career pivot, building your personal brand, or seeking expert insights to maximise your professional potential, we are here for you. We help individuals identify their strengths, overcome barriers and craft a clear path toward their personal and professional goals." },
 ];
 
-/* ── FLIP CARD ── */
-const FLIP_CSS = `
+/* ── RESPONSIVE CSS ── */
+const RESPONSIVE_CSS = `
+  /* ── Flip card ── */
   .fc { height: 300px; cursor: pointer; perspective: 1000px; }
   .fc-inner {
     position: relative; width: 100%; height: 100%;
     transform-style: preserve-3d;
     transition: transform 0.65s cubic-bezier(0.4,0,0.2,1);
   }
-  .fc:hover .fc-inner { transform: rotateY(180deg); }
+  .fc:hover .fc-inner,
+  .fc.flipped .fc-inner { transform: rotateY(180deg); }
   .fc-front, .fc-back {
     position: absolute; inset: 0;
     backface-visibility: hidden;
@@ -106,11 +108,108 @@ const FLIP_CSS = `
     transition: background 0.2s, color 0.2s, border-color 0.2s;
   }
   .fc-btn:hover { background: #2D2973; color: #fff; border-color: #2D2973; }
+
+  /* ── Approach grid ── */
+  .approach-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .approach-line {
+    position: absolute;
+    top: 130px;
+    left: 12.5%;
+    right: 12.5%;
+    height: 0;
+    border-top: 3px dashed #2D2973;
+    opacity: 0.30;
+    z-index: 0;
+  }
+
+  /* ── Services grid ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 300px 300px;
+    gap: 4px;
+  }
+
+  /* ── Target clients grid ── */
+  .clients-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+
+  /* ── Section padding ── */
+  .section-pad { padding-left: 80px; padding-right: 80px; }
+
+  /* ── Hero ── */
+  .hero-section { min-height: 70vh; }
+
+  /* ────────────────────────────────────────
+     TABLET  ≤ 900px
+  ──────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .approach-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px 20px;
+    }
+    .approach-line { display: none; }
+
+    .services-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+    }
+
+    .clients-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .section-pad { padding-left: 32px; padding-right: 32px; }
+
+    .hero-section { min-height: 55vh; }
+  }
+
+  /* ────────────────────────────────────────
+     MOBILE  ≤ 600px
+  ──────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .approach-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .services-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+
+    .clients-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-pad { padding-left: 20px; padding-right: 20px; }
+
+    .fc { height: 280px; }
+
+    .hero-section { min-height: 38vh !important; }
+  }
 `;
 
+/* ── FLIP CARD ── */
 function FlipCard({ title, body, image, href }: { title: string; body: string; image: string; href: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const handleTouch = () => {
+    if (ref.current) {
+      ref.current.classList.toggle("flipped");
+    }
+  };
+
   return (
-    <div className="fc">
+    <div className="fc" ref={ref} onTouchStart={handleTouch}>
       <div className="fc-inner">
         {/* FRONT */}
         <div
@@ -150,7 +249,15 @@ function HeroSection() {
   }, []);
 
   return (
-    <section style={{ position: "relative", overflow: "hidden", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <section
+      className="hero-section"
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <div ref={bgRef} style={{ position: "absolute", inset: "-20%", zIndex: 0, willChange: "transform" }}>
         <img src={heroBg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", inset: 0, background: "rgba(10,11,20,0.62)" }} />
@@ -158,9 +265,10 @@ function HeroSection() {
       <div style={{
         position: "relative", zIndex: 1, flex: 1,
         display: "flex", flexDirection: "column", justifyContent: "flex-end",
-        padding: "0 80px 100px", width: "100%", boxSizing: "border-box",
+        padding: "0 clamp(20px, 6vw, 80px) clamp(40px, 8vw, 100px)",
+        width: "100%", boxSizing: "border-box",
       }}>
-        <h1 style={{ ...CLAN, fontWeight: 800, fontSize: "clamp(26px, 3vw, 42px)", lineHeight: 1.25, margin: 0, textAlign: "left" }}>
+        <h1 style={{ ...CLAN, fontWeight: 800, fontSize: "clamp(20px, 3vw, 42px)", lineHeight: 1.25, margin: 0, textAlign: "left" }}>
           <span style={{ color: "#ffffff", display: "block" }}>Good Ideas Brought You Here</span>
           <span style={{ color: "#D5AF34", display: "block" }}>Great Solutions Keep You Here</span>
         </h1>
@@ -173,23 +281,13 @@ function HeroSection() {
 function ApproachSection() {
   return (
     <section style={{ background: "#E8EDF3", padding: "80px 0 100px", borderTop: "1px solid #d0d8e4" }}>
-      <div style={{ width: "100%", padding: "0 80px", boxSizing: "border-box" }}>
-        <h2 style={{ ...CLAN, fontSize: "clamp(22px, 2.5vw, 32px)", fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: "0 0 56px" }}>
+      <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
+        <h2 style={{ ...CLAN, fontSize: "clamp(20px, 2.5vw, 32px)", fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: "0 0 56px" }}>
           OUR APPROACH
         </h2>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0, position: "relative" }}>
-          <div style={{
-            position: "absolute",
-            top: 130,
-            left: "12.5%",
-            right: "12.5%",
-            height: 0,
-            borderTop: "3px dashed #2D2973",
-            opacity: 0.30,
-            zIndex: 0,
-          }} />
-
+        <div className="approach-grid">
+          <div className="approach-line" />
           {approachSteps.map(({ icon, step, title, body }) => (
             <div
               key={step}
@@ -209,12 +307,11 @@ function ApproachSection() {
                 <img
                   src={icon}
                   alt={title}
-                  style={{ width: 260, height: 260, objectFit: "contain", display: "block" }}
+                  style={{ width: 200, height: 200, objectFit: "contain", display: "block" }}
                   loading="lazy"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                 />
               </div>
-
               <p style={{ ...CLAN, fontSize: 14, fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.10em", margin: "0 0 8px" }}>{step}</p>
               <h4 style={{ ...CLAN, fontSize: 18, fontWeight: 800, fontStyle: "italic", color: "#D5AF34", margin: "0 0 14px", lineHeight: 1.3 }}>{title}</h4>
               <p style={{ ...CLAN, fontSize: 15, fontWeight: 600, color: "#111111", lineHeight: 1.8, margin: 0, letterSpacing: "0.01em" }}>{body}</p>
@@ -230,18 +327,18 @@ function ApproachSection() {
 function ServicesPage() {
   return (
     <>
-      <style>{FLIP_CSS}</style>
+      <style>{RESPONSIVE_CSS}</style>
       <HeroSection />
 
       {/* INTRO */}
-      <section style={{ background: "#E8EDF3", padding: "80px 0" }}>
-        <div style={{ width: "100%", padding: "0 80px", boxSizing: "border-box" }}>
+      <section style={{ background: "#E8EDF3", padding: "60px 0" }}>
+        <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
           {[
             "The business landscape is ever-changing—markets fluctuate, technologies advance, and competitors emerge. In this dynamic environment, traditional approaches are no longer enough. That's where Swiftora Consulting Limited steps in.",
             "We collaborate with businesses to navigate these complexities, delivering transformative solutions that fuel growth, spark innovation, and create lasting impact. Our expertise spans the core pillars of success: Strategy, Sales, Marketing, Communication, and Research.",
             "At Swiftora, we don't just respond to change—we help you stay ahead of it. Let's shape the future of your business together.",
           ].map((text, i) => (
-            <p key={i} style={{ ...CLAN, fontSize: 17, fontWeight: 600, color: "#111111", lineHeight: 1.95, marginBottom: i < 2 ? 22 : 0, marginTop: 0, textAlign: "justify", letterSpacing: "0.01em" }}>
+            <p key={i} style={{ ...CLAN, fontSize: "clamp(14px, 1.5vw, 17px)", fontWeight: 600, color: "#111111", lineHeight: 1.95, marginBottom: i < 2 ? 22 : 0, marginTop: 0, textAlign: "justify", letterSpacing: "0.01em" }}>
               {text}
             </p>
           ))}
@@ -251,20 +348,13 @@ function ServicesPage() {
       <ApproachSection />
 
       {/* OUR SERVICES GRID */}
-      <section style={{ background: "#ffffff", padding: "80px 0" }}>
-        <div style={{ width: "100%", padding: "0 80px", boxSizing: "border-box" }}>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", marginBottom: 4 }}>
-            <div style={{ paddingBottom: 10 }}>
-              <h2 style={{ ...CLAN, fontSize: "clamp(20px, 2vw, 28px)", fontWeight: 900, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: 0 }}>
-                OUR SERVICES
-              </h2>
-            </div>
-            <div /><div />
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gridTemplateRows: "300px 300px", gap: 4 }}>
-            <div style={{ overflow: "hidden" }}>
+      <section style={{ background: "#ffffff", padding: "60px 0" }}>
+        <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
+          <h2 style={{ ...CLAN, fontSize: "clamp(18px, 2vw, 28px)", fontWeight: 900, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: "0 0 12px" }}>
+            OUR SERVICES
+          </h2>
+          <div className="services-grid">
+            <div style={{ overflow: "hidden", minHeight: 200 }}>
               <img src={consultingImg} alt="Consulting team" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </div>
             <FlipCard {...servicesList[0]} />
@@ -277,16 +367,16 @@ function ServicesPage() {
       </section>
 
       {/* TARGET CLIENTS */}
-      <section style={{ background: "#ffffff", padding: "80px 0" }}>
-        <div style={{ width: "100%", padding: "0 80px", boxSizing: "border-box" }}>
-          <h2 style={{ ...CLAN, fontSize: "clamp(22px, 2.5vw, 32px)", fontWeight: 800, color: "#D5AF34", textTransform: "uppercase", letterSpacing: "0.01em", margin: "0 0 48px" }}>
+      <section style={{ background: "#ffffff", padding: "60px 0" }}>
+        <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
+          <h2 style={{ ...CLAN, fontSize: "clamp(20px, 2.5vw, 32px)", fontWeight: 800, color: "#D5AF34", textTransform: "uppercase", letterSpacing: "0.01em", margin: "0 0 48px" }}>
             TARGET CLIENTS
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4 }}>
+          <div className="clients-grid">
             {targetClients.map(({ title, body }) => (
               <div key={title} style={{ background: "#2D2973", padding: "44px 36px", textAlign: "center" }}>
-                <h4 style={{ ...CLAN, fontSize: 28, fontWeight: 800, fontStyle: "italic", color: "#D5AF34", margin: "0 0 22px", lineHeight: 1.3, letterSpacing: "0.04em" }}>{title}</h4>
-                <p style={{ ...CLAN, fontSize: 15, fontWeight: 600, color: "#ffffff", lineHeight: 1.9, margin: 0, letterSpacing: "0.01em" }}>{body}</p>
+                <h4 style={{ ...CLAN, fontSize: "clamp(20px, 2vw, 28px)", fontWeight: 800, fontStyle: "italic", color: "#D5AF34", margin: "0 0 22px", lineHeight: 1.3, letterSpacing: "0.04em" }}>{title}</h4>
+                <p style={{ ...CLAN, fontSize: "clamp(13px, 1.2vw, 15px)", fontWeight: 600, color: "#ffffff", lineHeight: 1.9, margin: 0, letterSpacing: "0.01em" }}>{body}</p>
               </div>
             ))}
           </div>
@@ -294,15 +384,15 @@ function ServicesPage() {
       </section>
 
       {/* CONTACT FORM */}
-      <section style={{ background: "#E8EDF3", padding: "80px 0" }}>
-        <div style={{ width: "100%", padding: "0 80px", boxSizing: "border-box" }}>
-          <h2 style={{ ...CLAN, fontSize: "clamp(18px, 2vw, 24px)", fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", textAlign: "center", margin: "0 0 12px" }}>
+      <section style={{ background: "#E8EDF3", padding: "60px 0" }}>
+        <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
+          <h2 style={{ ...CLAN, fontSize: "clamp(16px, 2vw, 24px)", fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", textAlign: "center", margin: "0 0 12px" }}>
             CONTACT FORM
           </h2>
           <p style={{ ...CLAN, textAlign: "center", fontSize: 14, fontWeight: 700, color: "#606161", marginBottom: 40, marginTop: 0 }}>
             Ready to get started? Send us a message and we'll be in touch within one business day.
           </p>
-          <div style={{ background: "#ffffff", padding: "40px", border: "1px solid #eeeeee" }}>
+          <div style={{ background: "#ffffff", padding: "clamp(20px, 4vw, 40px)", border: "1px solid #eeeeee" }}>
             <style>{`
               form button[type="submit"], .contact-form button[type="submit"] {
                 display: block !important; margin-left: auto !important; margin-right: 0 !important;
