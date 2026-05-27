@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import hero1 from "@/assets/heroes/Talk_To_Us_Header.jpg";
+import whyChooseUsBg from "@/assets/heroes/AboutUs_Why_Choose_Us-01.svg";
 
 export const Route = createFileRoute("/talk-to-us")({
   head: () => ({
@@ -25,20 +26,24 @@ const onboardingSteps = [
 
 const CLAN: React.CSSProperties = { fontFamily: '"Clan Pro", sans-serif' };
 
-/* ── RESPONSIVE STYLES ── */
 const RESPONSIVE_CSS = `
   /* ── Hero ── */
   .ttu-hero-text {
-    padding: 110px 80px 56px;
+    padding: 110px 40px 56px;
     max-width: 1240px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
   }
+
+  /* ── Two-tone strip — no outer padding, inner constrained to 1240 to match hero ── */
   .ttu-twotone {
-    padding: 0 40px;
+    padding: 0;
   }
   .ttu-twotone-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    max-width: 1160px;
+    max-width: 1240px;
     margin: 0 auto;
   }
   .ttu-gold-panel { padding: 48px 44px; }
@@ -56,8 +61,7 @@ const RESPONSIVE_CSS = `
 
   /* ── TABLET (≤ 900px) ── */
   @media (max-width: 900px) {
-    .ttu-hero-text { padding: 100px 40px 48px; }
-    .ttu-twotone { padding: 0 20px; }
+    .ttu-hero-text { padding: 100px 32px 48px; }
     .ttu-gold-panel { padding: 36px 28px; }
     .ttu-navy-panel { padding: 36px 28px; }
     .ttu-contact-inner { padding: 36px 40px; }
@@ -66,15 +70,8 @@ const RESPONSIVE_CSS = `
 
   /* ── MOBILE (≤ 600px) ── */
   @media (max-width: 600px) {
-    .ttu-hero-text {
-      padding: 100px 20px 40px;
-    }
-    .ttu-twotone {
-      padding: 0;
-    }
-    .ttu-twotone-inner {
-      grid-template-columns: 1fr;
-    }
+    .ttu-hero-text { padding: 100px 20px 40px; }
+    .ttu-twotone-inner { grid-template-columns: 1fr; }
     .ttu-gold-panel { padding: 32px 20px; }
     .ttu-navy-panel { padding: 32px 20px; gap: 18px; }
     .ttu-contact-inner { padding: 28px 20px; }
@@ -104,7 +101,7 @@ function HeroSection() {
       {/* Hero title */}
       <div
         className="ttu-hero-text"
-        style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", width: "100%", boxSizing: "border-box" }}
+        style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}
       >
         <p style={{ ...CLAN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.36em", color: "#fff", marginBottom: 18, marginTop: 0 }}>
           TALK TO US
@@ -114,15 +111,23 @@ function HeroSection() {
         </h1>
       </div>
 
-      {/* Gold + Navy two-tone */}
+      {/* Gold + Navy two-tone — maxWidth 1240 matches hero text above */}
       <div className="ttu-twotone" style={{ position: "relative", zIndex: 1, width: "100%", background: "#f0f0f0" }}>
         <div className="ttu-twotone-inner">
-          <div className="ttu-gold-panel" style={{ background: "#D5AF34" }}>
-            <p style={{ ...CLAN, fontSize: 16, fontWeight: 700, fontStyle: "italic", color: "#fff", lineHeight: 1.8, margin: 0 }}>
+          {/* Gold panel — text centred */}
+          <div
+            className="ttu-gold-panel"
+            style={{ background: "#D5AF34", display: "flex", alignItems: "center", justifyContent: "center" }}
+          >
+            <p style={{ ...CLAN, fontSize: 16, fontWeight: 700, fontStyle: "italic", color: "#fff", lineHeight: 1.8, margin: 0, textAlign: "center" }}>
               Ready for transformation? At Swiftora Consulting Limited, we are here to listen, collaborate, and deliver solutions that drive results. Whether you are looking to refine your strategy, enhance your marketing, or tackle unique business challenges, our team is just a conversation away. Let's shape your success story together — reach out today!
             </p>
           </div>
-          <div className="ttu-navy-panel" style={{ background: "#2D2973", display: "flex", flexDirection: "column" }}>
+          {/* Navy panel */}
+          <div
+            className="ttu-navy-panel"
+            style={{ background: "#2D2973", display: "flex", flexDirection: "column" }}
+          >
             {[
               { icon: <Phone size={17} color="#D5AF34" />, label: "Mobile:", value: "+254 729 698 380", href: "tel:+254729698380" },
               { icon: <Mail size={17} color="#D5AF34" />, label: "Email", value: "hello@swiftoraconsulting.co.ke", href: "mailto:hello@swiftoraconsulting.co.ke" },
@@ -150,8 +155,11 @@ function HeroSection() {
 
 function ContactSection() {
   return (
-    <section id="contact-form" style={{ background: "#f7f6f2", padding: "80px 0", scrollMarginTop: 80 }}>
-      <div className="ttu-contact-inner" style={{ background: "#fff", border: "1px solid #eeeeee", boxShadow: "0 4px 32px rgba(0,0,0,0.07)" }}>
+    <section id="contact-form" style={{ background: "#f7f6f2", padding: "80px 40px", scrollMarginTop: 80, boxSizing: "border-box" }}>
+      <div
+        className="ttu-contact-inner"
+        style={{ background: "#fff", border: "1px solid #eeeeee", boxShadow: "0 4px 32px rgba(0,0,0,0.07)", maxWidth: 1240, margin: "0 auto", boxSizing: "border-box" }}
+      >
         <h2 style={{ ...CLAN, fontSize: "clamp(16px, 2vw, 20px)", fontWeight: 700, color: "#2D2973", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 6, marginTop: 0 }}>
           CONTACT FORM
         </h2>
@@ -182,8 +190,26 @@ function ContactSection() {
 
 function OnboardingSection() {
   return (
-    <section style={{ background: "#f7f6f2", padding: "80px 0 0" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px) 64px" }}>
+    <section
+      style={{
+        position: "relative",
+        padding: "80px 0 0",
+        overflow: "hidden",
+      }}
+    >
+      {/* Background image with overlay */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <img
+          src={whyChooseUsBg}
+          alt=""
+          aria-hidden="true"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+        <div style={{ position: "absolute", inset: 0, background: "rgba(232,237,243,0.82)" }} />
+      </div>
+
+      {/* Content — maxWidth 1240 matches page title and contact section */}
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1240, margin: "0 auto", padding: "0 40px 64px", boxSizing: "border-box" }}>
         <h2 style={{ ...CLAN, fontSize: "clamp(18px, 2.2vw, 26px)", fontWeight: 700, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 16, marginTop: 0 }}>
           CLIENT ONBOARDING PROCESS
         </h2>
@@ -200,7 +226,9 @@ function OnboardingSection() {
           ))}
         </div>
       </div>
-      <div className="ttu-map" style={{ width: "100%" }}>
+
+      {/* Map — full width */}
+      <div className="ttu-map" style={{ position: "relative", zIndex: 1, width: "100%" }}>
         <iframe
           title="Swiftora Consulting — Kilimani, Nairobi"
           src="https://maps.google.com/maps?q=Apple%20wood%20Adams&t=m&z=10&output=embed&iwloc=near"

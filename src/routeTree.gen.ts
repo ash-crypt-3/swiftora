@@ -13,6 +13,7 @@ import { Route as ZuriNzilaniFoundationRouteImport } from './routes/zuri-nzilani
 import { Route as WpTestRouteImport } from './routes/wp-test'
 import { Route as ThinkPiecesRouteImport } from './routes/think-pieces'
 import { Route as TalkToUsRouteImport } from './routes/talk-to-us'
+import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as RochmanPropertiesRouteImport } from './routes/rochman-properties'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as PaediatricAllergyCenterRouteImport } from './routes/paediatric-allergy-center'
@@ -62,6 +63,11 @@ const ThinkPiecesRoute = ThinkPiecesRouteImport.update({
 const TalkToUsRoute = TalkToUsRouteImport.update({
   id: '/talk-to-us',
   path: '/talk-to-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsRoute = SolutionsRouteImport.update({
+  id: '/solutions',
+  path: '/solutions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RochmanPropertiesRoute = RochmanPropertiesRouteImport.update({
@@ -238,6 +244,7 @@ export interface FileRoutesByFullPath {
   '/paediatric-allergy-center': typeof PaediatricAllergyCenterRoute
   '/portfolio': typeof PortfolioRoute
   '/rochman-properties': typeof RochmanPropertiesRoute
+  '/solutions': typeof SolutionsRoute
   '/talk-to-us': typeof TalkToUsRoute
   '/think-pieces': typeof ThinkPiecesRouteWithChildren
   '/wp-test': typeof WpTestRoute
@@ -272,6 +279,7 @@ export interface FileRoutesByTo {
   '/paediatric-allergy-center': typeof PaediatricAllergyCenterRoute
   '/portfolio': typeof PortfolioRoute
   '/rochman-properties': typeof RochmanPropertiesRoute
+  '/solutions': typeof SolutionsRoute
   '/talk-to-us': typeof TalkToUsRoute
   '/wp-test': typeof WpTestRoute
   '/zuri-nzilani-foundation': typeof ZuriNzilaniFoundationRoute
@@ -308,6 +316,7 @@ export interface FileRoutesById {
   '/paediatric-allergy-center': typeof PaediatricAllergyCenterRoute
   '/portfolio': typeof PortfolioRoute
   '/rochman-properties': typeof RochmanPropertiesRoute
+  '/solutions': typeof SolutionsRoute
   '/talk-to-us': typeof TalkToUsRoute
   '/think-pieces': typeof ThinkPiecesRouteWithChildren
   '/wp-test': typeof WpTestRoute
@@ -346,6 +355,7 @@ export interface FileRouteTypes {
     | '/paediatric-allergy-center'
     | '/portfolio'
     | '/rochman-properties'
+    | '/solutions'
     | '/talk-to-us'
     | '/think-pieces'
     | '/wp-test'
@@ -380,6 +390,7 @@ export interface FileRouteTypes {
     | '/paediatric-allergy-center'
     | '/portfolio'
     | '/rochman-properties'
+    | '/solutions'
     | '/talk-to-us'
     | '/wp-test'
     | '/zuri-nzilani-foundation'
@@ -415,6 +426,7 @@ export interface FileRouteTypes {
     | '/paediatric-allergy-center'
     | '/portfolio'
     | '/rochman-properties'
+    | '/solutions'
     | '/talk-to-us'
     | '/think-pieces'
     | '/wp-test'
@@ -452,6 +464,7 @@ export interface RootRouteChildren {
   PaediatricAllergyCenterRoute: typeof PaediatricAllergyCenterRoute
   PortfolioRoute: typeof PortfolioRoute
   RochmanPropertiesRoute: typeof RochmanPropertiesRoute
+  SolutionsRoute: typeof SolutionsRoute
   TalkToUsRoute: typeof TalkToUsRoute
   ThinkPiecesRoute: typeof ThinkPiecesRouteWithChildren
   WpTestRoute: typeof WpTestRoute
@@ -491,6 +504,13 @@ declare module '@tanstack/react-router' {
       path: '/talk-to-us'
       fullPath: '/talk-to-us'
       preLoaderRoute: typeof TalkToUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions': {
+      id: '/solutions'
+      path: '/solutions'
+      fullPath: '/solutions'
+      preLoaderRoute: typeof SolutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rochman-properties': {
@@ -778,6 +798,7 @@ const rootRouteChildren: RootRouteChildren = {
   PaediatricAllergyCenterRoute: PaediatricAllergyCenterRoute,
   PortfolioRoute: PortfolioRoute,
   RochmanPropertiesRoute: RochmanPropertiesRoute,
+  SolutionsRoute: SolutionsRoute,
   TalkToUsRoute: TalkToUsRoute,
   ThinkPiecesRoute: ThinkPiecesRouteWithChildren,
   WpTestRoute: WpTestRoute,

@@ -82,7 +82,12 @@ function Stars({ count }: { count: number }) {
   return (
     <div style={{ display: "flex", gap: 3 }}>
       {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} size={16} style={{ color: i < count ? "#D5AF34" : "#e5e7eb" }} fill={i < count ? "#D5AF34" : "transparent"} />
+        <Star
+          key={i}
+          size={16}
+          style={{ color: i < count ? "#D5AF34" : "#e5e7eb" }}
+          fill={i < count ? "#D5AF34" : "transparent"}
+        />
       ))}
     </div>
   );
@@ -103,34 +108,46 @@ function ParallaxHero() {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ position: "relative", overflow: "hidden", height: "clamp(320px, 50vh, 520px)" }}>
+    <div
+      ref={containerRef}
+      style={{ position: "relative", overflow: "hidden", height: "clamp(320px, 50vh, 520px)" }}
+    >
       <img
         ref={imgRef}
         src={hero3}
         alt="Portfolio hero"
-        style={{ position: "absolute", top: "-15%", left: 0, width: "100%", height: "130%", objectFit: "cover", willChange: "transform", transition: "transform 0.05s linear" }}
+        style={{
+          position: "absolute", top: "-15%", left: 0,
+          width: "100%", height: "130%",
+          objectFit: "cover", willChange: "transform",
+          transition: "transform 0.05s linear",
+        }}
       />
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)" }} />
+      <div style={{
+        position: "absolute", inset: 0,
+        background: "linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)",
+      }} />
+
+      {/* Hero text — uses portfolio-section class for identical left edge as blue block */}
       <div className="portfolio-hero-text">
-        <p style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: "#ffffff", marginBottom: 14 }}>
-          Portfolio
-        </p>
-        <h1 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(28px, 4.5vw, 58px)", lineHeight: 1.15, margin: 0 }}>
-          <span style={{ color: "#ffffff" }}>Delivering Excellence,</span>
-          <br />
-          <span style={{ color: "#D5AF34" }}>Redefining Possibilities</span>
-        </h1>
+        <div style={{ maxWidth: 1240, margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
+          <p style={{
+            fontFamily: '"Clan Pro", sans-serif', fontSize: 11, fontWeight: 700,
+            textTransform: "uppercase", letterSpacing: "0.3em",
+            color: "#ffffff", marginBottom: 14, marginTop: 0,
+          }}>
+            Portfolio
+          </p>
+          <h1 style={{
+            fontFamily: '"Clan Pro", sans-serif', fontWeight: 700,
+            fontSize: "clamp(28px, 4.5vw, 58px)", lineHeight: 1.15, margin: 0,
+          }}>
+            <span style={{ color: "#ffffff" }}>Delivering Excellence,</span>
+            <br />
+            <span style={{ color: "#D5AF34" }}>Redefining Possibilities</span>
+          </h1>
+        </div>
       </div>
-      <style>{`
-        .portfolio-hero-text {
-          position: absolute; inset: 0;
-          display: flex; flex-direction: column; justify-content: center;
-          padding: 0 60px; max-width: 1240px; margin: 0 auto; left: 0; right: 0;
-        }
-        @media (max-width: 768px) {
-          .portfolio-hero-text { padding: 0 24px; }
-        }
-      `}</style>
     </div>
   );
 }
@@ -155,12 +172,15 @@ function GalleryCarousel() {
 
   const arrowBtn: React.CSSProperties = {
     width: 36, height: 36, background: "#D5AF34", border: "none", cursor: "pointer",
-    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#ffffff",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    flexShrink: 0, color: "#ffffff",
   };
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-      <button style={arrowBtn} onClick={prev} aria-label="Previous"><ChevronLeft size={20} strokeWidth={2.5} /></button>
+      <button style={arrowBtn} onClick={prev} aria-label="Previous">
+        <ChevronLeft size={20} strokeWidth={2.5} />
+      </button>
       <div style={{ display: "grid", gridTemplateColumns: `repeat(${visibleCount}, 1fr)`, gap: 12, flex: 1 }}>
         {displayed.map((src, i) => (
           <div key={`${start}-${i}`} style={{ overflow: "hidden", background: "#e5e7eb" }}>
@@ -175,7 +195,9 @@ function GalleryCarousel() {
           </div>
         ))}
       </div>
-      <button style={arrowBtn} onClick={next} aria-label="Next"><ChevronRight size={20} strokeWidth={2.5} /></button>
+      <button style={arrowBtn} onClick={next} aria-label="Next">
+        <ChevronRight size={20} strokeWidth={2.5} />
+      </button>
     </div>
   );
 }
@@ -184,7 +206,9 @@ function TestimonialSlider() {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => { setCurrent((c) => (c + 1) % testimonials.length); }, 5000);
+    const timer = setInterval(() => {
+      setCurrent((c) => (c + 1) % testimonials.length);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -193,7 +217,11 @@ function TestimonialSlider() {
   return (
     <div>
       <div key={current} style={{ maxWidth: 860, animation: "fadeIn 0.4s ease" }}>
-        <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontStyle: "italic", fontSize: "clamp(14px, 1.5vw, 16px)", color: "#4D4D4D", lineHeight: 1.9, marginBottom: 16, marginTop: 0 }}>
+        <p style={{
+          fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontStyle: "italic",
+          fontSize: "clamp(14px, 1.5vw, 16px)", color: "#4D4D4D",
+          lineHeight: 1.9, marginBottom: 16, marginTop: 0,
+        }}>
           &ldquo;{t.body}&rdquo;
         </p>
         <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 14, color: "#2D2973", margin: 0 }}>
@@ -206,11 +234,20 @@ function TestimonialSlider() {
             key={i}
             onClick={() => setCurrent(i)}
             aria-label={`Testimonial ${i + 1}`}
-            style={{ width: i === current ? 24 : 10, height: 10, borderRadius: 5, background: i === current ? "#2D2973" : "#c8c8c8", border: "none", cursor: "pointer", padding: 0, transition: "all 0.3s ease" }}
+            style={{
+              width: i === current ? 24 : 10, height: 10, borderRadius: 5,
+              background: i === current ? "#2D2973" : "#c8c8c8",
+              border: "none", cursor: "pointer", padding: 0, transition: "all 0.3s ease",
+            }}
           />
         ))}
       </div>
-      <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }`}</style>
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
@@ -223,14 +260,19 @@ function PortfolioPage() {
       {/* Intro */}
       <section className="portfolio-section portfolio-intro">
         <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-          <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(14px, 1.4vw, 16px)", color: "#ffffff", lineHeight: 1.9, marginBottom: 16, marginTop: 0, textAlign: "justify" }}>
-            At Swiftora Consulting Limited, every project tells a story of innovation, growth, and success. Our portfolio showcases the diverse range of solutions we have delivered for corporates, startups, and individuals across various industries.
+          <p style={{
+            fontFamily: '"Clan Pro", sans-serif', fontWeight: 700,
+            fontSize: "clamp(14px, 1.4vw, 16px)", color: "#ffffff",
+            lineHeight: 1.9, marginBottom: 20, marginTop: 0, textAlign: "justify",
+          }}>
+            Throughout our professional journey, we have consistently approached every engagement with resolute determination, dedication, and distinction. Our focus has always been on solving problems, delivering valuable outcomes, and creating work that truly matters. Every solution and service we provide is designed to inspire our clients to achieve more, dream bigger, learn continuously, and grow exponentially.
           </p>
-          <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(14px, 1.4vw, 16px)", color: "#ffffff", lineHeight: 1.9, marginBottom: 16, marginTop: 0, textAlign: "justify" }}>
-            From crafting game-changing strategies to driving impactful marketing campaigns and refining communication frameworks, each engagement reflects our commitment to excellence and measurable outcomes.
-          </p>
-          <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(14px, 1.4vw, 16px)", color: "#ffffff", lineHeight: 1.9, marginBottom: 0, marginTop: 0, textAlign: "justify" }}>
-            Explore our portfolio to see how we've transformed challenges into opportunities and ideas into realities. Let our success stories inspire the future we can create together.
+          <p style={{
+            fontFamily: '"Clan Pro", sans-serif', fontWeight: 700,
+            fontSize: "clamp(14px, 1.4vw, 16px)", color: "#ffffff",
+            lineHeight: 1.9, marginBottom: 0, marginTop: 0, textAlign: "justify",
+          }}>
+            Over the years, we have had the privilege of partnering with organisations across diverse industries and sectors, delivering innovative, cutting-edge solutions. The following pages present a curated collection of our most impactful professional work, spanning strategy, sales, marketing, communication and research. We are passionate about delivering exceptional results that not only exceed expectations but also leave a lasting impression.
           </p>
         </div>
       </section>
@@ -252,7 +294,11 @@ function PortfolioPage() {
               <Link
                 key={e.to}
                 to={e.to as any}
-                style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "flex-end", overflow: "hidden", minHeight: 280, textDecoration: "none", transition: "transform 0.3s ease" }}
+                style={{
+                  position: "relative", display: "flex", flexDirection: "column",
+                  justifyContent: "flex-end", overflow: "hidden", minHeight: 280,
+                  textDecoration: "none", transition: "transform 0.3s ease",
+                }}
                 onMouseEnter={(el) => { el.currentTarget.style.transform = "translateY(-4px)"; }}
                 onMouseLeave={(el) => { el.currentTarget.style.transform = "translateY(0)"; }}
               >
@@ -261,12 +307,23 @@ function PortfolioPage() {
                   alt={e.title}
                   style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
                 />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,11,20,0.88) 0%, rgba(10,11,20,0.40) 55%, transparent 100%)" }} />
+                <div style={{
+                  position: "absolute", inset: 0,
+                  background: "linear-gradient(to top, rgba(10,11,20,0.88) 0%, rgba(10,11,20,0.40) 55%, transparent 100%)",
+                }} />
                 <div style={{ position: "relative", zIndex: 2, padding: "24px 28px" }}>
-                  <h3 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(16px, 1.8vw, 20px)", color: "#ffffff", lineHeight: 1.3, margin: "0 0 12px" }}>
+                  <h3 style={{
+                    fontFamily: '"Clan Pro", sans-serif', fontWeight: 700,
+                    fontSize: "clamp(16px, 1.8vw, 20px)", color: "#ffffff",
+                    lineHeight: 1.3, margin: "0 0 12px",
+                  }}>
                     {e.title}
                   </h3>
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: '"Clan Pro", sans-serif', fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#D5AF34" }}>
+                  <span style={{
+                    display: "inline-flex", alignItems: "center", gap: 6,
+                    fontFamily: '"Clan Pro", sans-serif', fontSize: 11, fontWeight: 700,
+                    textTransform: "uppercase", letterSpacing: "0.15em", color: "#D5AF34",
+                  }}>
                     {e.category}
                   </span>
                 </div>
@@ -276,7 +333,13 @@ function PortfolioPage() {
           <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 28 }}>
             <Link
               to="/featured-engagements-archives"
-              style={{ display: "inline-block", padding: "10px 28px", border: "2px solid #2D2973", color: "#2D2973", fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", textDecoration: "none", transition: "all 0.2s ease" }}
+              style={{
+                display: "inline-block", padding: "10px 28px",
+                border: "2px solid #2D2973", color: "#2D2973",
+                fontFamily: '"Clan Pro", sans-serif', fontWeight: 700,
+                fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em",
+                textDecoration: "none", transition: "all 0.2s ease",
+              }}
               onMouseEnter={(e) => { e.currentTarget.style.background = "#2D2973"; e.currentTarget.style.color = "#ffffff"; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#2D2973"; }}
             >
@@ -311,14 +374,26 @@ function PortfolioPage() {
       </section>
 
       <style>{`
-        .portfolio-section { padding: 56px 60px; }
+        .portfolio-section {
+          padding: 56px 60px;
+        }
         .portfolio-intro { background: #2D2973; }
         .portfolio-gallery { background: #f7f6f2; }
         .portfolio-engagements { background: #E8EEF7; }
         .portfolio-testimonials { background: #f7f6f2; }
         .portfolio-clients { padding-top: 56px; }
 
-        /* All 7 cards equal size — no spanning rules */
+        /* Hero text uses same horizontal padding as .portfolio-section */
+        .portfolio-hero-text {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 0 60px;
+          box-sizing: border-box;
+        }
+
         .portfolio-engagements-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -328,6 +403,7 @@ function PortfolioPage() {
 
         @media (max-width: 900px) {
           .portfolio-section { padding: 40px 32px; }
+          .portfolio-hero-text { padding: 0 32px; }
           .portfolio-engagements-grid {
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
@@ -336,6 +412,7 @@ function PortfolioPage() {
 
         @media (max-width: 600px) {
           .portfolio-section { padding: 32px 20px; }
+          .portfolio-hero-text { padding: 0 20px; }
           .portfolio-engagements-grid {
             grid-template-columns: 1fr;
             gap: 14px;
