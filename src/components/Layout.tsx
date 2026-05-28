@@ -27,23 +27,23 @@ export function TopBar() {
       style={{ background: "#0A0B14" }}
       className="hidden md:flex items-center justify-between text-[#A19E9E] px-10 py-1.5"
     >
-      {/* Left — email, larger and bold */}
+      {/* Left — email */}
       <div className="flex items-center">
         <a
           href="mailto:hello@swiftoraconsulting.co.ke"
           className="flex items-center gap-2 hover:text-[#D5AF34] transition-colors"
-          style={{ fontSize: 13, fontWeight: 700, fontFamily: '"Clan Pro", sans-serif' }}
+          style={{ fontSize: 13, fontWeight: 400, fontFamily: '"Clan Pro", sans-serif' }}
         >
           <Mail size={13} /> Email Us: hello@swiftoraconsulting.co.ke
         </a>
       </div>
 
-      {/* Right — phone + WhatsApp, larger and bold */}
+      {/* Right — phone + WhatsApp */}
       <div className="flex items-center gap-4">
         <a
           href="tel:+254729698380"
           className="flex items-center gap-2 hover:text-[#D5AF34] transition-colors"
-          style={{ fontSize: 13, fontWeight: 700, fontFamily: '"Clan Pro", sans-serif' }}
+          style={{ fontSize: 13, fontWeight: 400, fontFamily: '"Clan Pro", sans-serif' }}
         >
           <Phone size={13} /> Call Us: 0729 698 380
         </a>
@@ -222,7 +222,6 @@ export function Footer() {
     textDecoration: "none", display: "block", marginBottom: 6, transition: "color 0.2s",
   };
 
-  // Each service links to its own dedicated page
   const serviceLinks = [
     { label: "STRATEGY",      to: "/services/strategy" },
     { label: "SALES",         to: "/services/sales" },
@@ -268,7 +267,7 @@ export function Footer() {
 
           <div className="footer-grid">
 
-            {/* Col 1 — Logo: flush left, pulled up close to heading */}
+            {/* Col 1 — Logo */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <p style={headStyle}>LET'S DO GREAT THINGS</p>
               <img
@@ -281,8 +280,8 @@ export function Footer() {
                   display: "block",
                   objectFit: "contain",
                   objectPosition: "left center",
-                  marginTop: -LOGO_OFFSET_TOP,    // negative marginTop moves image UP
-                  marginLeft: -LOGO_OFFSET_LEFT,  // negative marginLeft moves image LEFT
+                  marginTop: -LOGO_OFFSET_TOP,
+                  marginLeft: -LOGO_OFFSET_LEFT,
                   position: "relative",
                 }}
               />
@@ -385,7 +384,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* STRATEGY | SALES | … — each points to its own service page */}
+          {/* Service links bar */}
           <div style={{
             borderTop: "1px solid rgba(255,255,255,0.1)",
             paddingTop: 10,

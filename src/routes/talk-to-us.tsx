@@ -104,7 +104,7 @@ function HeroSection() {
       <div className="ttu-twotone" style={{ position: "relative", zIndex: 1, width: "100%", background: "#f0f0f0" }}>
         <div className="ttu-twotone-inner">
           <div className="ttu-gold-panel" style={{ background: "#D5AF34", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <p style={{ ...CLAN, fontSize: 16, fontWeight: 700, fontStyle: "italic", color: "#fff", lineHeight: 1.8, margin: 0, textAlign: "center" }}>
+            <p style={{ ...CLAN, fontSize: 16, fontWeight: 700, fontStyle: "italic", color: "#fff", lineHeight: 1.8, margin: 0, textAlign: "justify" }}>
               Ready for transformation? At Swiftora Consulting Limited, we are here to listen, collaborate, and deliver solutions that drive results. Whether you are looking to refine your strategy, enhance your marketing, or tackle unique business challenges, our team is just a conversation away. Let's shape your success story together — reach out today!
             </p>
           </div>
@@ -185,7 +185,6 @@ function OnboardingSection() {
           CLIENT ONBOARDING PROCESS
         </h2>
 
-        {/* Updated intro — two justified paragraphs, edge to edge */}
         <p style={{ ...CLAN, fontSize: "clamp(14px, 1.5vw, 16px)", fontWeight: 700, color: "#4D4D4D", lineHeight: 1.85, marginBottom: 20, marginTop: 0, textAlign: "justify" }}>
           We are excited to partner with you on your journey towards growth, transformation, and long-term success. Our onboarding process is designed to create clarity from the very beginning, helping us understand your business, priorities, challenges, and ambitions. Every engagement starts with meaningful conversations that allow us to align strategy, expectations, and measurable business outcomes effectively.
         </p>
