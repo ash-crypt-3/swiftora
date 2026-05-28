@@ -101,6 +101,12 @@ const RESPONSIVE_CSS = `
       grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
+
+    /* Remove the negative overlap on mobile so the gold box
+       never climbs over the hero heading text */
+    .spt-gold-intro {
+      margin-top: 0 !important;
+    }
   }
 `;
 
@@ -152,7 +158,11 @@ function HeroSection({ image, line1, line2 }: { image: string; line1: string; li
         style={{
           position: "relative", zIndex: 1, flex: 1,
           display: "flex", flexDirection: "column", justifyContent: "flex-end",
-          paddingBottom: "clamp(40px, 8vw, 80px)",
+          /* Increased bottom padding so the heading text never gets
+             swallowed by the gold box's negative-margin overlap.
+             On mobile this is overridden by .spt-gold-intro { margin-top: 0 }
+             so we only need the extra room on tablet/desktop. */
+          paddingBottom: "clamp(80px, 12vw, 120px)",
           width: "100%", boxSizing: "border-box",
           maxWidth: NAV_MAX, margin: "0 auto",
         }}
@@ -181,7 +191,11 @@ export function ServicePageTemplate({
       <HeroSection image={heroImage} line1={heroLine1} line2={heroLine2} />
 
       {/* ── GOLD INTRO BOX ── */}
-      <section style={{ background: "transparent", padding: "0 0 48px", position: "relative", zIndex: 2, marginTop: "-60px" }}>
+      {/* spt-gold-intro: on mobile margin-top resets to 0 via CSS above */}
+      <section
+        className="spt-gold-intro"
+        style={{ background: "transparent", padding: "0 0 48px", position: "relative", zIndex: 2, marginTop: "-40px" }}
+      >
         <div
           className="spt-pad"
           style={{ maxWidth: NAV_MAX, margin: "0 auto", boxSizing: "border-box" }}

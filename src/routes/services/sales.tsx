@@ -24,7 +24,7 @@ function SalesPage() {
       // ── REPLACE the strings below with your live site copy ──
       heroLine1="Elevate, Accelerate, Dominate"
       heroLine2="Your Sales Transformation Partner"
-      introP1="Sales is the lifeblood of business where finding the way through complexities of customer relationships, market trends, and strategic execution can mean the difference between growth and stagnation. We don’t just improve your numbers—we redesign your entire revenue generation philosophy./"
+      introP1="Sales is the lifeblood of business where finding the way through complexities of customer relationships, market trends, and strategic execution can mean the difference between growth and stagnation. We don’t just improve your numbers—we redesign your entire revenue generation philosophy."
       introP2="Our solutions are meticulously designed, data-powered, and focused on turning sales from a department into a strategic advantage. Are you prepared to transcend traditional sales limitations and enter a new era of strategic revenue generation?"
       sectionTitle="KEY SALES SOLUTIONS"
       cards={[

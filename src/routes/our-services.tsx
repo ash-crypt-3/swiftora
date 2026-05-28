@@ -46,12 +46,6 @@ const targetClients = [
   { title: "For Individuals",body: "Whether you are planning a career pivot, building your personal brand, or seeking expert insights to maximise your professional potential, we are here for you. We help individuals identify their strengths, overcome barriers and craft a clear path toward their personal and professional goals." },
 ];
 
-/*
-  ICON SIZE token — one place to change it.
-  The CSS line is positioned at exactly (ICON_PX / 2) from the top of .approach-row,
-  so it always bisects the icon centre regardless of screen size.
-  On smaller screens the icon shrinks via min() but the CSS var keeps the line centred.
-*/
 const ICON_PX = 200;
 
 const CSS = `
@@ -67,15 +61,6 @@ const CSS = `
   .fc-btn:hover { background: #2D2973; color: #fff; border-color: #2D2973; }
 
   /* ─── approach ─── */
-  /*
-    Pure-CSS dotted line:
-    .approach-row is the 4-column grid container.
-    Its ::before pseudo-element draws the dashed line using a repeating
-    background-image of a 2px-wide navy circle (dot) every 11px.
-    top is set to exactly half the icon height in px so it always sits
-    at the vertical centre of the icons — no JS, no timing, no bleed ever.
-    The line starts at 12.5% (centre of col 1) and ends at 87.5% (centre of col 4).
-  */
   .approach-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -85,13 +70,10 @@ const CSS = `
   .approach-row::before {
     content: "";
     position: absolute;
-    /* sits at exact vertical centre of icons */
     top: ${ICON_PX / 2}px;
-    /* starts at centre of first column, ends at centre of last */
     left: 12.5%;
     right: 12.5%;
     height: 0;
-    /* repeating-radial-gradient draws perfect round dots */
     border-top: none;
     background-image: radial-gradient(circle, #2D2973 1.2px, transparent 1.2px);
     background-size: 11px 1px;
@@ -108,7 +90,7 @@ const CSS = `
   .approach-icon {
     width: ${ICON_PX}px; height: ${ICON_PX}px;
     border-radius: 50%;
-    background: #ffffff;   /* white circle masks line behind icon */
+    background: #ffffff;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0; margin-bottom: 6px; position: relative; z-index: 2;
   }
@@ -119,6 +101,19 @@ const CSS = `
   .clients-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; }
   .section-pad { padding-left: 80px; padding-right: 80px; }
   .hero-section { min-height: 70vh; }
+
+  /* ─── intro overlap panel ─── */
+  .intro-overlap {
+    position: relative;
+    z-index: 2;
+    margin-top: -48px;   /* overlaps the bottom of the hero */
+    border-top: 4px solid #D5AF34;
+  }
+
+  /* ─── section headings — desktop negative margins ─── */
+  .h-approach { margin: -40px 0 0; }
+  .h-services  { margin: -100px 0 4px; }
+  .h-clients   { margin: -90px 0 3px; }
 
   @media (max-width: 1100px) {
     .approach-row { grid-template-columns: repeat(2,1fr); gap: 14px 10px; }
@@ -139,6 +134,14 @@ const CSS = `
     .section-pad { padding-left: 20px; padding-right: 20px; }
     .fc { height: 280px; }
     .hero-section { min-height: 38vh !important; }
+
+    /* reset negative margins on mobile */
+    .h-approach { margin: 24px 0 12px; }
+    .h-services  { margin: 24px 0 12px; }
+    .h-clients   { margin: 24px 0 12px; }
+
+    /* reduce overlap on mobile so hero text stays clear */
+    .intro-overlap { margin-top: -24px; }
   }
 `;
 
@@ -173,7 +176,7 @@ function HeroSection() {
         <img src={heroBg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", inset: 0, background: "rgba(10,11,20,0.62)" }} />
       </div>
-      <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "0 clamp(20px,6vw,80px) clamp(40px,8vw,100px)", width: "100%", boxSizing: "border-box" }}>
+      <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "0 clamp(20px,6vw,80px) clamp(80px,10vw,120px)", width: "100%", boxSizing: "border-box" }}>
         <h1 style={{ ...CLAN, fontWeight: 800, fontSize: "clamp(26px,4vw,52px)", lineHeight: 1.2, margin: 0, textAlign: "left" }}>
           <span style={{ color: "#ffffff", display: "block" }}>Good Ideas Brought You Here</span>
           <span style={{ color: "#D5AF34", display: "block" }}>Great Solutions Keep You Here</span>
@@ -189,8 +192,8 @@ function ServicesPage() {
       <style>{CSS}</style>
       <HeroSection />
 
-      {/* INTRO */}
-      <section style={{ background: "#E8EDF3", padding: "30px 0" }}>
+      {/* INTRO — overlaps the bottom of the hero with a gold top border */}
+      <section className="intro-overlap" style={{ background: "#E8EDF3", padding: "30px 0" }}>
         <div style={{ width: "100%", padding: "0 clamp(20px,6vw,80px)", boxSizing: "border-box" }}>
           <p style={{ ...CLAN, fontSize: "clamp(14px,1.5vw,17px)", fontWeight: 600, color: "#111111", lineHeight: 2, marginBottom: 5, marginTop: 0, textAlign: "justify" }}>
             At Swiftora Consulting Limited, our practice areas are structured to help organisations solve business challenges, strengthen competitiveness, and achieve sustainable growth. We combine strategic thinking, market intelligence, and execution-focused advisory to support informed decision-making, operational improvement, and commercial performance across diverse sectors and evolving market environments within East Africa and beyond.
@@ -201,10 +204,10 @@ function ServicesPage() {
         </div>
       </section>
 
-      {/* OUR APPROACH — pure CSS line, zero JS timing issues */}
+      {/* OUR APPROACH */}
       <section style={{ background: "#ffffff", padding: "0" }}>
         <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
-          <h2 style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: "-40px 0 0" }}>
+          <h2 className="h-approach" style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em" }}>
             OUR APPROACH
           </h2>
           <div className="approach-row">
@@ -225,7 +228,7 @@ function ServicesPage() {
       {/* OUR SERVICES */}
       <section style={{ background: "#ffffff", padding: "0" }}>
         <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
-          <h2 style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 900, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: "-100px 0 4px" }}>
+          <h2 className="h-services" style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 900, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em" }}>
             OUR SERVICES
           </h2>
           <div className="services-grid">
@@ -244,7 +247,7 @@ function ServicesPage() {
       {/* TARGET CLIENTS */}
       <section style={{ background: "#ffffff", padding: "0" }}>
         <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
-          <h2 style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 800, color: "#D5AF34", textTransform: "uppercase", letterSpacing: "0.01em", margin: "-90px 0 3px" }}>
+          <h2 className="h-clients" style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 800, color: "#D5AF34", textTransform: "uppercase", letterSpacing: "0.01em" }}>
             TARGET CLIENTS
           </h2>
           <div className="clients-grid">

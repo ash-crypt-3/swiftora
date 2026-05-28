@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ArrowRight } from "lucide-react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { submitContactForm } from "@/services/wordpress";
 
 export default function ContactForm({
@@ -13,8 +14,8 @@ export default function ContactForm({
     hear: "your-hear",
   },
   className = "",
-  submitLabel = undefined,   // ← new prop; undefined = use default
-  submitAlign = "full",      // ← "right" | "full"
+  submitLabel = undefined,
+  submitAlign = "full",
 }) {
   const [form, setForm] = useState({
     name: "",
@@ -25,6 +26,7 @@ export default function ContactForm({
     hear: "",
   });
   const [state, setState] = useState({ status: "idle", message: "", invalid: [] });
+  const recaptchaRef = useRef(null);  // ← new
 
   const inputCls =
     "w-full text-[14px] px-4 py-3.5 rounded border border-[#e5e7eb] focus:border-gold focus:outline-none focus:ring-[3px] focus:ring-gold/15 transition-all bg-white";
@@ -35,21 +37,36 @@ export default function ContactForm({
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    // ← reCAPTCHA check
+    const token = recaptchaRef.current?.getValue();
+    if (!token) {
+      setState({
+        status: "error",
+        message: "Please complete the reCAPTCHA verification.",
+        invalid: [],
+      });
+      return;
+    }
+
     setState({ status: "submitting", message: "", invalid: [] });
     const payload = Object.fromEntries(
       Object.entries(fieldMap).map(([k, wpName]) => [wpName, form[k] || ""]),
     );
+
     try {
       const res = await submitContactForm(payload, formId);
       if (res.ok) {
         setState({ status: "success", message: res.message, invalid: [] });
         setForm({ name: "", company: "", email: "", phone: "", message: "", hear: "" });
+        recaptchaRef.current?.reset(); // ← reset after success
       } else {
         setState({
           status: "error",
           message: res.message || "Something went wrong. Please try again.",
           invalid: res.invalid_fields || [],
         });
+        recaptchaRef.current?.reset(); // ← reset on error too
       }
     } catch (err) {
       setState({
@@ -57,6 +74,7 @@ export default function ContactForm({
         message: "Network error — please try again in a moment.",
         invalid: [],
       });
+      recaptchaRef.current?.reset();
     }
   };
 
@@ -68,7 +86,6 @@ export default function ContactForm({
     );
   }
 
-  /* ── Button label & alignment ── */
   const btnContent = state.status === "submitting"
     ? "Sending…"
     : submitLabel
@@ -102,6 +119,12 @@ export default function ContactForm({
         <option>Event</option>
         <option>Other</option>
       </select>
+
+      {/* ← reCAPTCHA widget */}
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        sitekey="6LcceQEtAAAAAKG9d3G8fC4UqBV1D14T9_O8tD4L"
+      />
 
       {state.status === "error" && (
         <div className="p-3 rounded border border-red-200 bg-red-50 text-[13px] text-red-700">

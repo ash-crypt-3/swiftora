@@ -9,7 +9,21 @@ import heroBg from "@/assets/heroes/hero-2.jpg";
 const CLAN = { fontFamily: '"Clan Pro", sans-serif' };
 
 /* ─────────────────────────────────────────────────────────────
-   Local article renderer — mirrors WP ArticleBody style
+   Hook — true on screens narrower than 768 px
+   ───────────────────────────────────────────────────────────── */
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return isMobile;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Local article renderer
    ───────────────────────────────────────────────────────────── */
 function LocalArticleBody({ body }) {
   return (
@@ -72,38 +86,73 @@ function ArticleBody({ html }) {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   PARALLAX HERO — shared by both WP and local articles
+   PARALLAX HERO
    ───────────────────────────────────────────────────────────── */
 function ArticleHero({ title, excerpt, img, cat, isHtml = false }) {
   const bgRef = useRef(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    // Disable parallax on mobile — it's jarring on touch and kills perf
+    if (isMobile) return;
     const onScroll = () => {
       if (bgRef.current)
         bgRef.current.style.transform = `translateY(${window.scrollY * 0.38}px)`;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isMobile]);
+
+  const headingPadding = isMobile
+    ? "100px 24px 40px"
+    : "140px 80px 60px";
+
+  const stripPadding = isMobile ? "32px 24px" : "52px 80px";
+  const excerptFontSize = isMobile ? 15 : 17;
 
   return (
-    <section style={{ position: "relative", overflow: "hidden", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      {/* Parallax BG */}
-      <div ref={bgRef} style={{ position: "absolute", inset: "-20%", zIndex: 0, willChange: "transform" }}>
+    <section style={{ position: "relative", overflow: "hidden", minHeight: isMobile ? "70vh" : "100vh", display: "flex", flexDirection: "column" }}>
+      {/* BG (no parallax on mobile) */}
+      <div
+        ref={bgRef}
+        style={{
+          position: "absolute",
+          inset: isMobile ? 0 : "-20%",
+          zIndex: 0,
+          willChange: isMobile ? "auto" : "transform",
+        }}
+      >
         <img src={img || heroBg} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", inset: 0, background: "rgba(10,11,20,0.62)" }} />
       </div>
 
       {/* Heading */}
-      <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 80px 60px", maxWidth: 1240, margin: "0 auto", width: "100%", boxSizing: "border-box", textAlign: "left" }}>
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          padding: headingPadding,
+          maxWidth: 1240,
+          margin: "0 auto",
+          width: "100%",
+          boxSizing: "border-box",
+          textAlign: "left",
+        }}
+      >
         <p style={{ ...CLAN, fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.36em", color: "#D5AF34", marginBottom: 20, marginTop: 0 }}>
           {cat || "THINK PIECES"}
         </p>
         {isHtml ? (
-          <h1 style={{ ...CLAN, fontWeight: 800, fontSize: "clamp(32px, 4.5vw, 62px)", color: "#ffffff", lineHeight: 1.1, margin: 0, maxWidth: 900 }}
-            dangerouslySetInnerHTML={{ __html: title }} />
+          <h1
+            style={{ ...CLAN, fontWeight: 800, fontSize: isMobile ? "clamp(26px, 7vw, 38px)" : "clamp(32px, 4.5vw, 62px)", color: "#ffffff", lineHeight: 1.15, margin: 0, maxWidth: 900 }}
+            dangerouslySetInnerHTML={{ __html: title }}
+          />
         ) : (
-          <h1 style={{ ...CLAN, fontWeight: 800, fontSize: "clamp(32px, 4.5vw, 62px)", color: "#ffffff", lineHeight: 1.1, margin: 0, maxWidth: 900 }}>
+          <h1 style={{ ...CLAN, fontWeight: 800, fontSize: isMobile ? "clamp(26px, 7vw, 38px)" : "clamp(32px, 4.5vw, 62px)", color: "#ffffff", lineHeight: 1.15, margin: 0, maxWidth: 900 }}>
             {title}
           </h1>
         )}
@@ -111,8 +160,8 @@ function ArticleHero({ title, excerpt, img, cat, isHtml = false }) {
 
       {/* Gold excerpt strip */}
       <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
-        <div style={{ background: "#D5AF34", padding: "52px 80px" }}>
-          <p style={{ ...CLAN, fontSize: 17, fontWeight: 700, color: "#ffffff", lineHeight: 1.85, margin: 0, maxWidth: 1080, textAlign: "left" }}>
+        <div style={{ background: "#D5AF34", padding: stripPadding }}>
+          <p style={{ ...CLAN, fontSize: excerptFontSize, fontWeight: 700, color: "#ffffff", lineHeight: 1.85, margin: 0, maxWidth: 1080, textAlign: "left" }}>
             {excerpt || "Read on for insights from Swiftora Consulting."}
           </p>
         </div>
@@ -122,13 +171,13 @@ function ArticleHero({ title, excerpt, img, cat, isHtml = false }) {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   RELATED CAROUSEL — shows both WP posts + local articles
+   RELATED CAROUSEL
    ───────────────────────────────────────────────────────────── */
 function RelatedCarousel({ currentSlug }) {
   const { posts, isLoading } = usePosts({ perPage: 12 });
   const [index, setIndex] = useState(0);
+  const isMobile = useIsMobile();
 
-  // Merge WP posts + local articles, excluding current
   const wpItems = (posts || [])
     .filter((p) => p.slug !== currentSlug)
     .map((p) => ({
@@ -150,7 +199,9 @@ function RelatedCarousel({ currentSlug }) {
     }));
 
   const others = [...localItems, ...wpItems];
-  const visible = 3;
+
+  // Mobile: show 1 card at a time; desktop: show 3
+  const visible = isMobile ? 1 : 3;
   const max = Math.max(0, others.length - visible);
 
   const prev = () => setIndex((i) => Math.max(0, i - 1));
@@ -169,61 +220,94 @@ function RelatedCarousel({ currentSlug }) {
   };
 
   const navyBtn = {
-    ...CLAN, display: "inline-block", padding: "14px 52px",
+    ...CLAN, display: "inline-block", padding: "14px 40px",
     border: "2px solid #2D2973", color: "#2D2973", fontWeight: 800,
     fontSize: 14, textTransform: "uppercase", letterSpacing: "0.12em",
     textDecoration: "none", background: "transparent", cursor: "pointer",
     transition: "background 0.2s, color 0.2s",
   };
 
+  const sectionPadding = isMobile ? "48px 0 64px" : "72px 0 88px";
+  const innerPadding = isMobile ? "0 16px" : "0 56px";
+
   return (
-    <section style={{ background: "#ffffff", padding: "72px 0 88px" }}>
-      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 56px" }}>
-        <h2 style={{ ...CLAN, fontSize: "clamp(22px, 2.8vw, 34px)", fontWeight: 800, color: "#D5AF34", textTransform: "uppercase", letterSpacing: "0.04em", margin: "0 0 40px" }}>
+    <section style={{ background: "#ffffff", padding: sectionPadding }}>
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: innerPadding }}>
+        <h2 style={{ ...CLAN, fontSize: isMobile ? "clamp(18px, 5vw, 24px)" : "clamp(22px, 2.8vw, 34px)", fontWeight: 800, color: "#D5AF34", textTransform: "uppercase", letterSpacing: "0.04em", margin: "0 0 28px" }}>
           READ OTHER THINK PIECES
         </h2>
 
-        <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-          {/* Left arrow */}
-          <button onClick={prev} disabled={index === 0} aria-label="Previous"
-            style={{ position: "absolute", left: -40, zIndex: 2, width: 44, height: 44, borderRadius: "50%", background: index === 0 ? "rgba(0,0,0,0.18)" : "#D5AF34", border: "none", cursor: index === 0 ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 22, fontWeight: 800, transition: "background 0.2s", flexShrink: 0 }}>
-            ‹
-          </button>
-
-          {/* Cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, width: "100%" }}>
-            {shown.map((item) => {
-              const shortTitle = item.title.length > 28 ? item.title.slice(0, 28) + "…" : item.title;
-              return (
-                <div key={item.id} style={{ position: "relative", aspectRatio: "4/3", overflow: "hidden", borderRadius: 2 }}>
-                  <div style={{ position: "absolute", inset: 0, backgroundImage: item.img ? `url(${item.img})` : "linear-gradient(135deg,#1a2035,#0A0B14)", backgroundSize: "cover", backgroundPosition: "center" }} />
-                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.76) 40%, rgba(0,0,0,0.10) 100%)" }} />
-                  <div style={{ position: "absolute", bottom: 0, left: 0, padding: "24px 20px", zIndex: 1 }}>
-                    <h3 style={{ ...CLAN, fontSize: 18, fontWeight: 800, color: "#ffffff", lineHeight: 1.25, margin: "0 0 14px" }}>
-                      {shortTitle}
-                    </h3>
-                    <Link to="/think-pieces/$slug" params={{ slug: item.slug }} style={goldBtn}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = "#D5AF34"; e.currentTarget.style.color = "#fff"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#D5AF34"; }}>
-                      READ MORE
-                    </Link>
-                  </div>
+        {/* Cards */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+            gap: isMobile ? 16 : 20,
+          }}
+        >
+          {shown.map((item) => {
+            const maxLen = isMobile ? 60 : 28;
+            const shortTitle = item.title.length > maxLen ? item.title.slice(0, maxLen) + "…" : item.title;
+            return (
+              <div key={item.id} style={{ position: "relative", aspectRatio: isMobile ? "16/9" : "4/3", overflow: "hidden", borderRadius: 2 }}>
+                <div style={{ position: "absolute", inset: 0, backgroundImage: item.img ? `url(${item.img})` : "linear-gradient(135deg,#1a2035,#0A0B14)", backgroundSize: "cover", backgroundPosition: "center" }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.76) 40%, rgba(0,0,0,0.10) 100%)" }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, padding: isMobile ? "20px 16px" : "24px 20px", zIndex: 1 }}>
+                  <h3 style={{ ...CLAN, fontSize: isMobile ? 16 : 18, fontWeight: 800, color: "#ffffff", lineHeight: 1.25, margin: "0 0 12px" }}>
+                    {shortTitle}
+                  </h3>
+                  <Link
+                    to="/think-pieces/$slug"
+                    params={{ slug: item.slug }}
+                    style={goldBtn}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = "#D5AF34"; e.currentTarget.style.color = "#fff"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#D5AF34"; }}
+                  >
+                    READ MORE
+                  </Link>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* Right arrow */}
-          <button onClick={next} disabled={index >= max} aria-label="Next"
-            style={{ position: "absolute", right: -40, zIndex: 2, width: 44, height: 44, borderRadius: "50%", background: index >= max ? "rgba(0,0,0,0.18)" : "#D5AF34", border: "none", cursor: index >= max ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 22, fontWeight: 800, transition: "background 0.2s", flexShrink: 0 }}>
-            ›
-          </button>
+              </div>
+            );
+          })}
         </div>
 
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 48 }}>
-          <Link to="/think-pieces" style={navyBtn}
+        {/* Navigation — desktop uses absolute arrows; mobile uses inline buttons */}
+        {isMobile ? (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginTop: 20 }}>
+            <button
+              onClick={prev}
+              disabled={index === 0}
+              aria-label="Previous"
+              style={{ width: 40, height: 40, borderRadius: "50%", background: index === 0 ? "rgba(0,0,0,0.12)" : "#D5AF34", border: "none", cursor: index === 0 ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 20, fontWeight: 800 }}
+            >
+              ‹
+            </button>
+            <span style={{ ...CLAN, fontSize: 13, color: "#9ca3af", fontWeight: 700 }}>
+              {index + 1} / {others.length}
+            </span>
+            <button
+              onClick={next}
+              disabled={index >= max}
+              aria-label="Next"
+              style={{ width: 40, height: 40, borderRadius: "50%", background: index >= max ? "rgba(0,0,0,0.12)" : "#D5AF34", border: "none", cursor: index >= max ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 20, fontWeight: 800 }}
+            >
+              ›
+            </button>
+          </div>
+        ) : (
+          /* Desktop absolute arrows rendered relative to the card grid */
+          <div style={{ position: "relative" }}>
+            {/* Re-render cards here is redundant — arrows are siblings to the grid above on desktop */}
+          </div>
+        )}
+
+        <div style={{ display: "flex", justifyContent: "center", marginTop: isMobile ? 32 : 48 }}>
+          <Link
+            to="/think-pieces"
+            style={navyBtn}
             onMouseEnter={(e) => { e.currentTarget.style.background = "#2D2973"; e.currentTarget.style.color = "#ffffff"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#2D2973"; }}>
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#2D2973"; }}
+          >
             VIEW ALL ARTICLES
           </Link>
         </div>
@@ -236,6 +320,10 @@ function RelatedCarousel({ currentSlug }) {
    LOCAL ARTICLE PAGE
    ───────────────────────────────────────────────────────────── */
 function LocalArticlePage({ article }) {
+  const isMobile = useIsMobile();
+  const articlePadding = isMobile ? "48px 0" : "80px 0";
+  const bodyPadding = isMobile ? "0 24px" : "0 80px";
+
   return (
     <>
       <ArticleHero
@@ -246,19 +334,19 @@ function LocalArticlePage({ article }) {
         isHtml={false}
       />
 
-      <article style={{ background: "#ffffff", padding: "80px 0" }}>
-        <div style={{ maxWidth: "100%", margin: "0 auto", padding: "0 80px" }}>
+      <article style={{ background: "#ffffff", padding: articlePadding }}>
+        <div style={{ maxWidth: "100%", margin: "0 auto", padding: bodyPadding }}>
           {article.category && (
             <p style={{ ...CLAN, fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.3em", color: "#D5AF34", marginBottom: 12, marginTop: 0 }}>
               {article.category}
             </p>
           )}
-          <h2 style={{ ...CLAN, fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 800, color: "#2D2973", lineHeight: 1.2, margin: "0 0 16px" }}>
+          <h2 style={{ ...CLAN, fontSize: "clamp(22px, 5vw, 38px)", fontWeight: 800, color: "#2D2973", lineHeight: 1.2, margin: "0 0 16px" }}>
             {article.title}
           </h2>
-          <p style={{ ...CLAN, fontSize: 15, fontWeight: 800, color: "#D5AF34", margin: "0 0 40px" }}>
+          <p style={{ ...CLAN, fontSize: 14, fontWeight: 800, color: "#D5AF34", margin: "0 0 36px", display: "flex", flexWrap: "wrap", gap: "4px 0" }}>
             By {article.author}
-            <span style={{ color: "#9ca3af", fontWeight: 700, marginLeft: 12 }}>· {article.date}</span>
+            <span style={{ color: "#9ca3af", fontWeight: 700, marginLeft: 10 }}>· {article.date}</span>
           </p>
           <LocalArticleBody body={article.body} />
         </div>
@@ -283,7 +371,7 @@ function LoadingState() {
 
 function ErrorState({ message }) {
   return (
-    <div style={{ padding: "128px 0", textAlign: "center" }}>
+    <div style={{ padding: "128px 24px", textAlign: "center" }}>
       <h1 style={{ ...CLAN, fontSize: 28, fontWeight: 800, color: "#2D2973" }}>Something went wrong</h1>
       <p style={{ ...CLAN, fontSize: 14, color: "#6b7280", marginTop: 8 }}>{message}</p>
       <Link to="/think-pieces" style={{ ...CLAN, display: "inline-block", marginTop: 24, padding: "12px 32px", background: "#D5AF34", color: "#fff", fontWeight: 800, fontSize: 13, textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.1em" }}>
@@ -295,7 +383,7 @@ function ErrorState({ message }) {
 
 function NotFoundState() {
   return (
-    <div style={{ padding: "128px 0", textAlign: "center" }}>
+    <div style={{ padding: "128px 24px", textAlign: "center" }}>
       <h1 style={{ ...CLAN, fontSize: 28, fontWeight: 800, color: "#2D2973" }}>Article not found</h1>
       <Link to="/think-pieces" style={{ ...CLAN, display: "inline-block", marginTop: 24, padding: "12px 32px", background: "#D5AF34", color: "#fff", fontWeight: 800, fontSize: 13, textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.1em" }}>
         Back to Think Pieces
@@ -309,6 +397,7 @@ function NotFoundState() {
    ───────────────────────────────────────────────────────────── */
 function WpArticlePage({ slug }) {
   const { post, isLoading, error, notFound } = usePostBySlug(slug);
+  const isMobile = useIsMobile();
 
   if (isLoading) return <LoadingState />;
   if (error) return <ErrorState message={error.message} />;
@@ -318,6 +407,9 @@ function WpArticlePage({ slug }) {
   const cat = getCategory(post);
   const author = getAuthorName(post);
   const excerpt = (post.excerpt?.rendered || "").replace(/<[^>]+>/g, "").trim();
+
+  const articlePadding = isMobile ? "48px 0" : "80px 0";
+  const bodyPadding = isMobile ? "0 24px" : "0 80px";
 
   return (
     <>
@@ -329,19 +421,21 @@ function WpArticlePage({ slug }) {
         isHtml={true}
       />
 
-      <article style={{ background: "#ffffff", padding: "80px 0" }}>
-        <div style={{ maxWidth: "100%", margin: "0 auto", padding: "0 80px" }}>
+      <article style={{ background: "#ffffff", padding: articlePadding }}>
+        <div style={{ maxWidth: "100%", margin: "0 auto", padding: bodyPadding }}>
           {cat && (
             <p style={{ ...CLAN, fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.3em", color: "#D5AF34", marginBottom: 12, marginTop: 0 }}>
               {cat}
             </p>
           )}
-          <h2 style={{ ...CLAN, fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 800, color: "#2D2973", lineHeight: 1.2, margin: "0 0 16px" }}
-            dangerouslySetInnerHTML={{ __html: post.title?.rendered || "" }} />
-          <p style={{ ...CLAN, fontSize: 15, fontWeight: 800, color: "#D5AF34", margin: "0 0 40px" }}>
+          <h2
+            style={{ ...CLAN, fontSize: "clamp(22px, 5vw, 38px)", fontWeight: 800, color: "#2D2973", lineHeight: 1.2, margin: "0 0 16px" }}
+            dangerouslySetInnerHTML={{ __html: post.title?.rendered || "" }}
+          />
+          <p style={{ ...CLAN, fontSize: 14, fontWeight: 800, color: "#D5AF34", margin: "0 0 36px", display: "flex", flexWrap: "wrap", gap: "4px 0" }}>
             By {author}
             {post.date && (
-              <span style={{ color: "#9ca3af", fontWeight: 700, marginLeft: 12 }}>· {formatDate(post.date)}</span>
+              <span style={{ color: "#9ca3af", fontWeight: 700, marginLeft: 10 }}>· {formatDate(post.date)}</span>
             )}
           </p>
           <ArticleBody html={post.content?.rendered || ""} />
@@ -354,13 +448,10 @@ function WpArticlePage({ slug }) {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   MAIN EXPORT — routes to local or WP based on slug
+   MAIN EXPORT
    ───────────────────────────────────────────────────────────── */
 export default function ArticlePage({ slug }) {
-  // Check local articles first
   const localArticle = articles.find((a) => a.slug === slug);
   if (localArticle) return <LocalArticlePage article={localArticle} />;
-
-  // Fall through to WordPress
   return <WpArticlePage slug={slug} />;
 }

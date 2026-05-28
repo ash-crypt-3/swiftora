@@ -8,15 +8,29 @@ import footerWebImg from "@/assets/branding/Swiftora-web-footer.png";
 const WP_SOCIAL = "https://swiftoraconsulting.co.ke/wp-content/uploads/2025/02";
 const F: React.CSSProperties = { fontFamily: '"Clan Pro", sans-serif' };
 
-/* ─────────────────────────────────────────────
-   FOOTER LOGO POSITION — adjust these two values
-   to move the logo exactly where you want it.
+/* ═══════════════════════════════════════════════════════════════
+   BIRD LOGO (footer grid, Col 1) — "Swiftora Standard Logo"
+═══════════════════════════════════════════════════════════════ */
+const LOGO_SIDE: "left" | "right" = "left"; // "left" | "right" — which grid column
+const LOGO_OFFSET_X   = 45;                 // px — horizontal nudge within that column
+const LOGO_OFFSET_TOP = 40;                 // px — moves logo UP
 
-   LOGO_OFFSET_LEFT  — positive moves LEFT (e.g. 20 = 20px left)
-   LOGO_OFFSET_TOP   — positive moves UP   (e.g. 10 = 10px up)
-───────────────────────────────────────────── */
-const LOGO_OFFSET_LEFT = 45;   // px — increase to move logo left
-const LOGO_OFFSET_TOP  = 40;   // px — increase to move logo up
+/* ═══════════════════════════════════════════════════════════════
+   WEB FOOTER IMAGE — "Swiftora-web-footer.png"
+   Sits in the service-links bar at the bottom of the purple band.
+
+   WEB_IMG_OFFSET_X   — horizontal nudge in px
+                        positive → moves image LEFT
+                        negative → moves image RIGHT
+                        (default 0 = no nudge, flush to the right edge)
+
+   WEB_IMG_OFFSET_Y   — vertical nudge in px
+                        positive → moves image UP
+                        negative → moves image DOWN
+                        (default -4 matches the original marginBottom: -4)
+═══════════════════════════════════════════════════════════════ */
+const WEB_IMG_OFFSET_X = 90;   // px — positive = left,  negative = right
+const WEB_IMG_OFFSET_Y = 10;  // px — positive = up,    negative = down
 
 /* ─────────────────────────────────────────────
    TOP BAR
@@ -201,6 +215,36 @@ export function Nav() {
 /* ─────────────────────────────────────────────
    FOOTER
 ───────────────────────────────────────────── */
+
+/**
+ * Builds the logo <img> element with the correct position offset
+ * based on LOGO_SIDE, LOGO_OFFSET_X, and LOGO_OFFSET_TOP.
+ */
+function FooterLogo() {
+  const base: React.CSSProperties = {
+    width: "100%",
+    maxWidth: "100%",
+    height: "auto",
+    display: "block",
+    objectFit: "contain",
+    position: "relative",
+    marginTop: -LOGO_OFFSET_TOP,
+  };
+
+  const positioned: React.CSSProperties =
+    LOGO_SIDE === "left"
+      ? { ...base, objectPosition: "left center", marginLeft: -LOGO_OFFSET_X }
+      : { ...base, objectPosition: "right center", marginLeft: LOGO_OFFSET_X };
+
+  return (
+    <img
+      src={footerLogo}
+      alt="Swiftora Consulting Limited"
+      style={positioned}
+    />
+  );
+}
+
 export function Footer() {
   const socialIcons = [
     { img: `${WP_SOCIAL}/Footer_Socio_Icons-01A.png`, href: "https://www.facebook.com/profile.php?id=61573079392370", label: "Facebook" },
@@ -229,6 +273,126 @@ export function Footer() {
     { label: "COMMUNICATION", to: "/services/communication" },
     { label: "RESEARCH",      to: "/services/research" },
   ];
+
+  /* ── Build the 5 footer columns.
+     When LOGO_SIDE = "right" the logo column is moved to position 5
+     and the Connect column shifts to position 4, keeping everything tidy. */
+  const logoColumn = (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: LOGO_SIDE === "right" ? "flex-end" : "flex-start" }}>
+      <p style={{ ...headStyle, textAlign: LOGO_SIDE === "right" ? "right" : "left" }}>LET'S DO GREAT THINGS</p>
+      <FooterLogo />
+    </div>
+  );
+
+  const siteMapColumn = (
+    <div>
+      <p style={headStyle}>SITE MAP</p>
+      {[
+        { to: "/",             label: "Home" },
+        { to: "/about",        label: "About Us" },
+        { to: "/think-pieces", label: "Insights" },
+        { to: "/talk-to-us",   label: "Contact Us" },
+      ].map((l) => (
+        <Link
+          key={l.to}
+          to={l.to as any}
+          style={linkStyle}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
+        >
+          {l.label}
+        </Link>
+      ))}
+    </div>
+  );
+
+  const quickAccessColumn = (
+    <div>
+      <p style={headStyle}>QUICK ACCESS</p>
+      {[
+        { to: "/flagship-solutions", label: "Flagship Solutions" },
+        { to: "/advisory-services",  label: "Advisory Services" },
+        { to: "/our-services",       label: "Practice Areas" },
+        { to: "/portfolio",          label: "Portfolio" },
+      ].map((l) => (
+        <Link
+          key={l.to}
+          to={l.to as any}
+          style={linkStyle}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
+        >
+          {l.label}
+        </Link>
+      ))}
+    </div>
+  );
+
+  const officeColumn = (
+    <div>
+      <p style={headStyle}>OFFICE</p>
+      <p style={{ ...F, fontSize: 13, fontWeight: 600, color: "#ffffff", lineHeight: 1.9, margin: 0 }}>
+        Applewood Adams,<br />
+        Odyssey Workspace,<br />
+        10th Floor, Suite 1011,<br />
+        Ngong Road, Kilimani,<br />
+        Nairobi, Kenya
+      </p>
+    </div>
+  );
+
+  const connectColumn = (
+    <div>
+      <p style={headStyle}>CONNECT WITH US</p>
+      <a
+        href="tel:+254729698380"
+        style={linkStyle}
+        onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
+      >
+        +254 729 698 380
+      </a>
+      <a
+        href="mailto:hello@swiftoraconsulting.co.ke"
+        style={{ ...linkStyle, wordBreak: "break-all" }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
+      >
+        hello@swiftoraconsulting.co.ke
+      </a>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 4 }}>
+        {socialIcons.map(({ img, href, label }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            style={{ opacity: 1, transition: "opacity 0.2s" }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.7")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+          >
+            <img
+              src={img}
+              alt={label}
+              style={{ width: 32, height: 32, objectFit: "contain" }}
+              onError={(e) => { e.currentTarget.parentElement!.style.display = "none"; }}
+            />
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+
+  /*
+   * Column order:
+   *   left  → Logo | SiteMap | QuickAccess | Office | Connect
+   *   right → SiteMap | QuickAccess | Office | Connect | Logo
+   */
+  const columns =
+    LOGO_SIDE === "left"
+      ? [logoColumn, siteMapColumn, quickAccessColumn, officeColumn, connectColumn]
+      : [siteMapColumn, quickAccessColumn, officeColumn, connectColumn, logoColumn];
 
   return (
     <footer>
@@ -266,122 +430,9 @@ export function Footer() {
         <div style={{ padding: "20px 40px 0", boxSizing: "border-box" }}>
 
           <div className="footer-grid">
-
-            {/* Col 1 — Logo */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-              <p style={headStyle}>LET'S DO GREAT THINGS</p>
-              <img
-                src={footerLogo}
-                alt="Swiftora Consulting Limited"
-                style={{
-                  width: "100%",
-                  maxWidth: "100%",
-                  height: "auto",
-                  display: "block",
-                  objectFit: "contain",
-                  objectPosition: "left center",
-                  marginTop: -LOGO_OFFSET_TOP,
-                  marginLeft: -LOGO_OFFSET_LEFT,
-                  position: "relative",
-                }}
-              />
-            </div>
-
-            {/* Col 2 — Site Map */}
-            <div>
-              <p style={headStyle}>SITE MAP</p>
-              {[
-                { to: "/",            label: "Home" },
-                { to: "/about",       label: "About Us" },
-                { to: "/think-pieces",label: "Insights" },
-                { to: "/talk-to-us",  label: "Contact Us" },
-              ].map((l) => (
-                <Link
-                  key={l.to}
-                  to={l.to as any}
-                  style={linkStyle}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
-                >
-                  {l.label}
-                </Link>
-              ))}
-            </div>
-
-            {/* Col 3 — Quick Access */}
-            <div>
-              <p style={headStyle}>QUICK ACCESS</p>
-              {[
-                { to: "/flagship-solutions", label: "Flagship Solutions" },
-                { to: "/advisory-services",  label: "Advisory Services" },
-                { to: "/our-services",       label: "Practice Areas" },
-                { to: "/portfolio",          label: "Portfolio" },
-              ].map((l) => (
-                <Link
-                  key={l.to}
-                  to={l.to as any}
-                  style={linkStyle}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
-                >
-                  {l.label}
-                </Link>
-              ))}
-            </div>
-
-            {/* Col 4 — Office */}
-            <div>
-              <p style={headStyle}>OFFICE</p>
-              <p style={{ ...F, fontSize: 13, fontWeight: 600, color: "#ffffff", lineHeight: 1.9, margin: 0 }}>
-                Applewood Adams,<br />
-                Odyssey Workspace,<br />
-                10th Floor, Suite 1011,<br />
-                Ngong Road, Kilimani,<br />
-                Nairobi, Kenya
-              </p>
-            </div>
-
-            {/* Col 5 — Connect */}
-            <div>
-              <p style={headStyle}>CONNECT WITH US</p>
-              <a
-                href="tel:+254729698380"
-                style={linkStyle}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
-              >
-                +254 729 698 380
-              </a>
-              <a
-                href="mailto:hello@swiftoraconsulting.co.ke"
-                style={{ ...linkStyle, wordBreak: "break-all" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
-              >
-                hello@swiftoraconsulting.co.ke
-              </a>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 4 }}>
-                {socialIcons.map(({ img, href, label }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    style={{ opacity: 1, transition: "opacity 0.2s" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.7")}
-                    onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-                  >
-                    <img
-                      src={img}
-                      alt={label}
-                      style={{ width: 32, height: 32, objectFit: "contain" }}
-                      onError={(e) => { e.currentTarget.parentElement!.style.display = "none"; }}
-                    />
-                  </a>
-                ))}
-              </div>
-            </div>
+            {columns.map((col, i) => (
+              <div key={i}>{col}</div>
+            ))}
           </div>
 
           {/* Service links bar */}
@@ -419,7 +470,14 @@ export function Footer() {
             <img
               src={footerWebImg}
               alt="get ahead for good"
-              style={{ height: 40, width: "auto", flexShrink: 0, marginBottom: -4 }}
+              style={{
+                height: 40,
+                width: "auto",
+                flexShrink: 0,
+                position: "relative",
+                marginRight: WEB_IMG_OFFSET_X,
+                bottom: WEB_IMG_OFFSET_Y,
+              }}
             />
           </div>
         </div>
@@ -436,7 +494,7 @@ export function Footer() {
             © Swiftora Consulting Limited 2026
           </span>
           <span style={{ ...F, fontSize: 12, fontWeight: 600, color: "#6b7280" }}>
-            Designed By WayoInk | Developed By endieGro
+            Designed and Developed By endieGro
           </span>
         </div>
       </div>
