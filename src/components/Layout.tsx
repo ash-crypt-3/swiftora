@@ -9,29 +9,53 @@ const WP_SOCIAL = "https://swiftoraconsulting.co.ke/wp-content/uploads/2025/02";
 const F: React.CSSProperties = { fontFamily: '"Clan Pro", sans-serif' };
 
 /* ─────────────────────────────────────────────
+   FOOTER LOGO POSITION — adjust these two values
+   to move the logo exactly where you want it.
+
+   LOGO_OFFSET_LEFT  — positive moves LEFT (e.g. 20 = 20px left)
+   LOGO_OFFSET_TOP   — positive moves UP   (e.g. 10 = 10px up)
+───────────────────────────────────────────── */
+const LOGO_OFFSET_LEFT = 45;   // px — increase to move logo left
+const LOGO_OFFSET_TOP  = 40;   // px — increase to move logo up
+
+/* ─────────────────────────────────────────────
    TOP BAR
 ───────────────────────────────────────────── */
 export function TopBar() {
   return (
     <div
       style={{ background: "#0A0B14" }}
-      className="hidden md:flex items-center justify-between text-[11px] text-[#A19E9E] px-10 py-1.5"
+      className="hidden md:flex items-center justify-between text-[#A19E9E] px-10 py-1.5"
     >
+      {/* Left — email, larger and bold */}
       <div className="flex items-center">
-        <a href="mailto:hello@swiftoraconsulting.co.ke"
-          className="flex items-center gap-1.5 hover:text-[#D5AF34] transition-colors">
-          <Mail size={11} /> Email Us: hello@swiftoraconsulting.co.ke
+        <a
+          href="mailto:hello@swiftoraconsulting.co.ke"
+          className="flex items-center gap-2 hover:text-[#D5AF34] transition-colors"
+          style={{ fontSize: 13, fontWeight: 700, fontFamily: '"Clan Pro", sans-serif' }}
+        >
+          <Mail size={13} /> Email Us: hello@swiftoraconsulting.co.ke
         </a>
       </div>
+
+      {/* Right — phone + WhatsApp, larger and bold */}
       <div className="flex items-center gap-4">
-        <a href="tel:+254729698380"
-          className="flex items-center gap-1.5 hover:text-[#D5AF34] transition-colors">
-          <Phone size={11} /> Call Us: 0729 698 380
+        <a
+          href="tel:+254729698380"
+          className="flex items-center gap-2 hover:text-[#D5AF34] transition-colors"
+          style={{ fontSize: 13, fontWeight: 700, fontFamily: '"Clan Pro", sans-serif' }}
+        >
+          <Phone size={13} /> Call Us: 0729 698 380
         </a>
-        <span className="text-white/20">|</span>
-        <a href="https://wa.me/254729698380" target="_blank" rel="noopener noreferrer"
-          aria-label="WhatsApp" className="hover:text-[#D5AF34] transition-colors">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+        <span style={{ color: "rgba(255,255,255,0.2)" }}>|</span>
+        <a
+          href="https://wa.me/254729698380"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp"
+          className="hover:text-[#D5AF34] transition-colors"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
           </svg>
         </a>
@@ -92,8 +116,12 @@ export function Nav() {
       >
         <div className="flex items-center justify-between px-4 md:px-6 lg:px-10" style={{ minHeight: 72 }}>
           <Link to="/" aria-label="Swiftora Consulting Limited">
-            <img src={navbarLogo} alt="Swiftora Consulting Limited"
-              style={{ height: 48, width: "auto" }} className="md:h-[58px]" />
+            <img
+              src={navbarLogo}
+              alt="Swiftora Consulting Limited"
+              style={{ height: 48, width: "auto" }}
+              className="md:h-[58px]"
+            />
           </Link>
 
           {/* Desktop nav */}
@@ -116,8 +144,11 @@ export function Nav() {
           </nav>
 
           {/* Hamburger */}
-          <button onClick={() => setOpen((o) => !o)}
-            className="lg:hidden p-2 ml-auto" aria-label="Open menu">
+          <button
+            onClick={() => setOpen((o) => !o)}
+            className="lg:hidden p-2 ml-auto"
+            aria-label="Open menu"
+          >
             <span className="block w-6 h-0.5 bg-[#2D2973] mb-1.5" />
             <span className="block w-6 h-0.5 bg-[#2D2973] mb-1.5" />
             <span className="block w-6 h-0.5 bg-[#2D2973]" />
@@ -128,15 +159,34 @@ export function Nav() {
       {/* Mobile menu */}
       {open && (
         <>
-          <div className="fixed inset-0 z-40 lg:hidden"
+          <div
+            className="fixed inset-0 z-40 lg:hidden"
             style={{ background: "rgba(0,0,0,0.35)", top: 72 }}
-            onClick={() => setOpen(false)} />
-          <div className="fixed left-0 right-0 z-50 lg:hidden overflow-y-auto"
-            style={{ top: 72, background: "#ffffff", maxHeight: "50vh", boxShadow: "0 8px 32px rgba(0,0,0,0.15)", borderTop: "2px solid #D5AF34" }}>
+            onClick={() => setOpen(false)}
+          />
+          <div
+            className="fixed left-0 right-0 z-50 lg:hidden overflow-y-auto"
+            style={{
+              top: 72,
+              background: "#ffffff",
+              maxHeight: "50vh",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
+              borderTop: "2px solid #D5AF34",
+            }}
+          >
             <nav style={{ padding: "0 24px" }}>
               {navLinks.map((l) => (
-                <Link key={l.to} to={l.to as any} onClick={() => setOpen(false)}
-                  style={{ display: "block", fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: "#2D2973", textDecoration: "none", padding: "14px 0", borderBottom: "1px solid #e5e7eb" }}>
+                <Link
+                  key={l.to}
+                  to={l.to as any}
+                  onClick={() => setOpen(false)}
+                  style={{
+                    display: "block", fontSize: 14, fontWeight: 700,
+                    textTransform: "uppercase", letterSpacing: "0.04em",
+                    color: "#2D2973", textDecoration: "none",
+                    padding: "14px 0", borderBottom: "1px solid #e5e7eb",
+                  }}
+                >
                   {l.label}
                 </Link>
               ))}
@@ -162,13 +212,24 @@ export function Footer() {
 
   const headStyle: React.CSSProperties = {
     ...F, fontSize: 11, fontWeight: 800, textTransform: "uppercase",
-    letterSpacing: "0.18em", color: "#D5AF34", marginBottom: 18, marginTop: 0,
+    letterSpacing: "0.18em", color: "#D5AF34",
+    marginBottom: 8,
+    marginTop: 0,
   };
 
   const linkStyle: React.CSSProperties = {
     ...F, fontSize: 13, fontWeight: 600, color: "#ffffff",
-    textDecoration: "none", display: "block", marginBottom: 10, transition: "color 0.2s",
+    textDecoration: "none", display: "block", marginBottom: 6, transition: "color 0.2s",
   };
+
+  // Each service links to its own dedicated page
+  const serviceLinks = [
+    { label: "STRATEGY",      to: "/services/strategy" },
+    { label: "SALES",         to: "/services/sales" },
+    { label: "MARKETING",     to: "/services/marketing" },
+    { label: "COMMUNICATION", to: "/services/communication" },
+    { label: "RESEARCH",      to: "/services/research" },
+  ];
 
   return (
     <footer>
@@ -184,12 +245,11 @@ export function Footer() {
           opacity:0!important;pointer-events:none!important;
         }
 
-        /* ── 5-column equal grid ── */
         .footer-grid {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
           gap: 0 32px;
-          margin-bottom: 36px;
+          margin-bottom: 16px;
           align-items: start;
         }
         @media (max-width: 1200px) {
@@ -204,14 +264,13 @@ export function Footer() {
       `}</style>
 
       <div style={{ background: "#2D2973" }}>
-        <div style={{ padding: "48px 40px 0", boxSizing: "border-box" }}>
+        <div style={{ padding: "20px 40px 0", boxSizing: "border-box" }}>
 
           <div className="footer-grid">
 
-            {/* Col 1 — Logo: left-aligned, fills column width so logo words
-                align with the column heading above */}
+            {/* Col 1 — Logo: flush left, pulled up close to heading */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-              <p style={{ ...headStyle }}>LET'S DO GREAT THINGS</p>
+              <p style={headStyle}>LET'S DO GREAT THINGS</p>
               <img
                 src={footerLogo}
                 alt="Swiftora Consulting Limited"
@@ -222,7 +281,9 @@ export function Footer() {
                   display: "block",
                   objectFit: "contain",
                   objectPosition: "left center",
-                  marginLeft: "-45px",
+                  marginTop: -LOGO_OFFSET_TOP,    // negative marginTop moves image UP
+                  marginLeft: -LOGO_OFFSET_LEFT,  // negative marginLeft moves image LEFT
+                  position: "relative",
                 }}
               />
             </div>
@@ -231,14 +292,18 @@ export function Footer() {
             <div>
               <p style={headStyle}>SITE MAP</p>
               {[
-                { to: "/", label: "Home" },
-                { to: "/about", label: "About Us" },
-                { to: "/think-pieces", label: "Insights" },
-                { to: "/talk-to-us", label: "Contact Us" },
+                { to: "/",            label: "Home" },
+                { to: "/about",       label: "About Us" },
+                { to: "/think-pieces",label: "Insights" },
+                { to: "/talk-to-us",  label: "Contact Us" },
               ].map((l) => (
-                <Link key={l.to} to={l.to as any} style={linkStyle}
+                <Link
+                  key={l.to}
+                  to={l.to as any}
+                  style={linkStyle}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}>
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
+                >
                   {l.label}
                 </Link>
               ))}
@@ -249,13 +314,17 @@ export function Footer() {
               <p style={headStyle}>QUICK ACCESS</p>
               {[
                 { to: "/flagship-solutions", label: "Flagship Solutions" },
-                { to: "/advisory-services", label: "Advisory Services" },
-                { to: "/our-services", label: "Practice Areas" },
-                { to: "/portfolio", label: "Portfolio" },
+                { to: "/advisory-services",  label: "Advisory Services" },
+                { to: "/our-services",       label: "Practice Areas" },
+                { to: "/portfolio",          label: "Portfolio" },
               ].map((l) => (
-                <Link key={l.to} to={l.to as any} style={linkStyle}
+                <Link
+                  key={l.to}
+                  to={l.to as any}
+                  style={linkStyle}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}>
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
+                >
                   {l.label}
                 </Link>
               ))}
@@ -276,64 +345,100 @@ export function Footer() {
             {/* Col 5 — Connect */}
             <div>
               <p style={headStyle}>CONNECT WITH US</p>
-              <a href="tel:+254729698380" style={linkStyle}
+              <a
+                href="tel:+254729698380"
+                style={linkStyle}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}>
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
+              >
                 +254 729 698 380
               </a>
-              <a href="mailto:hello@swiftoraconsulting.co.ke"
+              <a
+                href="mailto:hello@swiftoraconsulting.co.ke"
                 style={{ ...linkStyle, wordBreak: "break-all" }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}>
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
+              >
                 hello@swiftoraconsulting.co.ke
               </a>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 4 }}>
                 {socialIcons.map(({ img, href, label }) => (
-                  <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
                     style={{ opacity: 1, transition: "opacity 0.2s" }}
                     onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.7")}
-                    onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}>
-                    <img src={img} alt={label}
+                    onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                  >
+                    <img
+                      src={img}
+                      alt={label}
                       style={{ width: 32, height: 32, objectFit: "contain" }}
-                      onError={(e) => { e.currentTarget.parentElement!.style.display = "none"; }} />
+                      onError={(e) => { e.currentTarget.parentElement!.style.display = "none"; }}
+                    />
                   </a>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* STRATEGY | SALES | … row */}
+          {/* STRATEGY | SALES | … — each points to its own service page */}
           <div style={{
             borderTop: "1px solid rgba(255,255,255,0.1)",
-            paddingTop: 16, paddingBottom: 16,
-            display: "flex", alignItems: "center",
+            paddingTop: 10,
+            paddingBottom: 10,
+            display: "flex",
+            alignItems: "center",
             justifyContent: "space-between",
-            flexWrap: "wrap", gap: 12,
+            flexWrap: "wrap",
+            gap: 8,
           }}>
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-              {["STRATEGY", "SALES", "MARKETING", "COMMUNICATION", "RESEARCH"].map((p, i, arr) => (
-                <span key={p} style={{ display: "flex", alignItems: "center" }}>
-                  <Link to="/our-services"
-                    style={{ ...F, fontSize: 11, fontWeight: 800, letterSpacing: "0.15em", color: "#FFFFFF", textDecoration: "none", transition: "color 0.2s" }}
+              {serviceLinks.map(({ label, to }, i, arr) => (
+                <span key={to} style={{ display: "flex", alignItems: "center" }}>
+                  <Link
+                    to={to as any}
+                    style={{
+                      ...F, fontSize: 11, fontWeight: 800,
+                      letterSpacing: "0.15em", color: "#FFFFFF",
+                      textDecoration: "none", transition: "color 0.2s",
+                    }}
                     onMouseEnter={(e) => (e.currentTarget.style.color = "#D5AF34")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "#FFFFFF")}>
-                    {p}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#FFFFFF")}
+                  >
+                    {label}
                   </Link>
-                  {i < arr.length - 1 && <span style={{ margin: "0 12px", color: "rgba(255,255,255,0.3)" }}>|</span>}
+                  {i < arr.length - 1 && (
+                    <span style={{ margin: "0 12px", color: "rgba(255,255,255,0.3)" }}>|</span>
+                  )}
                 </span>
               ))}
             </div>
-            <img src={footerWebImg} alt="get ahead for good"
-              style={{ height: 56, width: "auto", flexShrink: 0, marginBottom: -4 }} />
+            <img
+              src={footerWebImg}
+              alt="get ahead for good"
+              style={{ height: 40, width: "auto", flexShrink: 0, marginBottom: -4 }}
+            />
           </div>
         </div>
       </div>
 
       {/* Copyright bar */}
       <div style={{ background: "#FFFFFF", padding: "12px 40px" }}>
-        <div style={{ maxWidth: 1240, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 4 }}>
-          <span style={{ ...F, fontSize: 12, fontWeight: 600, color: "#6b7280" }}>© Swiftora Consulting Limited 2026</span>
-          <span style={{ ...F, fontSize: 12, fontWeight: 600, color: "#6b7280" }}>Designed By WayoInk | Developed By endieGro</span>
+        <div style={{
+          maxWidth: 1240, margin: "0 auto",
+          display: "flex", alignItems: "center",
+          justifyContent: "space-between", flexWrap: "wrap", gap: 4,
+        }}>
+          <span style={{ ...F, fontSize: 12, fontWeight: 600, color: "#6b7280" }}>
+            © Swiftora Consulting Limited 2026
+          </span>
+          <span style={{ ...F, fontSize: 12, fontWeight: 600, color: "#6b7280" }}>
+            Designed By WayoInk | Developed By endieGro
+          </span>
         </div>
       </div>
     </footer>

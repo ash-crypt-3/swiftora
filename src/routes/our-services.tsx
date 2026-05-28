@@ -1,3 +1,4 @@
+// FILE: src/routes/our-services.tsx
 import { createFileRoute, Link } from "@tanstack/react-router";
 import ContactForm from "@/components/ContactForm";
 import { useEffect, useRef } from "react";
@@ -189,21 +190,21 @@ function ServicesPage() {
       <HeroSection />
 
       {/* INTRO */}
-      <section style={{ background: "#E8EDF3", padding: "6px 0" }}>
+      <section style={{ background: "#E8EDF3", padding: "30px 0" }}>
         <div style={{ width: "100%", padding: "0 clamp(20px,6vw,80px)", boxSizing: "border-box" }}>
-          <p style={{ ...CLAN, fontSize: "clamp(14px,1.5vw,17px)", fontWeight: 600, color: "#111111", lineHeight: 1.85, marginBottom: 5, marginTop: 0, textAlign: "justify" }}>
+          <p style={{ ...CLAN, fontSize: "clamp(14px,1.5vw,17px)", fontWeight: 600, color: "#111111", lineHeight: 2, marginBottom: 5, marginTop: 0, textAlign: "justify" }}>
             At Swiftora Consulting Limited, our practice areas are structured to help organisations solve business challenges, strengthen competitiveness, and achieve sustainable growth. We combine strategic thinking, market intelligence, and execution-focused advisory to support informed decision-making, operational improvement, and commercial performance across diverse sectors and evolving market environments within East Africa and beyond.
           </p>
-          <p style={{ ...CLAN, fontSize: "clamp(14px,1.5vw,17px)", fontWeight: 600, color: "#111111", lineHeight: 1.85, margin: 0, textAlign: "justify" }}>
+          <p style={{ ...CLAN, fontSize: "clamp(14px,1.5vw,17px)", fontWeight: 600, color: "#111111", lineHeight: 2, margin: 0, textAlign: "justify" }}>
             Our multidisciplinary approach enables us to deliver practical, data-driven, and context-specific solutions tailored to each client's objectives. From business strategy and market research to sales, marketing, organisational development, and corporate communication, we work closely with clients to identify opportunities, improve performance, manage change, and build resilient organisations positioned for long-term growth and measurable impact.
           </p>
         </div>
       </section>
 
       {/* OUR APPROACH — pure CSS line, zero JS timing issues */}
-      <section style={{ background: "#ffffff", padding: "4px 0 2px" }}>
+      <section style={{ background: "#ffffff", padding: "0" }}>
         <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
-          <h2 style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: "0 0 4px" }}>
+          <h2 style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: "-40px 0 0" }}>
             OUR APPROACH
           </h2>
           <div className="approach-row">
@@ -222,9 +223,9 @@ function ServicesPage() {
       </section>
 
       {/* OUR SERVICES */}
-      <section style={{ background: "#ffffff", padding: "3px 0 0" }}>
+      <section style={{ background: "#ffffff", padding: "0" }}>
         <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
-          <h2 style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 900, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: "0 0 6px" }}>
+          <h2 style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 900, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em", margin: "-100px 0 4px" }}>
             OUR SERVICES
           </h2>
           <div className="services-grid">
@@ -243,13 +244,13 @@ function ServicesPage() {
       {/* TARGET CLIENTS */}
       <section style={{ background: "#ffffff", padding: "0" }}>
         <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
-          <h2 style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 800, color: "#D5AF34", textTransform: "uppercase", letterSpacing: "0.01em", margin: "5px 0 3px" }}>
+          <h2 style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 800, color: "#D5AF34", textTransform: "uppercase", letterSpacing: "0.01em", margin: "-90px 0 3px" }}>
             TARGET CLIENTS
           </h2>
           <div className="clients-grid">
             {targetClients.map(({ title, body }) => (
               <div key={title} style={{ background: "#2D2973", padding: "16px 14px", textAlign: "center" }}>
-                <h4 style={{ ...CLAN, fontSize: "clamp(18px,2vw,26px)", fontWeight: 800, fontStyle: "italic", color: "#D5AF34", margin: "0 0 7px", lineHeight: 1.3 }}>{title}</h4>
+                <h4 style={{ ...CLAN, fontSize: "clamp(18px,2vw,26px)", fontWeight: 800, fontStyle: "italic", color: "#D5AF34", margin: "0 0 20px", lineHeight: 1.3 }}>{title}</h4>
                 <p style={{ ...CLAN, fontSize: "clamp(13px,1.2vw,15px)", fontWeight: 600, color: "#ffffff", lineHeight: 1.8, margin: 0 }}>{body}</p>
               </div>
             ))}

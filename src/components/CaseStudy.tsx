@@ -265,7 +265,7 @@ function RelatedCard({
         onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.transform = "scale(1.02)"; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = "scale(1)"; }}
       >
-        <img src={r.singleImage} alt={r.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        <img src={r.cardImage} alt={r.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,11,20,0.85) 0%, rgba(10,11,20,0.12) 55%)" }} />
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "16px" }}>
           <p style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 14, fontWeight: 800, color: "#ffffff", margin: "0 0 12px", lineHeight: 1.35 }}>

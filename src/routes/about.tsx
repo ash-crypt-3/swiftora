@@ -276,7 +276,7 @@ function FoundingStorySection() {
       <div className="founding-hero" style={{ position: "relative", width: "100%", height: 440, overflow: "hidden" }}>
         <img src={foundingHero} alt="Founding story" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)" }} />
-        <div className="founding-heading" style={{ position: "absolute", bottom: 48, left: 48 }}>
+        <div className="founding-heading" style={{ position: "absolute", bottom: "25%", left: 48 }}>
           <h2 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(24px, 4vw, 38px)", color: "#ffffff", textTransform: "uppercase", letterSpacing: "0.25em", margin: 0 }}>
             OUR FOUNDING STORY
           </h2>
@@ -300,7 +300,7 @@ function TeamSection() {
   return (
     <section className="section-padding" style={{ background: "#ffffff", padding: "80px 0" }}>
       <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 clamp(20px, 5vw, 40px)" }}>
-        <h2 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(20px, 3vw, 26px)", color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 48, marginTop: 0 }}>
+        <h2 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 900, fontSize: "clamp(26px, 3.5vw, 40px)", color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 48, marginTop: 0 }}>
           OUR TEAM
         </h2>
 

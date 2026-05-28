@@ -93,6 +93,10 @@ function Stars({ count }: { count: number }) {
   );
 }
 
+/* Shared horizontal padding — keeps hero text and blue block text aligned */
+const SECTION_PAD = "0 60px";
+const SECTION_MAX = 1240;
+
 function ParallaxHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -123,31 +127,35 @@ function ParallaxHero() {
           transition: "transform 0.05s linear",
         }}
       />
-      <div style={{
-        position: "absolute", inset: 0,
-        background: "linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)",
-      }} />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)" }} />
 
-      {/* Hero text — uses portfolio-section class for identical left edge as blue block */}
-      <div className="portfolio-hero-text">
-        <div style={{ maxWidth: 1240, margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
-          <p style={{
-            fontFamily: '"Clan Pro", sans-serif', fontSize: 11, fontWeight: 700,
-            textTransform: "uppercase", letterSpacing: "0.3em",
-            color: "#ffffff", marginBottom: 14, marginTop: 0,
-          }}>
-            Portfolio
-          </p>
-          <h1 style={{
-            fontFamily: '"Clan Pro", sans-serif', fontWeight: 700,
-            fontSize: "clamp(28px, 4.5vw, 58px)", lineHeight: 1.15, margin: 0,
-          }}>
-            <span style={{ color: "#ffffff" }}>Delivering Excellence,</span>
-            <br />
-            <span style={{ color: "#D5AF34" }}>Redefining Possibilities</span>
-          </h1>
-        </div>
+      {/* Title — same maxWidth and padding as the blue intro block below */}
+      <div
+        style={{
+          position: "absolute", inset: 0,
+          display: "flex", flexDirection: "column", justifyContent: "center",
+          maxWidth: SECTION_MAX,
+          margin: "0 auto", left: 0, right: 0,
+          padding: SECTION_PAD,
+          boxSizing: "border-box",
+        }}
+        className="portfolio-hero-inner"
+      >
+        <p style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: "#ffffff", marginBottom: 14, marginTop: 0 }}>
+          Portfolio
+        </p>
+        <h1 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(28px, 4.5vw, 58px)", lineHeight: 1.15, margin: 0 }}>
+          <span style={{ color: "#ffffff" }}>Delivering Excellence,</span>
+          <br />
+          <span style={{ color: "#D5AF34" }}>Redefining Possibilities</span>
+        </h1>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .portfolio-hero-inner { padding: 0 24px !important; }
+        }
+      `}</style>
     </div>
   );
 }
@@ -172,8 +180,7 @@ function GalleryCarousel() {
 
   const arrowBtn: React.CSSProperties = {
     width: 36, height: 36, background: "#D5AF34", border: "none", cursor: "pointer",
-    display: "flex", alignItems: "center", justifyContent: "center",
-    flexShrink: 0, color: "#ffffff",
+    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#ffffff",
   };
 
   return (
@@ -217,11 +224,7 @@ function TestimonialSlider() {
   return (
     <div>
       <div key={current} style={{ maxWidth: 860, animation: "fadeIn 0.4s ease" }}>
-        <p style={{
-          fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontStyle: "italic",
-          fontSize: "clamp(14px, 1.5vw, 16px)", color: "#4D4D4D",
-          lineHeight: 1.9, marginBottom: 16, marginTop: 0,
-        }}>
+        <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontStyle: "italic", fontSize: "clamp(14px, 1.5vw, 16px)", color: "#4D4D4D", lineHeight: 1.9, marginBottom: 16, marginTop: 0 }}>
           &ldquo;{t.body}&rdquo;
         </p>
         <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: 14, color: "#2D2973", margin: 0 }}>
@@ -257,21 +260,13 @@ function PortfolioPage() {
     <>
       <ParallaxHero />
 
-      {/* Intro */}
+      {/* Intro — same maxWidth and padding as hero text so they align */}
       <section className="portfolio-section portfolio-intro">
-        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-          <p style={{
-            fontFamily: '"Clan Pro", sans-serif', fontWeight: 700,
-            fontSize: "clamp(14px, 1.4vw, 16px)", color: "#ffffff",
-            lineHeight: 1.9, marginBottom: 20, marginTop: 0, textAlign: "justify",
-          }}>
+        <div style={{ maxWidth: SECTION_MAX, margin: "0 auto" }}>
+          <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(14px, 1.4vw, 16px)", color: "#ffffff", lineHeight: 1.9, marginBottom: 20, marginTop: 0, textAlign: "justify" }}>
             Throughout our professional journey, we have consistently approached every engagement with resolute determination, dedication, and distinction. Our focus has always been on solving problems, delivering valuable outcomes, and creating work that truly matters. Every solution and service we provide is designed to inspire our clients to achieve more, dream bigger, learn continuously, and grow exponentially.
           </p>
-          <p style={{
-            fontFamily: '"Clan Pro", sans-serif', fontWeight: 700,
-            fontSize: "clamp(14px, 1.4vw, 16px)", color: "#ffffff",
-            lineHeight: 1.9, marginBottom: 0, marginTop: 0, textAlign: "justify",
-          }}>
+          <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(14px, 1.4vw, 16px)", color: "#ffffff", lineHeight: 1.9, marginBottom: 0, marginTop: 0, textAlign: "justify" }}>
             Over the years, we have had the privilege of partnering with organisations across diverse industries and sectors, delivering innovative, cutting-edge solutions. The following pages present a curated collection of our most impactful professional work, spanning strategy, sales, marketing, communication and research. We are passionate about delivering exceptional results that not only exceed expectations but also leave a lasting impression.
           </p>
         </div>
@@ -279,7 +274,7 @@ function PortfolioPage() {
 
       {/* Gallery */}
       <section className="portfolio-section portfolio-gallery">
-        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+        <div style={{ maxWidth: SECTION_MAX, margin: "0 auto" }}>
           <h2 style={galleryHeading}>Portfolio Gallery</h2>
           <GalleryCarousel />
         </div>
@@ -287,7 +282,7 @@ function PortfolioPage() {
 
       {/* Featured Engagements */}
       <section className="portfolio-section portfolio-engagements">
-        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+        <div style={{ maxWidth: SECTION_MAX, margin: "0 auto" }}>
           <h2 style={{ ...sectionHeading, textAlign: "left" }}>Featured Engagements</h2>
           <div className="portfolio-engagements-grid">
             {engagements.map((e) => (
@@ -307,23 +302,12 @@ function PortfolioPage() {
                   alt={e.title}
                   style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
                 />
-                <div style={{
-                  position: "absolute", inset: 0,
-                  background: "linear-gradient(to top, rgba(10,11,20,0.88) 0%, rgba(10,11,20,0.40) 55%, transparent 100%)",
-                }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,11,20,0.88) 0%, rgba(10,11,20,0.40) 55%, transparent 100%)" }} />
                 <div style={{ position: "relative", zIndex: 2, padding: "24px 28px" }}>
-                  <h3 style={{
-                    fontFamily: '"Clan Pro", sans-serif', fontWeight: 700,
-                    fontSize: "clamp(16px, 1.8vw, 20px)", color: "#ffffff",
-                    lineHeight: 1.3, margin: "0 0 12px",
-                  }}>
+                  <h3 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(16px, 1.8vw, 20px)", color: "#ffffff", lineHeight: 1.3, margin: "0 0 12px" }}>
                     {e.title}
                   </h3>
-                  <span style={{
-                    display: "inline-flex", alignItems: "center", gap: 6,
-                    fontFamily: '"Clan Pro", sans-serif', fontSize: 11, fontWeight: 700,
-                    textTransform: "uppercase", letterSpacing: "0.15em", color: "#D5AF34",
-                  }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: '"Clan Pro", sans-serif', fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#D5AF34" }}>
                     {e.category}
                   </span>
                 </div>
@@ -351,7 +335,7 @@ function PortfolioPage() {
 
       {/* Testimonials */}
       <section className="portfolio-section portfolio-testimonials">
-        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+        <div style={{ maxWidth: SECTION_MAX, margin: "0 auto" }}>
           <h2 style={{ ...sectionHeading, textAlign: "left" }}>Client Testimonials</h2>
           <TestimonialSlider />
         </div>
@@ -359,7 +343,7 @@ function PortfolioPage() {
 
       {/* Clients */}
       <section className="portfolio-section portfolio-clients" style={{ background: "#ffffff", paddingBottom: 40 }}>
-        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+        <div style={{ maxWidth: SECTION_MAX, margin: "0 auto" }}>
           <h2 style={{ ...sectionHeading, textAlign: "left" }}>Our Clients</h2>
         </div>
         <style>{`
@@ -374,25 +358,12 @@ function PortfolioPage() {
       </section>
 
       <style>{`
-        .portfolio-section {
-          padding: 56px 60px;
-        }
+        .portfolio-section { padding: 56px 60px; }
         .portfolio-intro { background: #2D2973; }
         .portfolio-gallery { background: #f7f6f2; }
         .portfolio-engagements { background: #E8EEF7; }
         .portfolio-testimonials { background: #f7f6f2; }
         .portfolio-clients { padding-top: 56px; }
-
-        /* Hero text uses same horizontal padding as .portfolio-section */
-        .portfolio-hero-text {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: 0 60px;
-          box-sizing: border-box;
-        }
 
         .portfolio-engagements-grid {
           display: grid;
@@ -403,7 +374,6 @@ function PortfolioPage() {
 
         @media (max-width: 900px) {
           .portfolio-section { padding: 40px 32px; }
-          .portfolio-hero-text { padding: 0 32px; }
           .portfolio-engagements-grid {
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
@@ -412,7 +382,6 @@ function PortfolioPage() {
 
         @media (max-width: 600px) {
           .portfolio-section { padding: 32px 20px; }
-          .portfolio-hero-text { padding: 0 20px; }
           .portfolio-engagements-grid {
             grid-template-columns: 1fr;
             gap: 14px;

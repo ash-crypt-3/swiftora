@@ -8,6 +8,14 @@ import single05 from "@/assets/engagement/Portfolio-06-Herencia.jpg.jpeg";
 import single06 from "@/assets/engagement/Portfolio-04-PAC.jpg.jpeg";
 import single07 from "@/assets/engagement/Featured-Engagement-07-Single-Page.jpg";
 
+import card01 from "@/assets/featured-engagements/Featured-Engagement-01-Title.jpg";
+import card02 from "@/assets/featured-engagements/Featured-Engagement-02-Title.jpg";
+import card03 from "@/assets/featured-engagements/Featured-Engagement-03-Title.jpg";
+import card04 from "@/assets/featured-engagements/Featured-Engagement-04-Title.jpg";
+import card05 from "@/assets/featured-engagements/Featured-Engagement-05-Title.jpg";
+import card06 from "@/assets/featured-engagements/Featured-Engagement-06-Title.jpg";
+import card07 from "@/assets/featured-engagements/Featured-Engagement-07-Title.jpg";
+
 export type EngagementSlug =
   | "ameer-developers"
   | "zuri-nzilani-foundation"
@@ -18,22 +26,23 @@ export type EngagementSlug =
   | "fmcg-distribution-study";
 
 export interface ContentSection {
-  heading?: string; // bold inline subheading — optional
+  heading?: string;
   paragraphs: string[];
 }
 
 export interface Engagement {
   slug: EngagementSlug;
-  caseStudyNumber: string; // "One", "Two", "Three", etc.
+  caseStudyNumber: string;
   title: string;
   category: string;
   client: string;
-  heroIntro: string;       // shown in gold box — 1–2 italic paragraphs
-  sections: ContentSection[]; // long-form prose sections
+  heroIntro: string;
+  sections: ContentSection[];
   metrics: { label: string; value: string }[];
   pullQuote?: string;
   heroImage: string;
   singleImage: string;
+  cardImage: string;
 }
 
 export const engagements: Engagement[] = [
@@ -92,6 +101,7 @@ export const engagements: Engagement[] = [
     pullQuote: "Swiftora moved us from selling square metres to selling a way of living — and the numbers followed.",
     heroImage: heroImg,
     singleImage: single01,
+    cardImage: card01,
   },
   {
     slug: "zuri-nzilani-foundation",
@@ -138,6 +148,7 @@ export const engagements: Engagement[] = [
     pullQuote: "When we spoke to the people who actually make the decisions, behaviour changed.",
     heroImage: heroImg,
     singleImage: single02,
+    cardImage: card02,
   },
   {
     slug: "alliance-hospital",
@@ -182,7 +193,8 @@ export const engagements: Engagement[] = [
       { label: "Specialty articles", value: "60+" },
     ],
     heroImage: heroImg,
-    singleImage: single06,
+    singleImage: single03,
+    cardImage: card06,
   },
   {
     slug: "rochman-properties",
@@ -232,7 +244,8 @@ export const engagements: Engagement[] = [
       { label: "Forecast accuracy", value: "+30%" },
     ],
     heroImage: heroImg,
-    singleImage: single05,
+    singleImage: single04,
+    cardImage: card05,
   },
   {
     slug: "herencia",
@@ -274,7 +287,8 @@ export const engagements: Engagement[] = [
       { label: "Email-driven viewings", value: "32%" },
     ],
     heroImage: heroImg,
-    singleImage: single04,
+    singleImage: single05,
+    cardImage: card04,
   },
   {
     slug: "paediatric-allergy-center",
@@ -318,7 +332,8 @@ export const engagements: Engagement[] = [
       { label: "Educational articles", value: "40+" },
     ],
     heroImage: heroImg,
-    singleImage: single03,
+    singleImage: single06,
+    cardImage: card03,
   },
   {
     slug: "fmcg-distribution-study",
@@ -363,6 +378,7 @@ export const engagements: Engagement[] = [
     ],
     heroImage: heroImg,
     singleImage: single07,
+    cardImage: card07,
   },
 ];
 

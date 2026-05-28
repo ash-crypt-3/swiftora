@@ -27,7 +27,6 @@ const onboardingSteps = [
 const CLAN: React.CSSProperties = { fontFamily: '"Clan Pro", sans-serif' };
 
 const RESPONSIVE_CSS = `
-  /* ── Hero ── */
   .ttu-hero-text {
     padding: 110px 40px 56px;
     max-width: 1240px;
@@ -35,11 +34,7 @@ const RESPONSIVE_CSS = `
     width: 100%;
     box-sizing: border-box;
   }
-
-  /* ── Two-tone strip — no outer padding, inner constrained to 1240 to match hero ── */
-  .ttu-twotone {
-    padding: 0;
-  }
+  .ttu-twotone { padding: 0; }
   .ttu-twotone-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -48,18 +43,13 @@ const RESPONSIVE_CSS = `
   }
   .ttu-gold-panel { padding: 48px 44px; }
   .ttu-navy-panel { padding: 48px 44px; }
-
-  /* ── Contact section ── */
   .ttu-contact-inner { padding: 48px 80px; }
-
-  /* ── Onboarding ── */
   .ttu-onboarding-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
 
-  /* ── TABLET (≤ 900px) ── */
   @media (max-width: 900px) {
     .ttu-hero-text { padding: 100px 32px 48px; }
     .ttu-gold-panel { padding: 36px 28px; }
@@ -68,7 +58,6 @@ const RESPONSIVE_CSS = `
     .ttu-onboarding-grid { grid-template-columns: 1fr 1fr; }
   }
 
-  /* ── MOBILE (≤ 600px) ── */
   @media (max-width: 600px) {
     .ttu-hero-text { padding: 100px 20px 40px; }
     .ttu-twotone-inner { grid-template-columns: 1fr; }
@@ -111,23 +100,15 @@ function HeroSection() {
         </h1>
       </div>
 
-      {/* Gold + Navy two-tone — maxWidth 1240 matches hero text above */}
+      {/* Gold + Navy two-tone */}
       <div className="ttu-twotone" style={{ position: "relative", zIndex: 1, width: "100%", background: "#f0f0f0" }}>
         <div className="ttu-twotone-inner">
-          {/* Gold panel — text centred */}
-          <div
-            className="ttu-gold-panel"
-            style={{ background: "#D5AF34", display: "flex", alignItems: "center", justifyContent: "center" }}
-          >
+          <div className="ttu-gold-panel" style={{ background: "#D5AF34", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <p style={{ ...CLAN, fontSize: 16, fontWeight: 700, fontStyle: "italic", color: "#fff", lineHeight: 1.8, margin: 0, textAlign: "center" }}>
               Ready for transformation? At Swiftora Consulting Limited, we are here to listen, collaborate, and deliver solutions that drive results. Whether you are looking to refine your strategy, enhance your marketing, or tackle unique business challenges, our team is just a conversation away. Let's shape your success story together — reach out today!
             </p>
           </div>
-          {/* Navy panel */}
-          <div
-            className="ttu-navy-panel"
-            style={{ background: "#2D2973", display: "flex", flexDirection: "column" }}
-          >
+          <div className="ttu-navy-panel" style={{ background: "#2D2973", display: "flex", flexDirection: "column" }}>
             {[
               { icon: <Phone size={17} color="#D5AF34" />, label: "Mobile:", value: "+254 729 698 380", href: "tel:+254729698380" },
               { icon: <Mail size={17} color="#D5AF34" />, label: "Email", value: "hello@swiftoraconsulting.co.ke", href: "mailto:hello@swiftoraconsulting.co.ke" },
@@ -190,32 +171,28 @@ function ContactSection() {
 
 function OnboardingSection() {
   return (
-    <section
-      style={{
-        position: "relative",
-        padding: "80px 0 0",
-        overflow: "hidden",
-      }}
-    >
-      {/* Background image with overlay */}
+    <section style={{ position: "relative", padding: "80px 0 0", overflow: "hidden" }}>
+      {/* Background image */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-        <img
-          src={whyChooseUsBg}
-          alt=""
-          aria-hidden="true"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        />
+        <img src={whyChooseUsBg} alt="" aria-hidden="true"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", inset: 0, background: "rgba(232,237,243,0.82)" }} />
       </div>
 
-      {/* Content — maxWidth 1240 matches page title and contact section */}
+      {/* Content */}
       <div style={{ position: "relative", zIndex: 1, maxWidth: 1240, margin: "0 auto", padding: "0 40px 64px", boxSizing: "border-box" }}>
         <h2 style={{ ...CLAN, fontSize: "clamp(18px, 2.2vw, 26px)", fontWeight: 700, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 16, marginTop: 0 }}>
           CLIENT ONBOARDING PROCESS
         </h2>
-        <p style={{ ...CLAN, fontSize: "clamp(13px, 1.5vw, 15px)", fontWeight: 700, color: "#4D4D4D", lineHeight: 1.8, maxWidth: 700, marginBottom: 48, marginTop: 0 }}>
-          We are excited to partner with you on your journey to growth and success. Our streamlined onboarding process ensures we understand your needs from the very start. Whether you are seeking strategic guidance or hands-on support, we are here to help. Get in touch today, and let's begin crafting solutions tailored to your goals.
+
+        {/* Updated intro — two justified paragraphs, edge to edge */}
+        <p style={{ ...CLAN, fontSize: "clamp(14px, 1.5vw, 16px)", fontWeight: 700, color: "#4D4D4D", lineHeight: 1.85, marginBottom: 20, marginTop: 0, textAlign: "justify" }}>
+          We are excited to partner with you on your journey towards growth, transformation, and long-term success. Our onboarding process is designed to create clarity from the very beginning, helping us understand your business, priorities, challenges, and ambitions. Every engagement starts with meaningful conversations that allow us to align strategy, expectations, and measurable business outcomes effectively.
         </p>
+        <p style={{ ...CLAN, fontSize: "clamp(14px, 1.5vw, 16px)", fontWeight: 700, color: "#4D4D4D", lineHeight: 1.85, marginBottom: 48, marginTop: 0, textAlign: "justify" }}>
+          Whether you require strategic advisory, market intelligence, branding support, or hands-on implementation, our team works closely with you at every stage. We believe strong partnerships begin with listening carefully before proposing solutions. Reach out to Swiftora Consulting Limited today, and let us begin building practical solutions tailored to your vision, goals, and growth aspirations.
+        </p>
+
         <div className="ttu-onboarding-grid">
           {onboardingSteps.map((s, i) => (
             <div key={i} style={{ background: "#2D2973", borderRadius: 4, padding: "clamp(24px, 3vw, 44px) clamp(16px, 2.5vw, 32px)", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
@@ -227,7 +204,7 @@ function OnboardingSection() {
         </div>
       </div>
 
-      {/* Map — full width */}
+      {/* Map */}
       <div className="ttu-map" style={{ position: "relative", zIndex: 1, width: "100%" }}>
         <iframe
           title="Swiftora Consulting — Kilimani, Nairobi"
