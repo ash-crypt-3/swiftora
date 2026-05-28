@@ -2,6 +2,7 @@ import { Outlet, createRootRoute, HeadContent, Scripts } from "@tanstack/react-r
 import { Nav, Footer } from "../components/Layout";
 import { FloatingActions } from "../components/FloatingActions";
 import { NotFound } from "../components/NotFound";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -34,11 +35,11 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   return (
-    <>
+    <GoogleReCaptchaProvider reCaptchaKey="6LcPfQEtAAAAAD6ZyISzjZi2qYew7N0suZm7mScv">
       <Nav />
       <main><Outlet /></main>
       <Footer />
       <FloatingActions />
-    </>
+    </GoogleReCaptchaProvider>
   );
 }
