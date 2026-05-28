@@ -155,3 +155,4 @@
 .flip-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 12px; overflow: hidden; }
 .flip-face--back { transform: rotateY(180deg); }
 .flip-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(45,41,115,0.92), rgba(10,11,20,0.88)); }
+.grecaptcha-badge { visibility: hidden !important; }

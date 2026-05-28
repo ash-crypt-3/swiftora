@@ -163,6 +163,13 @@ export default function ContactForm({
           {btnContent}
         </button>
       </div>
+
+      <p className="text-[11px] text-gray-400 mt-1">
+        Protected by reCAPTCHA —{" "}
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" className="underline">Privacy</a>{" "}
+        &{" "}
+        <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer" className="underline">Terms</a>
+      </p>
     </form>
   );
 }

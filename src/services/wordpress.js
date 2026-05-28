@@ -3,7 +3,7 @@
 
 const WP_API = import.meta.env.VITE_WP_API_URL || "https://swiftoraconsulting.co.ke/wp-json/wp/v2";
 const CF7_API = import.meta.env.VITE_WP_CF7_URL || "https://swiftoraconsulting.co.ke/wp-json/contact-form-7/v1";
-const CONTACT_FORM_ID = import.meta.env.VITE_WP_CONTACT_FORM_ID || "4603";
+const CONTACT_FORM_ID = import.meta.env.VITE_WP_CONTACT_FORM_ID || "4609";
 
 export const wpConfig = { WP_API, CF7_API, CONTACT_FORM_ID };
 
@@ -41,7 +41,7 @@ export const fetchPostBySlug = async (slug) => {
 };
 
 /** Submit a Contact Form 7 entry. `fields` is a plain object of CF7 field names. */
-export const submitContactForm = async (fields, formId = CONTACT_FORM_ID) => {
+export const submitContactForm = async (fields, formId = CONTACT_FORM_ID, token = null) => {
   const data = new FormData();
 
   // Add all form fields
@@ -50,6 +50,10 @@ export const submitContactForm = async (fields, formId = CONTACT_FORM_ID) => {
   // Add required CF7 hidden fields
   data.append("_wpcf7_unit_tag", `wpcf7-f${formId}-o1`);
   data.append("_wpcf7", formId);
+
+  // reCAPTCHA token is intentionally not sent to CF7
+  // to avoid conflicting with CF7's built-in reCAPTCHA validation
+  // if (token) data.append("g-recaptcha-response", token);
 
   const res = await fetch(`${CF7_API}/contact-forms/${formId}/feedback`, {
     method: "POST",
