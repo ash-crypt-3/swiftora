@@ -4,12 +4,13 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { submitContactForm } from "@/services/wordpress";
 
 export default function ContactForm({
-  formId = undefined,
+  formId = "4609", // ← Set to your verified default active Contact Form 7 ID
   fieldMap = {
     name: "your-name",
     company: "your-company",
     email: "your-email",
     phone: "your-phone",
+    subject: "your-subject", // ← Linked here to register with Contact Form 7
     message: "your-message",
     hear: "your-hear",
   },
@@ -25,6 +26,7 @@ export default function ContactForm({
     message: "",
     hear: "",
   });
+  
   const [state, setState] = useState({ status: "idle", message: "", invalid: [] });
   const { executeRecaptcha } = useGoogleReCaptcha();
 
@@ -38,27 +40,42 @@ export default function ContactForm({
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    // 1. Guard check to make sure reCAPTCHA security scripts have loaded safely
     if (!executeRecaptcha) {
       setState({
         status: "error",
-        message: "reCAPTCHA not ready. Please try again.",
+        message: "reCAPTCHA validation engine not ready. Please try again.",
         invalid: [],
       });
       return;
     }
 
-    const token = await executeRecaptcha("contact_form");
-
     setState({ status: "submitting", message: "", invalid: [] });
 
-    const payload = Object.fromEntries(
-      Object.entries(fieldMap).map(([k, wpName]) => [wpName, form[k] || ""]),
-    );
-
     try {
-      const res = await submitContactForm(payload, formId, token);
+      // 2. Generate the secure human-verification token from Google
+      const token = await executeRecaptcha("contact_form");
+
+      // 3. Inject a fallback email subject since there isn't a dedicated input field for it in the UI
+      const enrichedFormValues = {
+        ...form,
+        subject: `Website Enquiry from ${form.name}`,
+      };
+
+      // 4. Transform state keys into Contact Form 7 machine tags using the fieldMap dictionary
+      const payload = Object.fromEntries(
+        Object.entries(fieldMap).map(([k, wpName]) => [wpName, enrichedFormValues[k] || ""]),
+      );
+
+      // 5. Explicitly attach the anti-spam token to the final WordPress package
+      payload["_wpcf7_recaptcha_response"] = token;
+
+      // 6. Transmit the payload block to your TanStack Start server handler function
+      const res = await submitContactForm(payload, formId);
+      
       if (res.ok) {
         setState({ status: "success", message: res.message, invalid: [] });
+        // Wipe inputs completely clean upon a successful transaction response
         setForm({ name: "", company: "", email: "", phone: "", message: "", hear: "" });
       } else {
         setState({
@@ -68,6 +85,7 @@ export default function ContactForm({
         });
       }
     } catch (err) {
+      console.error("Submission pipeline error:", err);
       setState({
         status: "error",
         message: "Network error — please try again in a moment.",
@@ -84,16 +102,14 @@ export default function ContactForm({
     );
   }
 
+  /* ── Button UI configurations ── */
   const btnContent = state.status === "submitting"
     ? "Sending…"
     : submitLabel
       ? submitLabel
       : <> Send Your Message <ArrowRight size={14} /></>;
 
-  const btnWrapStyle = submitAlign === "right"
-    ? { display: "flex", justifyContent: "flex-end" }
-    : {};
-
+  const btnWrapStyle = submitAlign === "right" ? { display: "flex", justifyContent: "flex-end" } : {};
   const btnStyle = submitAlign === "right"
     ? { padding: "12px 32px", fontSize: 13, width: "auto" }
     : { padding: "14px 28px", fontSize: 15, width: "100%" };
@@ -115,6 +131,7 @@ export default function ContactForm({
           onChange={onChange("company")}
         />
       </div>
+      
       <div className="grid md:grid-cols-2 gap-5">
         <input
           type="email"
@@ -131,6 +148,7 @@ export default function ContactForm({
           onChange={onChange("phone")}
         />
       </div>
+      
       <textarea
         className={`${inputCls} min-h-[140px] resize-y ${isInvalid("message") ? "border-red-400" : ""}`}
         placeholder="How can we help?"
@@ -138,6 +156,7 @@ export default function ContactForm({
         value={form.message}
         onChange={onChange("message")}
       />
+      
       <select className={inputCls} value={form.hear} onChange={onChange("hear")}>
         <option value="">How did you hear about us?</option>
         <option>LinkedIn</option>
