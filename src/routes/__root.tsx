@@ -35,7 +35,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   return (
-    <GoogleReCaptchaProvider reCaptchaKey="6LcPfQEtAAAAAD6ZyISzjZi2qYew7N0suZm7mScv">
+    <GoogleReCaptchaProvider reCaptchaKey="6LdFlAItAAAAAFAg6SSMfIRsPKJrfGFNXhYMgHfi">
       <Nav />
       <main><Outlet /></main>
       <Footer />

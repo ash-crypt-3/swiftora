@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { submitContactForm } from "@/services/wordpress";
 
 export default function ContactForm({
@@ -27,6 +28,7 @@ export default function ContactForm({
   });
 
   const [state, setState] = useState({ status: "idle", message: "", invalid: [] });
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const inputCls =
     "w-full text-[14px] px-4 py-3.5 rounded border border-[#e5e7eb] focus:border-gold focus:outline-none focus:ring-[3px] focus:ring-gold/15 transition-all bg-white";
@@ -37,9 +39,21 @@ export default function ContactForm({
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    if (!executeRecaptcha) {
+      setState({
+        status: "error",
+        message: "reCAPTCHA not ready. Please try again.",
+        invalid: [],
+      });
+      return;
+    }
+
     setState({ status: "submitting", message: "", invalid: [] });
 
     try {
+      const token = await executeRecaptcha("contact_form");
+
       const enrichedFormValues = {
         ...form,
         subject: `Website Enquiry from ${form.name}`,
@@ -49,7 +63,7 @@ export default function ContactForm({
         Object.entries(fieldMap).map(([k, wpName]) => [wpName, enrichedFormValues[k] || ""])
       );
 
-      const res = await submitContactForm(payload, formId);
+      const res = await submitContactForm(payload, formId, token);
 
       if (res.ok) {
         setState({ status: "success", message: res.message, invalid: [] });
@@ -160,6 +174,13 @@ export default function ContactForm({
           {btnContent}
         </button>
       </div>
+
+      <p className="text-[11px] text-gray-400 mt-1">
+        Protected by reCAPTCHA —{" "}
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" className="underline">Privacy</a>{" "}
+        &{" "}
+        <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer" className="underline">Terms</a>
+      </p>
     </form>
   );
 }
