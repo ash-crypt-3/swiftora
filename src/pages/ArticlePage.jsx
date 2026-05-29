@@ -319,6 +319,17 @@ function RelatedCarousel({ currentSlug }) {
   const prev = () => setIndex((i) => Math.max(0, i - 1));
   const next = () => setIndex((i) => Math.min(max, i + 1));
 
+  // Global Auto Scroll Loop Effect
+  useEffect(() => {
+    if (others.length <= visible) return;
+
+    const interval = setInterval(() => {
+      setIndex((i) => (i >= max ? 0 : i + 1));
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [others.length, max, visible]);
+
   if (isLoading || others.length === 0) return null;
 
   const shown = others.slice(index, index + visible);
