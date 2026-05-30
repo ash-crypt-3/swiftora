@@ -3,6 +3,7 @@ import { Hero, type HeroSlide } from "@/components/Hero";
 import { articles } from "@/lib/content";
 import { MessageCircle } from "lucide-react";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { ClientMarquee } from "@/components/ClientMarquee";
 
 // Asset Imports
 import hero1 from "@/assets/heroes/hero-3.jpg";
@@ -12,9 +13,16 @@ import strategyBg from "@/assets/heroes/Home_Strategy_Section.png";
 import consultingImg from "@/assets/heroes/Home_Consulting_Section.png";
 import featuredEng1 from "@/assets/featured-engagements/Featured-Engagement-01-Title.jpg";
 import featuredEng2 from "@/assets/featured-engagements/Featured-Engagement-02-Title.jpg";
-
-const WP = "https://swiftoraconsulting.co.ke/wp-content/uploads";
-const WP_ARROW = `${WP}/2025/04/Home_Featured_Engagement_Arrow.png`;
+import vpIcon1 from "@/assets/icons/Home_Value-Proposition-Icons-01.png";
+import vpIcon2 from "@/assets/icons/Home_Value-Proposition-Icons-02.png";
+import vpIcon3 from "@/assets/icons/Home_Value-Proposition-Icons-03.png";
+import vpIcon4 from "@/assets/icons/Home_Value-Proposition-Icons-04.png";
+import arrowIcon from "@/assets/icons/Home_Featured_Engagement_Arrow.png";
+import socialFacebook from "@/assets/icons/Footer_Socio_Icons-01A.png";
+import socialInstagram from "@/assets/icons/Footer_Socio_Icons-02A.png";
+import socialX from "@/assets/icons/Footer_Socio_Icons-03A.png";
+import socialLinkedin from "@/assets/icons/Footer_Socio_Icons-04A.png";
+import socialYoutube from "@/assets/icons/Footer_Socio_Icons-05A.png";
 
 export const Route = createFileRoute("/")({ component: HomePage });
 
@@ -27,30 +35,26 @@ const homeSlides: HeroSlide[] = [
   { eyebrow: "CONTACT US", lines: ["Let's Make", "Great Things", "Happen!"], image: hero1 },
 ];
 
+const socialLinks = [
+  { icon: socialFacebook, href: "https://www.facebook.com/swiftoraconsulting", label: "Facebook" },
+  { icon: socialInstagram, href: "https://www.instagram.com/swiftoraconsulting", label: "Instagram" },
+  { icon: socialX, href: "https://www.x.com/swiftoraconsulting", label: "X" },
+  { icon: socialLinkedin, href: "https://www.linkedin.com/company/swiftoraconsulting", label: "LinkedIn" },
+  { icon: socialYoutube, href: "https://www.youtube.com/@swiftoraconsulting", label: "YouTube" },
+];
+
 function usePad() {
   const { isMobile, isTablet } = useBreakpoint();
   return isMobile ? "0 20px" : isTablet ? "0 40px" : "0 80px";
 }
 
-/* ── SECTION 1: INTRO (NAVY) ── */
 function IntroSection() {
   const { isMobile } = useBreakpoint();
   const pad = usePad();
-
   return (
     <section style={{ background: "#2D2973", padding: isMobile ? "56px 0" : "96px 0" }}>
-      <div style={{
-        padding: pad,
-        display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : "1fr 1.25fr",
-        gap: isMobile ? 32 : 80,
-        alignItems: "center",
-      }}>
-        <h2 style={{
-          ...CLAN, fontStyle: "italic", fontWeight: "bold",
-          fontSize: isMobile ? "clamp(26px, 7vw, 36px)" : "clamp(32px, 3.8vw, 52px)",
-          color: "#ffffff", lineHeight: 1.1, margin: 0,
-        }}>
+      <div style={{ padding: pad, display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.25fr", gap: isMobile ? 32 : 80, alignItems: "center" }}>
+        <h2 style={{ ...CLAN, fontStyle: "italic", fontWeight: "bold", fontSize: isMobile ? "clamp(26px, 7vw, 36px)" : "clamp(32px, 3.8vw, 52px)", color: "#ffffff", lineHeight: 1.1, margin: 0 }}>
           Cracking the code of<br />sales, marketing, and<br />business strategy
         </h2>
         <div>
@@ -69,16 +73,15 @@ function IntroSection() {
   );
 }
 
-/* ── SECTIONS 2 + 3: VALUE PROPOSITION & CONSULTING SERVICES ── */
 function ValuePropositionSection() {
   const { isMobile } = useBreakpoint();
   const pad = usePad();
 
   const valueItems = [
-    { img: `${WP}/2025/05/Home_Value-Proposition-Icons-02.png`, label: "Precise Diagnosis" },
-    { img: `${WP}/2025/05/Home_Value-Proposition-Icons-03.png`, label: "Market Intelligence" },
-    { img: `${WP}/2025/05/Home_Value-Proposition-Icons-04.png`, label: "Adaptive Solutions" },
-    { img: `${WP}/2025/05/Home_Value-Proposition-Icons-01.png`, label: "Accelerated Growth" },
+    { img: vpIcon2, label: "Precise Diagnosis" },
+    { img: vpIcon3, label: "Market Intelligence" },
+    { img: vpIcon4, label: "Adaptive Solutions" },
+    { img: vpIcon1, label: "Accelerated Growth" },
   ];
 
   return (
@@ -115,7 +118,6 @@ function ValuePropositionSection() {
         </div>
       ) : (
         <div style={{ padding: pad, display: "grid", gridTemplateColumns: "1fr 1.25fr", gap: "0 80px", alignItems: "start" }}>
-          {/* LEFT COLUMN */}
           <div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "52px 40px", marginBottom: 80 }}>
               {valueItems.map(({ img, label }) => (
@@ -131,7 +133,6 @@ function ValuePropositionSection() {
             </p>
             <Link to="/our-services" style={{ display: "inline-block", padding: "12px 48px", border: "2px solid #D5AF34", color: "#D5AF34", ...CLAN, fontWeight: "bold", fontSize: 14, textTransform: "uppercase", letterSpacing: "0.12em", textDecoration: "none" }}>Explore</Link>
           </div>
-          {/* RIGHT COLUMN */}
           <div>
             <h2 style={{ ...CLAN, fontWeight: "bold", fontSize: 36, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 32, marginTop: 0 }}>VALUE PROPOSITION</h2>
             <p style={{ ...CLAN, fontSize: 18, fontWeight: "bold", color: "#4D4D4D", lineHeight: 1.75, marginBottom: 24, textAlign: "justify" }}>
@@ -152,22 +153,21 @@ function ValuePropositionSection() {
 
 function ConsultingServicesSection() { return null; }
 
-/* ── SECTION 4: STRATEGY ── */
 function StrategySection() {
   const { isMobile, isTablet } = useBreakpoint();
 
   const strategyPoints = [
-    { left: "Business Review & Audit",      right: "Organizational Design & Development" },
-    { left: "Business Model Innovation",     right: "Strategy Implementation Management" },
-    { left: "Strategic Planning & Review",   right: "Market Entry, Expansion & Diversification" },
-    { left: "Business Recovery Planning",    right: "Revenue Growth & Commercial Effectiveness" },
+    { left: "Business Review & Audit", right: "Organizational Design & Development" },
+    { left: "Business Model Innovation", right: "Strategy Implementation Management" },
+    { left: "Strategic Planning & Review", right: "Market Entry, Expansion & Diversification" },
+    { left: "Business Recovery Planning", right: "Revenue Growth & Commercial Effectiveness" },
   ];
 
   const serviceColumns = [
-    { title: "Sales",         items: ["Sales Training", "Pitching Outsourcing", "Pitch Deck Development", "Sales Auditing & Planning", "Key Account Management", "Customer Experience & Retention", "Channel & Distribution Optimization"] },
+    { title: "Sales", items: ["Sales Training", "Pitching Outsourcing", "Pitch Deck Development", "Sales Auditing & Planning", "Key Account Management", "Customer Experience & Retention", "Channel & Distribution Optimization"] },
     { title: "Communication", items: ["Content Writing", "Communication Planning", "Business Writing Workshops", "Public Speaking & Presentation", "Communication Skills training", "Corporate Communications Audits", "Communication Strategy Development"] },
-    { title: "Research",      items: ["Market Research", "Feasibility Studies", "Business Analysis", "Market & Industry Insights", "Data Collection & Analysis", "Business Plan Development", "Business Ideation and Validation"] },
-    { title: "Marketing",     items: ["Brand Workshop", "Lead Generation", "Personal Branding", "Marketing Planning", "Go-To-Market Strategy", "Marketing Review & Audit", "Value Proposition Development"] },
+    { title: "Research", items: ["Market Research", "Feasibility Studies", "Business Analysis", "Market & Industry Insights", "Data Collection & Analysis", "Business Plan Development", "Business Ideation and Validation"] },
+    { title: "Marketing", items: ["Brand Workshop", "Lead Generation", "Personal Branding", "Marketing Planning", "Go-To-Market Strategy", "Marketing Review & Audit", "Value Proposition Development"] },
   ];
 
   const bgAttachment = isMobile || isTablet ? "scroll" : "fixed";
@@ -217,67 +217,33 @@ function StrategySection() {
   );
 }
 
-/* ── SECTION 5: THINK PIECES ── */
 function ThinkPiecesSection() {
   const { isMobile } = useBreakpoint();
   const pad = usePad();
 
-  /*
-    The articles array from @/lib/content uses `featuredImage` as the photo field.
-    We read it directly — no cast needed. If your content type ever uses a different
-    field name, update the line below. We take the first 2 articles.
-  */
   const items = articles.slice(0, 2).map((a) => ({
     id: a.slug,
     slug: a.slug,
     title: a.title,
     author: a.author ?? "Swiftora Team",
-    // Try featuredImage first, then fall back to any other possible field names
     photo: a.featuredImage || (a as any).image || (a as any).thumbnail || (a as any).coverImage || null,
   }));
 
   return (
     <section style={{ background: "#ffffff", padding: isMobile ? "56px 0" : "80px 0" }}>
       <div style={{ maxWidth: 1240, margin: "0 auto", padding: pad }}>
-        <div style={{
-          display: "flex",
-          flexDirection: isMobile ? "column" : "row",
-          justifyContent: "space-between",
-          alignItems: isMobile ? "flex-start" : "center",
-          gap: isMobile ? 20 : 0,
-          marginBottom: 48,
-        }}>
+        <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", gap: isMobile ? 20 : 0, marginBottom: 48 }}>
           <h2 style={{ ...CLAN, fontWeight: "bold", fontSize: isMobile ? 22 : 32, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.05em", margin: 0 }}>
             THINK PIECES & INSIGHTS
           </h2>
-          <Link
-            to="/think-pieces"
-            style={{ padding: "10px 24px", border: "2px solid #D5AF34", color: "#D5AF34", textDecoration: "none", fontWeight: "bold", fontSize: 13, whiteSpace: "nowrap", ...CLAN }}
-          >
+          <Link to="/think-pieces" style={{ padding: "10px 24px", border: "2px solid #D5AF34", color: "#D5AF34", textDecoration: "none", fontWeight: "bold", fontSize: 13, whiteSpace: "nowrap", ...CLAN }}>
             VIEW ALL POSTS
           </Link>
         </div>
-
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
-          gap: isMobile ? 36 : 48,
-        }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)", gap: isMobile ? 36 : 48 }}>
           {items.map((a) => (
-            <Link
-              key={a.id}
-              to="/think-pieces/$slug"
-              params={{ slug: a.slug }}
-              style={{ textDecoration: "none", display: "flex", flexDirection: "column" }}
-            >
-              {/* Image container — always 16:10, shows placeholder if no photo */}
-              <div style={{
-                aspectRatio: "16/10",
-                overflow: "hidden",
-                marginBottom: 20,
-                background: "#E8EDF3",
-                flexShrink: 0,
-              }}>
+            <Link key={a.id} to="/think-pieces/$slug" params={{ slug: a.slug }} style={{ textDecoration: "none", display: "flex", flexDirection: "column" }}>
+              <div style={{ aspectRatio: "16/10", overflow: "hidden", marginBottom: 20, background: "#E8EDF3", flexShrink: 0 }}>
                 {a.photo ? (
                   <img
                     src={a.photo}
@@ -286,45 +252,28 @@ function ThinkPiecesSection() {
                     onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.04)"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
                     onError={(e) => {
-                      // If image fails to load, show the placeholder div instead
                       e.currentTarget.style.display = "none";
                       const parent = e.currentTarget.parentElement;
                       if (parent) {
                         parent.style.display = "flex";
                         parent.style.alignItems = "center";
                         parent.style.justifyContent = "center";
-                        parent.innerHTML = `<span style="font-family:'Clan Pro',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.2em;color:#2D2973;opacity:0.4">Think Piece</span>`;
+                        parent.innerHTML = '<span style="font-family:Clan Pro,sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.2em;color:#2D2973;opacity:0.4">Think Piece</span>';
                       }
                     }}
                   />
                 ) : (
-                  /* Placeholder when no image is available */
-                  <div style={{
-                    width: "100%",
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "linear-gradient(135deg, #E8EDF3, #d0d8e8)",
-                  }}>
-                    <span style={{ ...CLAN, fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", color: "#2D2973", opacity: 0.4 }}>
-                      Think Piece
-                    </span>
+                  <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, #E8EDF3, #d0d8e8)" }}>
+                    <span style={{ ...CLAN, fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", color: "#2D2973", opacity: 0.4 }}>Think Piece</span>
                   </div>
                 )}
               </div>
-
-              {/* Text content */}
-              <h3
-                style={{ ...CLAN, fontWeight: "bold", fontSize: isMobile ? 18 : 22, color: "#2D2973", lineHeight: 1.35, marginBottom: 10, marginTop: 0 }}
-                dangerouslySetInnerHTML={{ __html: a.title }}
-              />
-              <p style={{ ...CLAN, fontSize: 13, fontWeight: 700, color: "#888", marginBottom: 12, marginTop: 0 }}>
-                By {a.author}
-              </p>
-              <span style={{ ...CLAN, fontWeight: "bold", fontSize: 14, color: "#D5AF34", letterSpacing: "0.06em", textTransform: "uppercase" }}>
-                Read More →
-              </span>
+              <h3 style={{ ...CLAN, fontWeight: "bold", fontSize: isMobile ? 18 : 22, color: "#2D2973", lineHeight: 1.35, marginBottom: 10, marginTop: 0 }} dangerouslySetInnerHTML={{ __html: a.title }} />
+              <p style={{ ...CLAN, fontSize: 13, fontWeight: 700, color: "#888", marginBottom: 12, marginTop: 0 }}>By {a.author}</p>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <span style={{ ...CLAN, fontWeight: "bold", fontSize: 14, color: "#D5AF34", letterSpacing: "0.06em", textTransform: "uppercase" }}>Read More</span>
+                <img src={arrowIcon} alt="" style={{ width: 22, height: 22, objectFit: "contain" }} />
+              </div>
             </Link>
           ))}
         </div>
@@ -333,83 +282,30 @@ function ThinkPiecesSection() {
   );
 }
 
-/* ── SECTION 6: CLIENTS ── */
 function ClientSection() {
   const { isMobile } = useBreakpoint();
   const pad = usePad();
   return (
     <section style={{ background: "#ffffff", padding: isMobile ? "48px 0" : "64px 0", borderTop: "1px solid #f0f0f0", overflow: "hidden" }}>
-      <div style={{ maxWidth: 1240, margin: "0 auto", padding: pad, marginBottom: 40 }}>
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: pad, marginBottom: 24 }}>
         <h2 style={{ ...CLAN, fontWeight: "bold", fontSize: isMobile ? 22 : 32, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.05em", margin: 0 }}>OUR CLIENTS</h2>
       </div>
-      <ClientMarqueeInline isMobile={isMobile} />
+      <ClientMarquee />
     </section>
   );
 }
 
-const WP_CDN = "https://swiftoraconsulting.co.ke/wp-content/uploads/2025/05";
-const allLogos = [
-  "/clients/Herencia.jpeg",
-  "/clients/Lavivo.jpeg",
-  "/clients/WhatsApp-Client.jpeg",
-  `${WP_CDN}/Home_Clientelle-10.png`,
-  `${WP_CDN}/Home_Clientelle-09.png`,
-  `${WP_CDN}/Home_Clientelle-01.png`,
-  `${WP_CDN}/Home_Clientelle-02.png`,
-  `${WP_CDN}/Home_Clientelle-03.png`,
-  `${WP_CDN}/Home_Clientelle-04.png`,
-  `${WP_CDN}/Home_Clientelle-05.png`,
-  `${WP_CDN}/Home_Clientelle-06.png`,
-  `${WP_CDN}/Home_Clientelle-07.png`,
-  `${WP_CDN}/Home_Clientelle-08.png`,
-];
-
-const MARQUEE_CSS = `
-@keyframes swiftora-marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-.swiftora-marquee-track {
-  display: flex; width: max-content; gap: 48px;
-  animation: swiftora-marquee 36s linear infinite;
-  will-change: transform;
-}
-.swiftora-marquee-track:hover { animation-play-state: paused; }
-`;
-
-function ClientMarqueeInline({ isMobile }: { isMobile: boolean }) {
-  const doubled = [...allLogos, ...allLogos];
-  return (
-    <>
-      <style>{MARQUEE_CSS}</style>
-      <div style={{
-        overflow: "hidden", width: "100%",
-        maskImage: "linear-gradient(90deg, transparent, black 12%, black 88%, transparent)",
-        WebkitMaskImage: "linear-gradient(90deg, transparent, black 12%, black 88%, transparent)",
-      }}>
-        <div className="swiftora-marquee-track">
-          {doubled.map((src, i) => (
-            <div key={i} style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", width: 140, height: 72 }}>
-              <img
-                src={src}
-                alt="Client logo"
-                loading="lazy"
-                style={{ maxHeight: isMobile ? 40 : 56, maxWidth: 130, objectFit: "contain" }}
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  );
-}
-
-/* ── SECTION 7: FEATURED ENGAGEMENTS ── */
 function FeaturedEngagements() {
   const { isMobile } = useBreakpoint();
   const pad = usePad();
+
   const engagements = [
     { img: featuredEng1, title: "Marketing Gated Communities in Kenya", tag: "Real Estate", to: "/ameer-developers" },
     { img: featuredEng2, title: "Transforming Maternal Health Outcomes", tag: "Not for Profit", to: "/zuri-nzilani-foundation" },
   ];
+
+  const arrowImgStyle: React.CSSProperties = { width: 20, height: 20, objectFit: "contain" };
+
   return (
     <section style={{ background: "#F2F5F9", padding: isMobile ? "56px 0" : "80px 0" }}>
       <div style={{ maxWidth: 1240, margin: "0 auto", padding: pad }}>
@@ -423,7 +319,7 @@ function FeaturedEngagements() {
                 <h3 style={{ color: "#fff", fontWeight: "bold", fontSize: isMobile ? 15 : 22, textTransform: "uppercase", marginBottom: 8, lineHeight: 1.3 }}>{e.title}</h3>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <span style={{ color: "#D5AF34", fontWeight: "bold", fontSize: 12, textTransform: "uppercase" }}>{e.tag}</span>
-                  <img src={WP_ARROW} alt="" style={{ width: 20, height: 20 }} />
+                  <img src={arrowIcon} alt="" style={arrowImgStyle} />
                 </div>
               </div>
             </Link>
@@ -434,16 +330,24 @@ function FeaturedEngagements() {
   );
 }
 
-function Footer() {
-  return (
-    <footer style={{ background: "#2D2973", padding: "40px 0", color: "#fff" }}>
-      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 20px", display: "flex", flexDirection: "column", gap: 40 }} />
-    </footer>
-  );
-}
-
 export default function HomePage() {
   const { isMobile } = useBreakpoint();
+
+  const waStyle: React.CSSProperties = {
+    position: "fixed",
+    bottom: isMobile ? 20 : 32,
+    right: isMobile ? 16 : 32,
+    background: "#25D366",
+    color: "#fff",
+    padding: isMobile ? 12 : 16,
+    borderRadius: "50%",
+    zIndex: 50,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textDecoration: "none",
+  };
+
   return (
     <main style={{ fontWeight: "bold" }}>
       <Hero variant="home" slides={homeSlides} cta={{ label: "Learn More", to: "/about" }} />
@@ -454,16 +358,7 @@ export default function HomePage() {
       <ThinkPiecesSection />
       <ClientSection />
       <FeaturedEngagements />
-      <Footer />
-      <a
-        href="https://wa.me/254729698380"
-        style={{
-          position: "fixed", bottom: isMobile ? 20 : 32, right: isMobile ? 16 : 32,
-          background: "#25D366", color: "#fff",
-          padding: isMobile ? 12 : 16, borderRadius: "50%",
-          zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center",
-        }}
-      >
+      <a href="https://wa.me/254729698380" style={waStyle}>
         <MessageCircle size={isMobile ? 24 : 32} fill="currentColor" />
       </a>
     </main>

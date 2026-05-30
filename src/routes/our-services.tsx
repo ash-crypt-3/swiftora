@@ -10,8 +10,10 @@ import strategyImg from "@/assets/services/strategy.png";
 import communicationImg from "@/assets/services/communication.png";
 import researchImg from "@/assets/services/research.png";
 import consultingImg from "@/assets/services/Services_Flip_Images_00_Main.png";
-
-const WP = "https://swiftoraconsulting.co.ke/wp-content/uploads";
+import approachIcon1 from "@/assets/icons/Our Approach Icons-01.png";
+import approachIcon2 from "@/assets/icons/Our Approach Icons-02.png";
+import approachIcon3 from "@/assets/icons/Our Approach Icons-03.png";
+import approachIcon4 from "@/assets/icons/Our Approach Icons-04.png";
 
 export const Route = createFileRoute("/our-services")({
   head: () => ({
@@ -26,10 +28,10 @@ export const Route = createFileRoute("/our-services")({
 const CLAN = { fontFamily: '"Clan Pro", sans-serif' };
 
 const approachSteps = [
-  { icon: `${WP}/2025/05/Our-Approach-Icons-04-1.png`, step: "STEP 1", title: "Diagnostic & Discovery",        body: "Understand the client's current situation, challenges, goals, and objectives." },
-  { icon: `${WP}/2025/05/Our-Approach-Icons-03-1.png`, step: "STEP 2", title: "Solution Formulation",          body: "Develop custom solutions aligned with client objectives and market opportunities." },
-  { icon: `${WP}/2025/05/Our-Approach-Icons-01.png`,   step: "STEP 3", title: "Implementation Support",        body: "Ensure the chosen solution is executed effectively and on schedule." },
-  { icon: `${WP}/2025/05/Our-Approach-Icons-02.png`,   step: "STEP 4", title: "Client Partnership & Advisory", body: "Build long-term relationships through consistent support and expertise." },
+  { icon: approachIcon4, step: "STEP 1", title: "Diagnostic & Discovery",        body: "Understand the client's current situation, challenges, goals, and objectives." },
+  { icon: approachIcon3, step: "STEP 2", title: "Solution Formulation",          body: "Develop custom solutions aligned with client objectives and market opportunities." },
+  { icon: approachIcon1, step: "STEP 3", title: "Implementation Support",        body: "Ensure the chosen solution is executed effectively and on schedule." },
+  { icon: approachIcon2, step: "STEP 4", title: "Client Partnership & Advisory", body: "Build long-term relationships through consistent support and expertise." },
 ];
 
 const servicesList = [
@@ -49,7 +51,6 @@ const targetClients = [
 const ICON_PX = 200;
 
 const CSS = `
-  /* ─── flip card ─── */
   .fc { height: 300px; cursor: pointer; perspective: 1000px; }
   .fc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.4,0,0.2,1); }
   .fc:hover .fc-inner, .fc.flipped .fc-inner { transform: rotateY(180deg); }
@@ -60,7 +61,6 @@ const CSS = `
   .fc-btn { padding: 11px 30px; background: #fff; color: #2D2973; border: 2px solid #fff; font-family: "Clan Pro",sans-serif; font-size: 15px; font-weight: 800; letter-spacing: .06em; cursor: pointer; text-decoration: none; display: inline-block; transition: background .2s,color .2s,border-color .2s; }
   .fc-btn:hover { background: #2D2973; color: #fff; border-color: #2D2973; }
 
-  /* ─── approach ─── */
   .approach-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -74,7 +74,6 @@ const CSS = `
     left: 12.5%;
     right: 12.5%;
     height: 0;
-    border-top: none;
     background-image: radial-gradient(circle, #2D2973 1.2px, transparent 1.2px);
     background-size: 11px 1px;
     background-repeat: repeat-x;
@@ -96,21 +95,18 @@ const CSS = `
   }
   .approach-icon img { width: 82%; height: 82%; object-fit: contain; display: block; }
 
-  /* ─── other grids ─── */
   .services-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 300px 300px; gap: 4px; }
   .clients-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; }
   .section-pad { padding-left: 80px; padding-right: 80px; }
   .hero-section { min-height: 70vh; }
 
-  /* ─── intro overlap panel ─── */
   .intro-overlap {
     position: relative;
     z-index: 2;
-    margin-top: -48px;   /* overlaps the bottom of the hero */
+    margin-top: -48px;
     border-top: 4px solid #D5AF34;
   }
 
-  /* ─── section headings — desktop negative margins ─── */
   .h-approach { margin: -40px 0 0; }
   .h-services  { margin: -100px 0 4px; }
   .h-clients   { margin: -90px 0 3px; }
@@ -134,13 +130,9 @@ const CSS = `
     .section-pad { padding-left: 20px; padding-right: 20px; }
     .fc { height: 280px; }
     .hero-section { min-height: 38vh !important; }
-
-    /* reset negative margins on mobile */
     .h-approach { margin: 24px 0 12px; }
     .h-services  { margin: 24px 0 12px; }
     .h-clients   { margin: 24px 0 12px; }
-
-    /* reduce overlap on mobile so hero text stays clear */
     .intro-overlap { margin-top: -24px; }
   }
 `;
@@ -192,7 +184,6 @@ function ServicesPage() {
       <style>{CSS}</style>
       <HeroSection />
 
-      {/* INTRO — overlaps the bottom of the hero with a gold top border */}
       <section className="intro-overlap" style={{ background: "#E8EDF3", padding: "30px 0" }}>
         <div style={{ width: "100%", padding: "0 clamp(20px,6vw,80px)", boxSizing: "border-box" }}>
           <p style={{ ...CLAN, fontSize: "clamp(14px,1.5vw,17px)", fontWeight: 600, color: "#111111", lineHeight: 2, marginBottom: 5, marginTop: 0, textAlign: "justify" }}>
@@ -204,7 +195,6 @@ function ServicesPage() {
         </div>
       </section>
 
-      {/* OUR APPROACH */}
       <section style={{ background: "#ffffff", padding: "0" }}>
         <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
           <h2 className="h-approach" style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em" }}>
@@ -214,7 +204,7 @@ function ServicesPage() {
             {approachSteps.map(({ icon, step, title, body }) => (
               <div key={step} className="approach-col">
                 <div className="approach-icon">
-                  <img src={icon} alt={title} loading="lazy" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                  <img src={icon} alt={title} />
                 </div>
                 <p style={{ ...CLAN, fontSize: 18, fontWeight: 800, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.10em", margin: "0 0 4px" }}>{step}</p>
                 <h4 style={{ ...CLAN, fontSize: 22, fontWeight: 800, fontStyle: "italic", color: "#D5AF34", margin: "0 0 5px", lineHeight: 1.3 }}>{title}</h4>
@@ -225,7 +215,6 @@ function ServicesPage() {
         </div>
       </section>
 
-      {/* OUR SERVICES */}
       <section style={{ background: "#ffffff", padding: "0" }}>
         <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
           <h2 className="h-services" style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 900, color: "#2D2973", textTransform: "uppercase", letterSpacing: "0.01em" }}>
@@ -244,7 +233,6 @@ function ServicesPage() {
         </div>
       </section>
 
-      {/* TARGET CLIENTS */}
       <section style={{ background: "#ffffff", padding: "0" }}>
         <div className="section-pad" style={{ width: "100%", boxSizing: "border-box" }}>
           <h2 className="h-clients" style={{ ...CLAN, fontSize: "clamp(22px,3vw,36px)", fontWeight: 800, color: "#D5AF34", textTransform: "uppercase", letterSpacing: "0.01em" }}>
@@ -261,7 +249,6 @@ function ServicesPage() {
         </div>
       </section>
 
-      {/* CONTACT FORM */}
       <section style={{ position: "relative", padding: "8px 0", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
           <img src={whyChooseUsBg} alt="" aria-hidden="true" style={{ width: "100%", height: "100%", objectFit: "cover" }} />

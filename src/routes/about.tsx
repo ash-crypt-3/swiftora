@@ -10,8 +10,10 @@ import stephenImg from "@/assets/team/stephen-osumba.jpg";
 import nicodemusImg from "@/assets/team/nicodemus-nyambok.jpg";
 import geoffreyImg from "@/assets/team/geoffrey-korio.jpg";
 import lilianImg from "@/assets/team/lilian-mukami.jpg";
-
-const WP = "https://swiftoraconsulting.co.ke/wp-content/uploads";
+import corpIcon1 from "@/assets/icons/AboutUs_Corporate_Overview_Icons-01A.png";
+import corpIcon2 from "@/assets/icons/AboutUs_Corporate_Overview_Icons-02A.png";
+import corpIcon3 from "@/assets/icons/AboutUs_Corporate_Overview_Icons-03A.png";
+import corpIcon4 from "@/assets/icons/AboutUs_Corporate_Overview_Icons-04A.png";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -94,10 +96,10 @@ const teamMembers: TeamMember[] = [
 ];
 
 const corporatePillars = [
-  { title: "Our Mission",          body: "To deliver customised, practical strategies that drive growth, optimise performance, and create lasting value for our clients.",                            imgSrc: `${WP}/2025/04/AboutUs_Corporate_Overview_Icons-04A.png` },
-  { title: "Our Vision",           body: "To be the trusted partner organisations turn to for unlocking their full potential, crafting pathways to sustainable success.",                           imgSrc: `${WP}/2025/04/AboutUs_Corporate_Overview_Icons-03A.png` },
-  { title: "Philosophy & Culture", body: "We believe in diligence, reliability, and collaboration cultivating a culture that values diverse perspectives and inspires creativity.",                  imgSrc: `${WP}/2025/04/AboutUs_Corporate_Overview_Icons-01A.png` },
-  { title: "Our Promise",          body: "When the going gets tough, we step in with solutions to keep you ahead for the long haul — and we'll be with you every step of the way.",               imgSrc: `${WP}/2025/04/AboutUs_Corporate_Overview_Icons-02A.png` },
+  { title: "Our Mission",          body: "To deliver customised, practical strategies that drive growth, optimise performance, and create lasting value for our clients.",                            imgSrc: corpIcon4 },
+  { title: "Our Vision",           body: "To be the trusted partner organisations turn to for unlocking their full potential, crafting pathways to sustainable success.",                           imgSrc: corpIcon3 },
+  { title: "Philosophy & Culture", body: "We believe in diligence, reliability, and collaboration cultivating a culture that values diverse perspectives and inspires creativity.",                  imgSrc: corpIcon1 },
+  { title: "Our Promise",          body: "When the going gets tough, we step in with solutions to keep you ahead for the long haul — and we'll be with you every step of the way.",               imgSrc: corpIcon2 },
 ];
 
 const bodyText: React.CSSProperties = {
@@ -137,14 +139,12 @@ const responsiveStyles = `
   }
 `;
 
-/* ── HERO — parallax with full image visible ── */
 function HeroSection() {
   const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
       if (bgRef.current) {
-        // Gentle parallax — image moves slower than scroll so it stays visible
         bgRef.current.style.transform = `translateY(${window.scrollY * 0.25}px)`;
       }
     };
@@ -154,13 +154,7 @@ function HeroSection() {
 
   return (
     <section style={{ position: "relative", overflow: "hidden" }}>
-      {/*
-        Container is taller than the visible area so parallax movement
-        doesn't expose blank space at edges. Image starts slightly above
-        viewport and moves down slowly on scroll.
-      */}
       <div style={{ position: "relative", height: "clamp(420px, 65vh, 640px)", overflow: "hidden" }}>
-        {/* Parallax wrapper — larger than container so movement stays within bounds */}
         <div
           ref={bgRef}
           style={{
@@ -175,19 +169,12 @@ function HeroSection() {
           <img
             src={aboutUsHero}
             alt="About Us"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center center",
-              display: "block",
-            }}
+            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", display: "block" }}
           />
         </div>
 
         <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.42)", zIndex: 1 }} />
 
-        {/* Text overlay */}
         <div
           className="hero-content-padding"
           style={{
@@ -206,7 +193,6 @@ function HeroSection() {
         </div>
       </div>
 
-      {/* Two-tone strip */}
       <div style={{ background: "#E8EEF7", padding: "0 clamp(20px, 5vw, 40px)" }}>
         <div className="two-tone-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", maxWidth: 1160, margin: "0 auto" }}>
           <div className="two-tone-padding" style={{ background: "#D5AF34", padding: "48px 44px" }}>
@@ -225,7 +211,6 @@ function HeroSection() {
   );
 }
 
-/* ── CORPORATE OVERVIEW ── */
 function CorporateOverviewSection() {
   return (
     <section className="section-padding" style={{ background: "#E8EEF7", padding: "80px 0" }}>
@@ -254,7 +239,12 @@ function CorporateOverviewSection() {
         <div className="corporate-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32 }}>
           {corporatePillars.map((p) => (
             <div key={p.title} style={{ textAlign: "center" }}>
-              <img className="corporate-icon" src={p.imgSrc} alt={p.title} style={{ width: 180, height: 180, objectFit: "contain", margin: "0 auto 24px" }} />
+              <img
+                className="corporate-icon"
+                src={p.imgSrc}
+                alt={p.title}
+                style={{ width: 180, height: 180, objectFit: "contain", margin: "0 auto 24px", display: "block" }}
+              />
               <h3 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 700, fontSize: "clamp(12px, 2vw, 14px)", color: "#2D2973", marginBottom: 16, marginTop: 0, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                 {p.title}
               </h3>
@@ -269,7 +259,6 @@ function CorporateOverviewSection() {
   );
 }
 
-/* ── FOUNDING STORY ── */
 function FoundingStorySection() {
   return (
     <section style={{ background: "#f7f6f2" }}>
@@ -293,7 +282,6 @@ function FoundingStorySection() {
   );
 }
 
-/* ── TEAM — perfect circles with name/title below ── */
 function TeamSection() {
   const [active, setActive] = useState<TeamMember | null>(null);
 
@@ -306,64 +294,27 @@ function TeamSection() {
 
         <div className="team-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32 }}>
           {teamMembers.map((m) => (
-            <div
-              key={m.id}
-              onClick={() => setActive(m)}
-              style={{ cursor: "pointer", textAlign: "center" }}
-            >
-              {/*
-                Perfect circle:
-                - Fixed explicit width and height (not percentage-based paddingTop trick)
-                  so the circle is never cut at any side.
-                - borderRadius: "50%" on a known square = guaranteed circle.
-                - mx auto to center.
-              */}
+            <div key={m.id} onClick={() => setActive(m)} style={{ cursor: "pointer", textAlign: "center" }}>
               <div
-                style={{
-                  width: 180,
-                  height: 180,
-                  borderRadius: "50%",
-                  overflow: "hidden",
-                  margin: "0 auto 20px",
-                  border: "3px solid #D5AF34",
-                  boxShadow: "0 4px 20px rgba(45,41,115,0.12)",
-                  transition: "box-shadow 0.25s, transform 0.25s",
-                  flexShrink: 0,
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 32px rgba(45,41,115,0.22)";
-                  (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = "0 4px 20px rgba(45,41,115,0.12)";
-                  (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
-                }}
+                style={{ width: 180, height: 180, borderRadius: "50%", overflow: "hidden", margin: "0 auto 20px", border: "3px solid #D5AF34", boxShadow: "0 4px 20px rgba(45,41,115,0.12)", transition: "box-shadow 0.25s, transform 0.25s", flexShrink: 0 }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 32px rgba(45,41,115,0.22)"; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "0 4px 20px rgba(45,41,115,0.12)"; (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"; }}
               >
                 <img
                   src={m.image}
                   alt={m.name}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    objectPosition: "top center",
-                    display: "block",
-                    transition: "transform 0.35s ease",
-                  }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", transition: "transform 0.35s ease" }}
                   onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.06)"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
                 />
               </div>
-
               <h3 style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 800, fontSize: 16, color: "#2D2973", marginBottom: 4, marginTop: 0, lineHeight: 1.3 }}>
                 {m.name}
               </h3>
               <p style={{ fontFamily: '"Clan Pro", sans-serif', fontWeight: 600, fontSize: 12, color: "#D5AF34", marginBottom: 12, marginTop: 0, textTransform: "uppercase", letterSpacing: "0.05em" }}>
                 {m.title}
               </p>
-              <button
-                style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 12, fontWeight: 700, color: "#2D2973", background: "none", border: "none", cursor: "pointer", textDecoration: "underline", textTransform: "uppercase", letterSpacing: "0.05em" }}
-              >
+              <button style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 12, fontWeight: 700, color: "#2D2973", background: "none", border: "none", cursor: "pointer", textDecoration: "underline", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                 Read Bio
               </button>
             </div>
@@ -371,7 +322,6 @@ function TeamSection() {
         </div>
       </div>
 
-      {/* Bio modal */}
       <Dialog open={!!active} onOpenChange={() => setActive(null)}>
         <DialogContent
           className="sm:max-w-[680px] [&>button:first-child]:hidden"
@@ -427,7 +377,6 @@ function TeamSection() {
   );
 }
 
-/* ── WHY CHOOSE US ── */
 function WhyChooseUsSection() {
   const reasons = [
     "Strict adherence to high professional performance standards.",
@@ -460,7 +409,6 @@ function WhyChooseUsSection() {
   );
 }
 
-/* ── PAGE ── */
 export default function AboutPage() {
   return (
     <>
