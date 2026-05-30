@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { engagements, getEngagement, type EngagementSlug, type ContentSection } from "@/lib/engagements";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 const CLAN: React.CSSProperties = { fontFamily: '"Clan Pro", sans-serif' };
 const NAV_MAX = 1240;
@@ -10,12 +10,49 @@ export function CaseStudy({ slug }: { slug: EngagementSlug }) {
   const eng = getEngagement(slug)!;
   const related = engagements.filter((e) => e.slug !== eng.slug).slice(0, 6);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const scroll = (dir: "left" | "right") => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: dir === "right" ? 340 : -340, behavior: "smooth" });
-    }
-  };
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const startAutoScroll = () => {
+      intervalRef.current = setInterval(() => {
+        if (!el) return;
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        if (el.scrollLeft >= maxScroll - 2) {
+          // Reset to beginning smoothly
+          el.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          const cardWidth = el.querySelector(".cs-related-card")?.clientWidth ?? 300;
+          el.scrollBy({ left: cardWidth + 20, behavior: "smooth" });
+        }
+      }, 3000);
+    };
+
+    const stopAutoScroll = () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+
+    startAutoScroll();
+
+    // Pause on hover or touch
+    el.addEventListener("mouseenter", stopAutoScroll);
+    el.addEventListener("mouseleave", startAutoScroll);
+    el.addEventListener("touchstart", stopAutoScroll, { passive: true });
+    el.addEventListener("touchend", () => {
+      setTimeout(startAutoScroll, 3000);
+    }, { passive: true });
+
+    return () => {
+      stopAutoScroll();
+      el.removeEventListener("mouseenter", stopAutoScroll);
+      el.removeEventListener("mouseleave", startAutoScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -35,12 +72,14 @@ export function CaseStudy({ slug }: { slug: EngagementSlug }) {
         </div>
       </section>
 
-      {/* ── 2. GOLD INTRO BOX — overlaps hero ── */}
+      {/* ── 2. GOLD INTRO BOX ── */}
       <section style={{ background: "transparent", padding: "0 0 48px", position: "relative", zIndex: 2, marginTop: "-60px" }}>
         <div className="cs-container">
           <div className="cs-gold-box">
             {eng.heroIntro.split("\n\n").map((para, i, arr) => (
-              <p key={i} style={{ ...CLAN, fontWeight: 600, fontStyle: "italic", color: "#ffffff", lineHeight: 1.85, margin: i < arr.length - 1 ? "0 0 20px" : "0" }}
+              <p
+                key={i}
+                style={{ ...CLAN, fontWeight: 600, fontStyle: "italic", color: "#ffffff", lineHeight: 1.85, margin: i < arr.length - 1 ? "0 0 20px" : "0" }}
                 className="cs-gold-para"
               >
                 {para}
@@ -59,7 +98,6 @@ export function CaseStudy({ slug }: { slug: EngagementSlug }) {
           <h3 style={{ ...CLAN, fontSize: "clamp(15px, 1.8vw, 22px)", fontWeight: 800, color: "#2D2973", margin: "0 0 40px", lineHeight: 1.3 }}>
             {eng.title}
           </h3>
-
           <div>
             {eng.sections.map((section: ContentSection, si) => (
               <div key={si} style={{ marginBottom: 8 }}>
@@ -76,12 +114,9 @@ export function CaseStudy({ slug }: { slug: EngagementSlug }) {
               </div>
             ))}
           </div>
-
           {eng.pullQuote && (
             <blockquote className="cs-pullquote">
-              <p style={{ ...CLAN, fontWeight: 700, fontStyle: "italic", color: "#2D2973", lineHeight: 1.55, margin: 0 }}
-                className="cs-pullquote-text"
-              >
+              <p style={{ ...CLAN, fontWeight: 700, fontStyle: "italic", color: "#2D2973", lineHeight: 1.55, margin: 0 }} className="cs-pullquote-text">
                 "{eng.pullQuote}"
               </p>
             </blockquote>
@@ -97,37 +132,14 @@ export function CaseStudy({ slug }: { slug: EngagementSlug }) {
           </h2>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center" }} className="cs-scroll-row">
-          <div className="cs-arrow-left">
-            <button
-              onClick={() => scroll("left")}
-              style={{ width: 44, height: 44, border: "2px solid #2D2973", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#2D2973", transition: "background 0.2s, color 0.2s" }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = "#2D2973"; e.currentTarget.style.color = "#fff"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#2D2973"; }}
-            >
-              <ChevronLeft size={20} />
-            </button>
-          </div>
-
-          <div
-            ref={scrollRef}
-            style={{ display: "flex", gap: 20, overflowX: "auto", flex: 1, paddingBottom: 4, scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {related.map((r) => (
-              <RelatedCard key={r.slug} engagement={r} />
-            ))}
-          </div>
-
-          <div className="cs-arrow-right">
-            <button
-              onClick={() => scroll("right")}
-              style={{ width: 44, height: 44, border: "2px solid #2D2973", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#2D2973", transition: "background 0.2s, color 0.2s" }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = "#2D2973"; e.currentTarget.style.color = "#fff"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#2D2973"; }}
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
+        {/* Auto-scrolling cards */}
+        <div
+          ref={scrollRef}
+          className="cs-cards-scroll"
+        >
+          {related.map((r) => (
+            <RelatedCard key={r.slug} engagement={r} />
+          ))}
         </div>
 
         <div className="cs-container cs-view-all">
@@ -149,40 +161,85 @@ export function CaseStudy({ slug }: { slug: EngagementSlug }) {
           padding: 0 60px;
           box-sizing: border-box;
         }
-        .cs-gold-box {
-          background: #D5AF34;
-          padding: 60px 44px 48px;
-        }
-        .cs-gold-para {
-          font-size: 17px;
-        }
-        .cs-article {
-          background: #ffffff;
-          padding: 72px 0;
-        }
+        .cs-gold-box { background: #D5AF34; padding: 60px 44px 48px; }
+        .cs-gold-para { font-size: 17px; }
+        .cs-article { background: #ffffff; padding: 72px 0; }
         .cs-pullquote {
           background: #f7f6f2;
           border-left: 4px solid #D5AF34;
           padding: 28px 32px;
           margin: 48px 0 0;
         }
-        .cs-pullquote-text {
-          font-size: 19px;
+        .cs-pullquote-text { font-size: 19px; }
+        .cs-related { padding: 64px 0 80px; }
+        .cs-related-heading { margin-bottom: 36px; }
+
+        /* Auto-scroll container */
+        .cs-cards-scroll {
+          display: flex;
+          gap: 20px;
+          overflow-x: auto;
+          padding: 0 60px 8px;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          box-sizing: border-box;
         }
-        .cs-related {
-          padding: 64px 0 80px;
-        }
-        .cs-related-heading {
-          margin-bottom: 36px;
-        }
-        .cs-arrow-left {
+        .cs-cards-scroll::-webkit-scrollbar { display: none; }
+
+        /* Card */
+        .cs-related-card {
           flex-shrink: 0;
-          padding: 0 16px 0 60px;
+          width: 300px;
+          height: 240px;
+          position: relative;
+          overflow: hidden;
+          border-radius: 2px;
+          text-decoration: none;
+          display: block;
+          scroll-snap-align: start;
         }
-        .cs-arrow-right {
-          flex-shrink: 0;
-          padding: 0 60px 0 16px;
+        .cs-related-card img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
         }
+        .cs-related-card-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(10,11,20,0.90) 0%, rgba(10,11,20,0.15) 60%);
+        }
+        .cs-related-card-body {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding: 20px 18px;
+        }
+        .cs-related-card-title {
+          font-family: "Clan Pro", sans-serif;
+          font-size: 14px;
+          font-weight: 800;
+          color: #ffffff;
+          margin: 0 0 14px;
+          line-height: 1.35;
+        }
+        .cs-related-card-btn {
+          font-family: "Clan Pro", sans-serif;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 7px 16px;
+          border: 2px solid #D5AF34;
+          color: #D5AF34;
+          font-size: 10px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.14em;
+        }
+
         .cs-view-all {
           margin-top: 40px;
           display: flex;
@@ -190,52 +247,35 @@ export function CaseStudy({ slug }: { slug: EngagementSlug }) {
         }
 
         @media (max-width: 768px) {
-          .cs-container {
-            padding: 0 24px;
+          .cs-container { padding: 0 24px; }
+          .cs-gold-box { padding: 40px 24px 36px; }
+          .cs-gold-para { font-size: 15px !important; }
+          .cs-article { padding: 48px 0; }
+          .cs-pullquote { padding: 20px; margin: 32px 0 0; }
+          .cs-pullquote-text { font-size: 16px !important; }
+          .cs-related { padding: 40px 0 56px; }
+          .cs-related-heading { margin-bottom: 24px; }
+          .cs-view-all { margin-top: 28px; justify-content: center; }
+
+          .cs-cards-scroll {
+            padding: 0 24px 8px;
+            gap: 16px;
           }
-          .cs-gold-box {
-            padding: 40px 24px 36px;
-          }
-          .cs-gold-para {
-            font-size: 15px !important;
-          }
-          .cs-article {
-            padding: 48px 0;
-          }
-          .cs-pullquote {
-            padding: 20px 20px;
-            margin: 32px 0 0;
-          }
-          .cs-pullquote-text {
-            font-size: 16px !important;
-          }
-          .cs-related {
-            padding: 40px 0 56px;
-          }
-          .cs-arrow-left {
-            padding: 0 8px 0 16px;
-          }
-          .cs-arrow-right {
-            padding: 0 16px 0 8px;
-          }
-          .cs-view-all {
-            margin-top: 28px;
-            justify-content: center;
+          .cs-related-card {
+            width: calc(100vw - 48px);
+            height: 260px;
           }
         }
 
         @media (max-width: 480px) {
-          .cs-container {
-            padding: 0 16px;
-          }
-          .cs-gold-box {
-            padding: 32px 16px 28px;
-          }
-          .cs-article {
-            padding: 36px 0;
-          }
-          .cs-related {
-            padding: 32px 0 48px;
+          .cs-container { padding: 0 16px; }
+          .cs-gold-box { padding: 32px 16px 28px; }
+          .cs-article { padding: 36px 0; }
+          .cs-related { padding: 32px 0 48px; }
+          .cs-cards-scroll { padding: 0 16px 8px; }
+          .cs-related-card {
+            width: calc(100vw - 32px);
+            height: 240px;
           }
         }
       `}</style>
@@ -259,22 +299,14 @@ function RelatedCard({
   engagement: ReturnType<typeof getEngagement> extends infer T ? NonNullable<T> : never;
 }) {
   return (
-    <Link to={slugRouteMap[r.slug as EngagementSlug]} style={{ textDecoration: "none", flexShrink: 0, width: 280 }}>
-      <div
-        style={{ position: "relative", height: 200, overflow: "hidden", borderRadius: 2, transition: "transform 0.2s" }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.transform = "scale(1.02)"; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = "scale(1)"; }}
-      >
-        <img src={r.cardImage} alt={r.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,11,20,0.85) 0%, rgba(10,11,20,0.12) 55%)" }} />
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "16px" }}>
-          <p style={{ fontFamily: '"Clan Pro", sans-serif', fontSize: 14, fontWeight: 800, color: "#ffffff", margin: "0 0 12px", lineHeight: 1.35 }}>
-            {r.title}
-          </p>
-          <span style={{ fontFamily: '"Clan Pro", sans-serif', display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", border: "2px solid #D5AF34", color: "#D5AF34", fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em" }}>
-            READ MORE <ArrowRight size={10} />
-          </span>
-        </div>
+    <Link to={slugRouteMap[r.slug as EngagementSlug]} className="cs-related-card">
+      <img src={r.cardImage} alt={r.title} />
+      <div className="cs-related-card-overlay" />
+      <div className="cs-related-card-body">
+        <p className="cs-related-card-title">{r.title}</p>
+        <span className="cs-related-card-btn">
+          READ MORE <ArrowRight size={10} />
+        </span>
       </div>
     </Link>
   );

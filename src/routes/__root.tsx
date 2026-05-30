@@ -17,6 +17,7 @@ export const Route = createRootRoute({
       { rel: "preconnect", href: "https://fonts.cdnfonts.com" },
       { rel: "stylesheet", href: "https://fonts.cdnfonts.com/css/clan-pro" },
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/assets/icons/swiftora-favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
